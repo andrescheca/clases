@@ -1,8 +1,8 @@
 +++
-title = "My presentation"
+title = "Diapositivas de soporte"
 outputs = ["Reveal"]
 +++
 
 # Hello world!
 
-This is my first slide.
+- [Programación Orientada a Objetos]({{< ref "/poo/_index.md" >}})

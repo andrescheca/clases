@@ -1,43 +1,45 @@
-reusable = '''
-
-## Reusable slides
-
-Store markdown in a [data template](https://gohugo.io/templates/data-templates/) and reuse it in multiple sections or presentations.
-
-<br>
-<small>
-navigate down to learn more
-</small>
-<br>
-<a href="#" class="navigate-down">🔽</a>
+welcome = """## kali@kali:~$ whoami
+### [Jorge Morán Salazar](https://0xjams.com)
+{{% fragment class="bullet-point" %}}Ingeniero en Sistemas con MSc. en Cybersecurity.{{% /fragment %}}
+{{% fragment class="bullet-point" %}}Era feliz programando hasta que fui víctima de un ataque.{{% /fragment %}}
+{{% fragment class="bullet-point" %}}En aquella época no había mucho contenido de defensa, así que aprendí a atacar para luego entender cómo defender.{{% /fragment %}}
 
 ---
 
-Add a `example` key to data/home.toml:
+### kali@kali:~$ groups 0xjams\n
 
-```toml
-example = "I'm a slide"
-```
-<br>
+### Experiencia en:
 
-Set the `content` attribute to "home.example":
+{{% fragment class="bullet-point" %}}Autoservicio y omnicanalidad de empresas de Telecomunicaciones.{{% /fragment %}}
+{{% fragment class="bullet-point" %}}Seguridad en entornos bancarios (Penetration Testing, Phishing, Code Reviews).{{% /fragment %}}
+{{% fragment class="bullet-point" %}}Desarrollo seguro de software.{{% /fragment %}}
 
-```markdown
-{{</* slide content="home.example" */>}}
-```
-
----
-
-💡 Each data template entry can contain one or more slides, separated by `---` with newlines.
+{{% note %}}
+- Hello from the other side
+{{% /note %}}
 
 ---
 
-💡 All other slide shortcode attributes (background, transition, etc.) can be used and will be applied to each slide in the data template entry.
+### kali@kali:~$ cat ~/students.txt\n
+
+{{% fragment class="bullet-point" %}}Presentación individual{{% /fragment %}}
+{{% fragment class="bullet-point" %}}¿Experiencia previa?{{% /fragment %}}
+{{% fragment class="bullet-point" %}}Lenguajes de programación{{% /fragment %}}
+ 
+---
+
+{{% section %}}
+
+### kali@kali:~$ cat /etc/class/policies.conf
+
+{{% fragment class="long-text"%}}Traten de no faltar a las sesiones.{{% /fragment %}}
+{{% fragment class="long-text" %}}Las tareas no serán extensas, por eso les pido puntualidad en las entregas. Serán definidas de lunes a lunes. Solamente se hará excepciones en casos de fuerza mayor. “Tenía mucho trabajo” o “Jugaba el ídolo” no es fuerza mayor. Esta semana no tendremos tarea.{{% /fragment %}}
 
 ---
 
-💡 Adding a new file in `data` folder requires to restart `hugo`
+{{% fragment class="long-text"%}}Por favor, si voy muy rápido o no entienden, no tengan vergüenza en avisarme.{{% /fragment %}}
+{{% fragment class="long-text"%}}Lo contrario también aplica, si se están aburriendo con contenido muy básico, avísenme.{{% /fragment %}}
+{{% fragment class="long-text"%}}Mi meta es que se diviertan aprendiendo.{{% /fragment %}}
 
-💡 Symbolic links are not allowed in `data` folder
-
-'''
+{{% /section %}}
+"""

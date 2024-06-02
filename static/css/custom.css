@@ -1,0 +1,9 @@
+.long-text{
+    display:block;
+    text-align:left
+}
+
+.bullet-point{
+    display:block;
+    text-align:left;
+}

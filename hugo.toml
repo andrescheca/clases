@@ -18,6 +18,10 @@ isHTML = true
 [author]
 name = "Jorge Morán (0xjams)"
 
+[params.author]
+name = "Jorge Morán (0xjams)"
+email = "hi@0xjams.com"
+
 [markup.highlight]
 codeFences = false  # use highlight.js
 # codeFences = true  # use hugo highlighting at compile time

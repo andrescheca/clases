@@ -7,3 +7,15 @@
     display:block;
     text-align:left;
 }
+
+span.fragment code {
+    color: #CED6F2; /* Color del texto */
+    background-color: #353542; /* Color de fondo */
+    padding: 2px 4px; /* Espaciado interno */
+    border-radius: 4px; /* Bordes redondeados */
+    font-family: 'Courier New', Courier, monospace; /* Tipo de fuente */
+}
+
+.small-text-size{
+font-size:28pt;
+}

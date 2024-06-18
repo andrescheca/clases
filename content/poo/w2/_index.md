@@ -1,5 +1,5 @@
 +++
-title = "Programación Orientada a Objetos - Declaración de Variables en Java"
+title = "Programación Orientada a Objetos - Sintaxis básica en Java"
 outputs = ["Reveal"]
 +++
 

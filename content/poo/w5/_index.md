@@ -175,59 +175,56 @@ public class Pizza {
     private String salsa;
     private String topping;
 
-    public Pizza(String masa, String salsa, String topping) {
-        this.masa = masa;
-        this.salsa = salsa;
-        this.topping = topping;
-    }
+    // Constructor privado para forzar el uso del Builder
+    private Pizza() {}
 
     @Override
     public String toString() {
         return "Pizza: Masa=" + masa + ", Salsa=" + salsa + ", Topping=" + topping;
     }
-}
 
-// Builder abstracto
-public abstract class PizzaBuilder {
-    protected String masa;
-    protected String salsa;
-    protected String topping;
+    // Builder abstracto
+    public static abstract class PizzaBuilder {
+        protected Pizza pizza = new Pizza();
 
-    public abstract Pizza build();
+        public abstract Pizza build();
 
-    public PizzaBuilder setMasa(String masa) {
-        this.masa = masa;
-        return this;
-    }
+        public PizzaBuilder setMasa(String masa) {
+            pizza.masa = masa;
+            return this;
+        }
 
-    public PizzaBuilder setSalsa(String salsa) {
-        this.salsa = salsa;
-        return this;
-    }
+        public PizzaBuilder setSalsa(String salsa) {
+            pizza.salsa = salsa;
+            return this;
+        }
 
-    public PizzaBuilder setTopping(String topping) {
-        this.topping = topping;
-        return this;
+        public PizzaBuilder setTopping(String topping) {
+            pizza.topping = topping;
+            return this;
+        }
     }
 }
 
-// Concrete Builder
-public class HawaiianPizzaBuilder extends PizzaBuilder {
+// Constructor concreto
+public class HawaiianPizzaBuilder extends Pizza.PizzaBuilder {
     @Override
     public Pizza build() {
-        return new Pizza(masa, salsa, "Jamón y piña");
+        super.setTopping("Jamón y piña");  // Asegura que la pizza hawaiana tenga su topping característico
+        return pizza;
     }
 }
 
 // Director que maneja el builder
 public class Cocina {
-    private PizzaBuilder builder;
+    private Pizza.PizzaBuilder builder;
 
-    public void setBuilder(PizzaBuilder builder) {
+    public void setBuilder(Pizza.PizzaBuilder builder) {
         this.builder = builder;
     }
 
     public Pizza getPizza() {
+        //builder.setMasa("suave").setSalsa("dulce");  // Si quisiéramos, la cocina podría tener valores por defecto
         return builder.build();
     }
 }
@@ -236,15 +233,287 @@ public class Cocina {
 public class Cliente {
     public static void main(String[] args) {
         Cocina cocina = new Cocina();
-        PizzaBuilder builder = new HawaiianPizzaBuilder();
+        Pizza.PizzaBuilder builder = new HawaiianPizzaBuilder();
 
         cocina.setBuilder(builder);
+        cocina.setBuilder(builder.setMasa("crispy").setSalsa("ligera")); // Estableciendo propiedades
         Pizza pizza = cocina.getPizza();
 
         System.out.println(pizza);
     }
 }
 ```
+
+---
+
+### Factory
+
+{{% fragment class="bullet-point small-text-size" %}}Encapsula la creación de objetos, escondiendo la lógica de instanciación de los usuarios.{{% /fragment %}}
+{{% fragment class="bullet-point small-text-size" %}}Permite introducir nuevos tipos de objetos siguiendo el mismo protocolo de creación sin alterar el código cliente.{{% /fragment %}}
+{{% fragment class="bullet-point small-text-size" %}}Facilita la codificación para interfaces en lugar de implementaciones, fomentando un bajo acoplamiento.{{% /fragment %}}
+{{% fragment class="bullet-point small-text-size" %}}Simplifica la adición de nuevas variantes de productos sin afectar el código existente, adheriéndose al principio de abierto/cerrado.{{% /fragment %}}
+
+---
+
+### Ejemplo de Builder con Factory
+
+```java
+// Clase Documento que será construida por el Builder
+public class Document {
+    private String title;
+    private String header;
+    private String content;
+
+    // Métodos setter omitidos por brevedad
+    public void setTitle(String title) { this.title = title; }
+    public void setHeader(String header) { this.header = header; }
+    public void setContent(String content) { this.content = content; }
+
+    // Método para imprimir los detalles del documento
+    public void printDetails() {
+        System.out.println("Title: " + title);
+        System.out.println("Header: " + header);
+        System.out.println("Content: " + content);
+    }
+}
+
+// Builder abstracto para construir objetos Document
+public abstract class DocumentBuilder {
+    protected Document document;
+
+    public DocumentBuilder() {
+        document = new Document();
+    }
+
+    public DocumentBuilder setTitle(String title) {
+        document.setTitle(title);
+        return this;
+    }
+
+    public DocumentBuilder setHeader(String header) {
+        document.setHeader(header);
+        return this;
+    }
+
+    public DocumentBuilder setContent(String content) {
+        document.setContent(content);
+        return this;
+    }
+
+    public abstract Document build();
+}
+
+// Builder concreto para Informes de Negocio
+public class BusinessReportBuilder extends DocumentBuilder {
+    @Override
+    public Document build() {
+        // Configuraciones específicas para un informe de negocio
+        document.setHeader("Confidential Business Report Header");
+        return document;
+    }
+}
+
+// Builder concreto para Currículums
+public class ResumeBuilder extends DocumentBßuilder {
+    @Override
+    public Document build() {
+        // Configuraciones específicas para un currículum
+        document.setHeader("Curriculum Vitae");
+        return document;
+    }
+}
+
+// Fábrica que utiliza los builders para crear tipos específicos de documentos
+public class DocumentFactory {
+
+    public static Document createBusinessReport(String title, String content) {
+        return new BusinessReportBuilder()
+                .setTitle(title)
+                .setContent(content)
+                .build();
+    }
+
+    public static Document createResume(String name, String content) {
+        return new ResumeBuilder()
+                .setTitle("Resume - " + name)
+                .setContent(content)
+                .build();
+    }
+}
+
+// Ejemplo de uso del patrón Factory y Builder
+public class Cliente {
+    public static void main(String[] args) {
+        Document businessReport = DocumentFactory.createBusinessReport("Annual Report 2024", "Annual financial performance.");
+        Document resume = DocumentFactory.createResume("John Doe", "Experienced software developer.");
+
+        businessReport.printDetails();
+        resume.printDetails();
+    }
+}
+```
+
+---
+
+### Introducción a HTTP
+
+{{% fragment class="bullet-point" %}}HTTP (Hypertext Transfer Protocol) es el protocolo de comunicación utilizado en la web para la transferencia de información entre clientes y servidores.{{% /fragment %}}
+{{% fragment class="bullet-point" %}}Es un protocolo sin estado, lo que significa que cada solicitud y respuesta es independiente de las anteriores.{{% /fragment %}}
+{{% fragment class="bullet-point" %}}HTTP define varios métodos de solicitud que indican la acción que el cliente desea realizar en el servidor.{{% /fragment %}}
+
+---
+
+### Métodos de Solicitud HTTP
+
+{{% fragment class="bullet-point" %}}Los métodos más comunes son GET y POST.{{% /fragment %}}
+{{% fragment class="bullet-point" %}}GET: Solicita datos de un servidor.{{% /fragment %}}
+{{% fragment class="bullet-point" %}}POST: Envía datos al servidor para ser procesados.{{% /fragment %}}
+
+---
+
+### Método GET
+
+{{% fragment class="bullet-point" %}}Se utiliza para solicitar datos de un recurso específico en el servidor.{{% /fragment %}}
+{{% fragment class="bullet-point" %}}Los datos solicitados se pasan a través de la URL.{{% /fragment %}}
+{{% fragment class="bullet-point" %}}Es idempotente, lo que significa que múltiples solicitudes idénticas tendrán el mismo efecto.{{% /fragment %}}
+
+---
+
+### Ejemplo de Solicitud GET
+
+```java
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+
+public class GetRequestExample {
+    public static void main(String[] args) throws Exception {
+        String url = "http://ifconfig.me/all.json";
+        URL obj = new URL(url);
+        HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+        con.setRequestMethod("GET");
+        
+        int responseCode = con.getResponseCode();
+        System.out.println("GET Response Code :: " + responseCode);
+
+        if (responseCode == HttpURLConnection.HTTP_OK) { // success
+            BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+            String inputLine;
+            StringBuffer response = new StringBuffer();
+
+            while ((inputLine = in.readLine()) != null) {
+                response.append(inputLine);
+            }
+            in.close();
+            System.out.println(response.toString());
+        } else {
+            System.out.println("Hubo un error, codigo de respuesta " +  responseCode);
+        }
+    }
+}
+```
+---
+
+### Método POST
+
+{{% fragment class="bullet-point" %}}Se utiliza para enviar datos al servidor para crear o actualizar un recurso.{{% /fragment %}}
+{{% fragment class="bullet-point" %}}Los datos se envían en el cuerpo de la solicitud.{{% /fragment %}}
+{{% fragment class="bullet-point" %}}No es idempotente, múltiples solicitudes idénticas pueden tener efectos diferentes.{{% /fragment %}}
+
+---
+
+### Ejemplo de Solicitud Post
+
+```java
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
+
+public class PostRequestExample {
+    public static void main(String[] args) throws Exception {
+        String url = "https://dev.jorge.moran.com.ec/ejemplo_post.php";
+        URL obj = new URL(url);
+        HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+        con.setRequestMethod("POST");
+        con.setRequestProperty("Content-Type", "application/json");
+        
+        String jsonInputString = "{\"name\": \"John\", \"age\": 30}";
+        
+        con.setDoOutput(true);
+        try (OutputStream os = con.getOutputStream()) {
+            byte[] input = jsonInputString.getBytes("utf-8");
+            os.write(input, 0, input.length);           
+        }
+
+        int responseCode = con.getResponseCode();
+        System.out.println("POST Response Code :: " + responseCode);
+
+        if (responseCode == HttpURLConnection.HTTP_OK || responseCode == HttpURLConnection.HTTP_CREATED) { // success
+            BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+            String inputLine;
+            StringBuffer response = new StringBuffer();
+
+            while ((inputLine = in.readLine()) != null) {
+                response.append(inputLine);
+            }
+            in.close();
+            System.out.println(response.toString());
+        } else {
+            System.out.println("Hubo un error, codigo de respuesta " +  responseCode);
+        }
+    }
+}
+```
+---
+### WebHooks
+
+{{% fragment class="bullet-point" %}}Un webhook es una manera de que una aplicación proporcione información en tiempo real a otras aplicaciones.{{% /fragment %}}
+{{% fragment class="bullet-point" %}}En lugar de que la aplicación consulte la información, la información se envía automáticamente cuando ocurre un evento.{{% /fragment %}}
+{{% fragment class="bullet-point" %}}Se utiliza comúnmente para notificaciones y eventos en tiempo real.{{% /fragment %}}
+
+---
+
+### Ejercicio de WebHooks - Notificación de Estado de Pedido (1/3)
+
+{{% fragment class="bullet-point small-text-size" %}}Simula el cambio de estado de un pedido en una tienda online desde "Pendiente" a "Enviado".{{% /fragment %}}
+{{% fragment class="bullet-point small-text-size" %}}Crea un programa Java que genere un ID de pedido aleatorio y asigne estos estados al pedido (podemos usar la clase Random){{% /fragment %}}
+{{% fragment class="bullet-point small-text-size" %}}Prepara el payload para enviar al webhook con los detalles del pedido, incluyendo ID y estados.{{% /fragment %}}
+
+---
+
+### Ejercicio de WebHooks - Notificación de Estado de Pedido (2/3)
+
+{{% fragment class="bullet-point small-text-size" %}}Utiliza `HttpURLConnection` para hacer una solicitud POST al webhook con el payload.{{% /fragment %}}
+{{% fragment class="bullet-point small-text-size" %}}Asegúrate de configurar correctamente los headers y el cuerpo de la solicitud.{{% /fragment %}}
+{{% fragment class="bullet-point small-text-size" %}}Implementa la lectura de la respuesta del servidor y muestra el código de respuesta en la consola.{{% /fragment %}}
+
+---
+### Ejercicio de WebHooks - Notificación de Estado de Pedido (3/3)
+
+{{% fragment class="bullet-point small-text-size" %}}La ruta del servidor es: `https://dev.jorge.moran.com.ec/ejercicio_webhooks.php`{{% /fragment %}}
+
+```
+{
+    "orderId": 123,
+    "previousStatus": "Pendiente",
+    "newStatus": "Enviado"
+}
+```
+{{% note %}}
+```
+curl -X POST https://dev.jorge.moran.com.ec/ejercicio_webhooks.php -H "Content-Type: application/json" -d '{"orderId": 123, "previousStatus": "Pendiente", "newStatus": "Enviado"}'
+```
+{{% /note %}}
+
+
+---
+
+### Uniendo conceptos
+
+{{% fragment class="bullet-point small-text-size" %}}Vamos a crear una fábrica de notificaciones{{% /fragment %}}
+{{% fragment class="bullet-point small-text-size" %}}La fábrica usará builders de varios tipos (PushBullet y Telegram){{% /fragment %}}
+{{% fragment class="bullet-point small-text-size" %}}Desde el Main enviaremos notificaciones a ambos canales{{% /fragment %}}
 
 ---
 
@@ -258,12 +527,12 @@ public class Cliente {
 ### Ejemplo de Adapter
 
 ```java
-// Interfaz MediaPlayer
+// Interfaz MediaPlayer para reproducir archivos de medios
 public interface MediaPlayer {
     void play(String tipo, String archivo);
 }
 
-// Clase AudioPlayer implementando MediaPlayer
+// Clase AudioPlayer que implementa MediaPlayer
 public class AudioPlayer implements MediaPlayer {
     @Override
     public void play(String tipo, String archivo) {
@@ -278,13 +547,13 @@ public class AudioPlayer implements MediaPlayer {
     }
 }
 
-// Interfaz AdvancedMediaPlayer
+// Interfaz AdvancedMediaPlayer para reproductores de medios avanzados
 public interface AdvancedMediaPlayer {
     void playVlc(String archivo);
     void playMp4(String archivo);
 }
 
-// Clase concreta que implementa AdvancedMediaPlayer
+// Clase VlcPlayer que implementa AdvancedMediaPlayer para archivos VLC
 public class VlcPlayer implements AdvancedMediaPlayer {
     @Override
     public void playVlc(String archivo) {
@@ -293,15 +562,15 @@ public class VlcPlayer implements AdvancedMediaPlayer {
 
     @Override
     public void playMp4(String archivo) {
-        // No hace nada
+        // No implementado aquí
     }
 }
 
-// Otra clase concreta que implementa AdvancedMediaPlayer
+// Clase Mp4Player que implementa AdvancedMediaPlayer para archivos MP4
 public class Mp4Player implements AdvancedMediaPlayer {
     @Override
     public void playVlc(String archivo) {
-        // No hace nada
+        // No implementado aquí
     }
 
     @Override
@@ -315,10 +584,15 @@ public class MediaAdapter implements MediaPlayer {
     private AdvancedMediaPlayer advancedMediaPlayer;
 
     public MediaAdapter(String tipo) {
-        if (tipo.equalsIgnoreCase("vlc")) {
-            advancedMediaPlayer = new VlcPlayer();
-        } else if (tipo.equalsIgnoreCase("mp4")) {
-            advancedMediaPlayer = new Mp4Player();
+        switch (tipo.toLowerCase()) {
+            case "vlc":
+                advancedMediaPlayer = new VlcPlayer();
+                break;
+            case "mp4":
+                advancedMediaPlayer = new Mp4Player();
+                break;
+            default:
+                throw new IllegalArgumentException("Formato no soportado: " + tipo);
         }
     }
 

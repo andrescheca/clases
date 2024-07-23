@@ -9,6 +9,12 @@ outputs = ["Reveal"]
 
 ---
 
+### Jerarquía de Excepciones
+
+{{< imgref src="/images/2024/07/jerarquia_excepciones.png" alt="jerarquia de las excepciones" class="img">}}
+
+---
+
 ### Excepciones en General
 
 {{% fragment class="bullet-point small-text-size" %}}Una excepción es un evento que ocurre durante la ejecución de un programa y que interrumpe el flujo normal de las instrucciones.{{% /fragment %}}

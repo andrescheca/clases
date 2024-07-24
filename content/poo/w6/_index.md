@@ -9,6 +9,12 @@ outputs = ["Reveal"]
 
 ---
 
+### Jerarquía de Excepciones
+
+{{< imgref src="/images/2024/07/jerarquia_excepciones.png" alt="jerarquia de las excepciones" class="img">}}
+
+---
+
 ### Excepciones en General
 
 {{% fragment class="bullet-point small-text-size" %}}Una excepción es un evento que ocurre durante la ejecución de un programa y que interrumpe el flujo normal de las instrucciones.{{% /fragment %}}
@@ -130,5 +136,68 @@ public class FileReaderExample {
     }
 }
 ```
+---
 
+### Más excepciones verificadas
 
+```java 
+import java.io.FileNotFoundException;
+import java.io.File;
+
+public class FileChecker {
+    public void checkFileExists(String filePath) throws FileNotFoundException {
+        File file = new File(filePath);
+        if (!file.exists()) {
+            throw new FileNotFoundException("El archivo especificado no existe: " + filePath);
+        }
+    }
+}
+```
+
+---
+
+### Más excepciones no verificadas
+
+```java
+public class ArrayProcessor {
+    public static void main(String[] args) {
+        int[] numbers = new int[5];
+        try {
+            int number = numbers[10]; // Intento de acceso a un índice que no existe
+        } catch (ArrayIndexOutOfBoundsException e) {
+            System.out.println("Índice fuera del límite: " + e.getMessage());
+        }
+    }
+}
+```
+
+--- 
+### Cuándo Lanzar o Manejar Excepciones
+
+{{% fragment class="bullet-point small-text-size" %}}Es una buena práctica lanzar excepciones hacia el nivel más alto del stack de llamadas para manejarlas en un solo lugar, idealmente cerca del método main o en un manejador centralizado de errores.{{% /fragment %}}
+
+--- 
+### Beneficios de Lanzar Excepciones hacia el Main
+
+{{% fragment class="bullet-point small-text-size" %}}Lanzar excepciones hacia arriba permite una mejor segregación entre el código que realiza lógica de negocio y el código que maneja errores, facilitando así un código más limpio y mantenible.{{% /fragment %}}
+
+--- 
+### Ejemplo de Manejo Centralizado de Excepciones
+
+```java
+public class Application {
+    public static void main(String[] args) {
+        try {
+            processApplication();
+        } catch (Exception e) {
+            System.out.println("Error general en la aplicación: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    public static void processApplication() throws Exception {
+        // Código que puede lanzar varias excepciones
+        throw new Exception("Un error ocurrió");
+    }
+}
+```

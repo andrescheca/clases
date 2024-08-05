@@ -1,4 +1,4 @@
-welcome = """## kali@kali:~$ whoami
+welcome = """## <span class="as-code">kali@kali:~$ whoami</span>
 ### [Jorge Morán Salazar](https://0xjams.com)
 {{% fragment class="bullet-point" %}}Ingeniero en Sistemas con MSc. en Cybersecurity.{{% /fragment %}}
 {{% fragment class="bullet-point" %}}Era feliz programando hasta que fui víctima de un ataque.{{% /fragment %}}
@@ -6,9 +6,8 @@ welcome = """## kali@kali:~$ whoami
 
 ---
 
-### kali@kali:~$ groups 0xjams\n
-
-### Experiencia en:
+### <span class="as-code">kali@kali:~$ groups 0xjams</span>
+#### Experiencia en:
 
 {{% fragment class="bullet-point" %}}Autoservicio y omnicanalidad de empresas de Telecomunicaciones.{{% /fragment %}}
 {{% fragment class="bullet-point" %}}Seguridad en entornos bancarios (Penetration Testing, Phishing, Code Reviews).{{% /fragment %}}
@@ -20,7 +19,7 @@ welcome = """## kali@kali:~$ whoami
 
 ---
 
-### kali@kali:~$ cat ~/students.txt\n
+### <span class="as-code code-long">kali@kali:~$ cat ~/students.txt</span>
 
 {{% fragment class="bullet-point" %}}Presentación individual{{% /fragment %}}
 {{% fragment class="bullet-point" %}}¿Experiencia previa?{{% /fragment %}}
@@ -30,7 +29,7 @@ welcome = """## kali@kali:~$ whoami
 
 {{% section %}}
 
-### kali@kali:~$ cat /etc/class/policies.conf
+### <span class="as-code code-long">kali@kali:~$ cat /etc/class/policies.conf</span>
 
 {{% fragment class="long-text"%}}Traten de no faltar a las sesiones.{{% /fragment %}}
 {{% fragment class="long-text" %}}Las tareas no serán extensas, por eso les pido puntualidad en las entregas. Serán definidas de lunes a lunes. Solamente se hará excepciones en casos de fuerza mayor. “Tenía mucho trabajo” o “Jugaba el ídolo” no es fuerza mayor. Esta semana no tendremos tarea.{{% /fragment %}}

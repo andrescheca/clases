@@ -69,3 +69,5 @@ public class RandomPokemon {
 - [Semana 4]({{< ref "/poo/w4/_index.md" >}})
 - [Semana 5]({{< ref "/poo/w5/_index.md" >}})
 - [Semana 6]({{< ref "/poo/w6/_index.md" >}})
+- [Semana 7]({{< ref "/poo/w7/_index.md" >}})
+- [Semana 8]({{< ref "/poo/w8/_index.md" >}})

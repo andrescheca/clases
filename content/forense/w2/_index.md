@@ -138,6 +138,14 @@ hashcat -m 0 -a 0 5a3e3cccff6330886e1d9b7b057a6116 /usr/share/wordlists/rockyou.
 
 ---
 
+### Ejemplo - Secuestrados por las FARC
+
+<iframe width="100%" height="300" scrolling="no" frameborder="no" allow="autoplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/184253099&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true"></iframe><div style="font-size: 10px; color: #cccccc;line-break: anywhere;word-break: normal;overflow: hidden;white-space: nowrap;text-overflow: ellipsis; font-family: Interstate,Lucida Grande,Lucida Sans Unicode,Lucida Sans,Garuda,Verdana,Tahoma,sans-serif;font-weight: 100;"><a href="https://soundcloud.com/michael-zelenko" title="Michael Zelenko" target="_blank" style="color: #cccccc; text-decoration: none;">Michael Zelenko</a> · <a href="https://soundcloud.com/michael-zelenko/better-days-by-natalia-gutierrez-y-angelo" title="&quot;Better Days&quot; by Natalia Gutierrez Y Angelo" target="_blank" style="color: #cccccc; text-decoration: none;">&quot;Better Days&quot; by Natalia Gutierrez Y Angelo</a></div>
+
+[Artículo](https://www.theverge.com/2015/1/7/7483235/the-code-colombian-army-morsecode-hostages) de The Verge
+
+--- 
+
 ### Técnicas de Esteganografía Digital
 
 1. Least Significant Bit (LSB)

@@ -147,6 +147,19 @@ Discutir los desafíos de presentar evidencia técnica en un entorno legal. Enfa
 
 ---
 
+### Otros modelos - Ken Zatyco (2007)
+
+- Autoridad de Búsqueda
+- Cadena de Custodia
+- Función de Imágenes/Hashing
+- Herramientas Validadas
+- Análisis
+- Repetibilidad (Garantía de Calidad)
+- Reportes
+- Posible Presentación de Expertos
+
+---
+
 ### Caso de Estudio: Silk Road
 {{% fragment %}}2011-2013: Mercado negro en la dark web{{% /fragment %}}
 {{% fragment %}}Desafíos de investigación en criptomonedas{{% /fragment %}}

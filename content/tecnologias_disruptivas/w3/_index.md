@@ -323,17 +323,11 @@ Los dispositivos Edge suelen tener recursos limitados, lo que requiere una gesti
 {{% fragment %}}Ciudades inteligentes{{% /fragment %}}
 {{% fragment %}}Industria 4.0{{% /fragment %}}
 {{% fragment %}}Telemedicina{{% /fragment %}}
-{{% fragment %}}Gaming en la nube{{% /fragment %}}
+{{% fragment %}}Asistentes AI que corren localmente{{% /fragment %}}
 
 {{% note %}}
-En ciudades inteligentes, Edge Computing puede procesar datos de sensores en tiempo real para gestión de tráfico. En la Industria 4.0, permite el mantenimiento predictivo y la automatización de fábricas. En telemedicina, facilita el monitoreo remoto de pacientes con respuesta rápida. Para gaming en la nube, reduce la latencia, mejorando la experiencia de juego.
+En ciudades inteligentes, Edge Computing puede procesar datos de sensores en tiempo real para gestión de tráfico. En la Industria 4.0, permite el mantenimiento predictivo y la automatización de fábricas. En telemedicina, facilita el monitoreo remoto de pacientes con respuesta rápida. Co-pilot de Microsoft es un ejemplo de AI parcialmente local.
 {{% /note %}}
-
----
-
-### Caso de Estudio (Stadia)
-
-<iframe width="560" height="315" src="https://www.youtube.com/embed/pEwJXrQ_27k?si=FQRx-G7_-278KwVu" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
 ---
 

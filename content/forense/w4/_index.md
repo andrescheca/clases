@@ -157,6 +157,21 @@ fls -o 2048 imagen.dd
 ```
 
 {{% note %}}
+dd if=/dev/zero of=/home/jorge/disk_image.dd bs=1M count=154
+Create the partition
+sudo fdisk /home/jorge/disk_image.dd 
+sudo losetup -fP /home/jorge/disk_image.dd
+loopdev=$(losetup -a | grep disk_image.dd | cut -d: -f1)
+sudo mkfs.ext4 ${loopdev}p1
+sudo losetup -d $loopdev
+Sets up a loop device for your file
+Identifies which loop device was used
+Creates an ext4 filesystem on the first partition of that loop device
+Detaches the loop device
+If needed, to check who has it open
+sudo lsof /dev/loop0p1
+then we can proceed to
+sudo umount /dev/loop0p1
 - mmls: Muestra la estructura de particiones. Útil para identificar offsets.
 - fsstat: Proporciona información detallada sobre el sistema de archivos.
 - fls: Lista archivos y directorios, incluyendo archivos borrados.
@@ -189,6 +204,16 @@ Guiar a los estudiantes paso a paso:
 
 ---
 
+### Práctica
+[Descargar](https://drive.google.com/file/d/1YW_XdZnyMcOsEA-zlBGqWtargGxv-dRJ/view?usp=drive_link) una imagen
+
+1. Identifica las particiones
+2. Examina el sistema de archivos
+3. Lista los archivos en el directorio raíz
+
+
+---
+
 ### 3. Recuperación de Datos
 - **PhotoRec**
 - Recuva
@@ -210,7 +235,7 @@ Guiar a los estudiantes paso a paso:
 
 Uso básico:
 ```bash
-photorec /d /path/to/recovery /dev/sdb1
+sudo photorec imagen.img
 ```
 
 {{% note %}}
@@ -223,6 +248,16 @@ photorec /d /path/to/recovery /dev/sdb1
 - Mencionar que PhotoRec puede reconocer más de 480 extensiones de archivo.
 - Advertir que puede recuperar una gran cantidad de archivos, incluyendo fragmentos, lo que puede requerir un análisis posterior cuidadoso.
 {{% /note %}}
+
+---
+
+### Ejercicio con PhotoRec 
+
+[Descargar](https://drive.google.com/file/d/1aQhDp7BZtxCb41AchFmjrZ9aplykzCh4/view?usp=sharing) una imagen y analizarla con PhotoRec
+
+- ¿Hay archivos visibles en la imagen?
+- ¿Hay archivos borrados?
+- ¿Qué archivos hay?
 
 ---
 

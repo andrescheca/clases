@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario de Cadena de Custodia</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1, h2, h3 {
+            color: #2c3e50;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+        }
+        .section {
+            margin-bottom: 30px;
+        }
+        .notes {
+            background-color: #f9f9f9;
+            padding: 10px;
+            border-left: 5px solid #2c3e50;
+        }
+        .signature-line {
+            border-top: 1px solid #333;
+            width: 50%;
+            margin-top: 30px;
+            padding-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Formulario de Cadena de Custodia</h1>
+    
+    <div class="section">
+        <h2>Información del Caso</h2>
+        <table>
+            <tr><th>Campo</th><th>Información</th></tr>
+            <tr><td>Número de Caso</td><td>CF-2024-0142</td></tr>
+            <tr><td>Nombre del Caso</td><td>Investigación de Fraude Corporativo XYZ</td></tr>
+            <tr><td>Investigador Principal</td><td>Juan Pérez</td></tr>
+            <tr><td>Fecha de Inicio</td><td>15/03/2024</td></tr>
+        </table>
+    </div>
+
+    <div class="section">
+        <h2>Detalles de la Evidencia</h2>
+        <table>
+            <tr><th>Campo</th><th>Información</th></tr>
+            <tr><td>Número de Evidencia</td><td>E001</td></tr>
+            <tr><td>Descripción</td><td>Laptop Dell Latitude E7450</td></tr>
+            <tr><td>Número de Serie</td><td>5CG5300TZX</td></tr>
+            <tr><td>Ubicación de Recolección</td><td>Oficina del CEO, 3er piso, Edificio Principal</td></tr>
+            <tr><td>Fecha y Hora de Recolección</td><td>15/03/2024 14:30</td></tr>
+            <tr><td>Recolectado por</td><td>María Rodríguez</td></tr>
+        </table>
+    </div>
+
+    <div class="section">
+        <h2>Registro de Custodia</h2>
+        <table>
+            <tr>
+                <th>Fecha y Hora</th>
+                <th>Entregado por</th>
+                <th>Recibido por</th>
+                <th>Propósito</th>
+                <th>Ubicación</th>
+            </tr>
+            <tr>
+                <td>15/03/2024 14:30</td>
+                <td>María Rodríguez</td>
+                <td>Juan Pérez</td>
+                <td>Recolección inicial</td>
+                <td>Escena del crimen</td>
+            </tr>
+            <tr>
+                <td>15/03/2024 16:45</td>
+                <td>Juan Pérez</td>
+                <td>Ana Gómez</td>
+                <td>Transporte al laboratorio</td>
+                <td>Vehículo de transporte</td>
+            </tr>
+            <tr>
+                <td>15/03/2024 17:30</td>
+                <td>Ana Gómez</td>
+                <td>Carlos Sánchez</td>
+                <td>Recepción en laboratorio</td>
+                <td>Laboratorio Forense</td>
+            </tr>
+            <tr>
+                <td>16/03/2024 09:00</td>
+                <td>Carlos Sánchez</td>
+                <td>Laura Martínez</td>
+                <td>Análisis forense</td>
+                <td>Estación de trabajo 3</td>
+            </tr>
+            <tr>
+                <td>18/03/2024 17:00</td>
+                <td>Laura Martínez</td>
+                <td>Carlos Sánchez</td>
+                <td>Retorno a almacenamiento</td>
+                <td>Bóveda de evidencias</td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="section">
+        <h2>Notas Adicionales</h2>
+        <div class="notes">
+            <ul>
+                <li>La laptop fue encontrada encendida y se realizó una adquisición en vivo antes de apagarla.</li>
+                <li>Se utilizó un bloqueador de escritura hardware durante la adquisición.</li>
+                <li>Se creó una imagen forense utilizando FTK Imager, formato E01.</li>
+                <li>Hash de la imagen: SHA256: 7f83b1657ff1fc53b92dc18148a1d65dfc2d4b1fa3d677284addd200126d9069</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>Firmas</h2>
+        <table>
+            <tr>
+                <th>Rol</th>
+                <th>Nombre</th>
+                <th>Firma</th>
+                <th>Fecha</th>
+            </tr>
+            <tr>
+                <td>Investigador Principal</td>
+                <td>Juan Pérez</td>
+                <td>[Firma]</td>
+                <td>18/03/2024</td>
+            </tr>
+            <tr>
+                <td>Técnico de Laboratorio</td>
+                <td>Carlos Sánchez</td>
+                <td>[Firma]</td>
+                <td>18/03/2024</td>
+            </tr>
+            <tr>
+                <td>Supervisor del Caso</td>
+                <td>Elena Torres</td>
+                <td>[Firma]</td>
+                <td>19/03/2024</td>
+            </tr>
+        </table>
+        <p>Certifico que la información contenida en este formulario es verdadera y precisa según mi mejor conocimiento.</p>
+        <p>
+            Nombre y Cargo: Juan Pérez, Investigador Principal<br>
+            Firma: [Firma]<br>
+            Fecha: 19/03/2024
+        </p>
+        <div class="signature-line"></div>
+    </div>
+
+    <div class="section">
+        <h2>Disposición Final de la Evidencia</h2>
+        <table>
+            <tr><th>Campo</th><th>Información</th></tr>
+            <tr><td>Tipo de Disposición</td><td>[ ] Devolución [ ] Retención [X] Destrucción</td></tr>
+            <tr><td>Fecha Programada</td><td>15/09/2024</td></tr>
+            <tr><td>Autorizado por</td><td>Juez María López, Tribunal Superior de Justicia</td></tr>
+            <tr><td>Número de Orden Judicial</td><td>OJ-2024-789</td></tr>
+            <tr><td>Razón de la Disposición</td><td>Caso cerrado, evidencia ya no necesaria para procedimientos legales</td></tr>
+        </table>
+
+        <h3>Detalles de la Disposición</h3>
+        <p><strong>En caso de Devolución:</strong></p>
+        <ul>
+            <li>Destinatario: N/A</li>
+            <li>Dirección de Entrega: N/A</li>
+            <li>Fecha de Devolución Efectiva: N/A</li>
+        </ul>
+        <p><strong>En caso de Retención:</strong></p>
+        <ul>
+            <li>Ubicación de Almacenamiento a Largo Plazo: N/A</li>
+            <li>Duración Prevista de Retención: N/A</li>
+        </ul>
+        <p><strong>En caso de Destrucción:</strong></p>
+        <ul>
+            <li>Método de Destrucción: Trituración segura y borrado de datos certificado</li>
+            <li>Empresa de Destrucción: SecureDelete Inc.</li>
+            <li>Fecha de Destrucción Efectiva: 17/09/2024</li>
+            <li>Testigos de la Destrucción:</li>
+            <ol>
+                <li>Carlos Sánchez, Técnico de Laboratorio</li>
+                <li>Elena Torres, Supervisor del Caso</li>
+            </ol>
+        </ul>
+
+        <h3>Certificación de Disposición</h3>
+        <p>Certifico que la evidencia mencionada en este documento ha sido dispuesta según lo indicado arriba, cumpliendo con todas las regulaciones y procedimientos aplicables.</p>
+        <p>
+            Nombre y Cargo: Juan Pérez, Investigador Principal<br>
+            Firma: [Firma]<br>
+            Fecha: 17/09/2024
+        </p>
+        <div class="signature-line"></div>
+        <p>
+            Testigo de la Disposición:<br>
+            Nombre y Cargo: Elena Torres, Supervisor del Caso<br>
+            Firma: [Firma]<br>
+            Fecha: 17/09/2024
+        </p>
+        <div class="signature-line"></div>
+    </div>
+</body>
+</html>

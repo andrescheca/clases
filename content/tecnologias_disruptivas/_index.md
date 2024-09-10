@@ -23,3 +23,4 @@ transition_speed = "fast"
 - [Semana 2]({{< ref "/tecnologias_disruptivas/w2/_index.md" >}})
 - [Semana 3]({{< ref "/tecnologias_disruptivas/w3/_index.md" >}})
 - [Semana 4]({{< ref "/tecnologias_disruptivas/w4/_index.md" >}})
+- [Semana 5]({{< ref "/tecnologias_disruptivas/w5/_index.md" >}})

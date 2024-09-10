@@ -126,10 +126,25 @@ md5sum usb_image.dd
 
 ---
 
+### Un fork de dd: dc3dd
+
+1. Crea una imagen de una unidad USB
+2. Viene con las pilas incluidas
+
+```bash
+# Crear imagen
+sudo dc3dd if=/dev/sda hofs=./ImagenPenDrive.000 ofsz=800MB hash=md5 hash=sha256 verb=on log=./imagependrive.log
+```
+
+{{% note %}}
+Un fork de dd para análisis forense
+{{% /note %}}
+
+---
+
 ### 2. Análisis de Sistemas de Archivos
 - **The Sleuth Kit (TSK)**
 - Autopsy (interfaz gráfica para TSK)
-- SANS SIFT Workstation
 
 {{% note %}}
 - The Sleuth Kit: Conjunto de herramientas de línea de comandos, muy potente y flexible.

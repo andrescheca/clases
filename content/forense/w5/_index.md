@@ -358,7 +358,8 @@ Mencione que la elección del tipo depende de las circunstancias del caso y los 
 ### Herramientas de Adquisición
 - FTK Imager
 - EnCase
-- Guymager
+- Guymager (Linux)
+- ewf-tools (Linux)
 
 {{% note %}}
 Presente brevemente cada herramienta:
@@ -574,19 +575,25 @@ Prepare una discusión final sobre la importancia de la documentación precisa y
 
 ---
 
-### Resumen y Conclusiones
-- Importancia de la adquisición y preservación adecuadas
-- Rol crucial de la documentación y cadena de custodia
-- Herramientas clave: tcpdump, FTK Imager, EnCase
+### Repitiendo el proceso desde Kali
 
-{{% note %}}
-Recapitule los puntos clave de la clase:
-- La adquisición y preservación correctas son fundamentales para la admisibilidad de la evidencia.
-- La documentación detallada y la cadena de custodia son esenciales en cualquier investigación forense.
-- Las herramientas como tcpdump, Volatility y FTK Imager son fundamentales en el toolkit de un investigador forense.
-- Siempre se deben considerar las implicaciones éticas y legales en la práctica forense.
-Anime a los estudiantes a seguir practicando y aprendiendo sobre estas herramientas y técnicas.
-{{% /note %}}
+```bash
+ewfacquire /dev/sdb
+#Name: evidence
+#Case number: 1
+#Description: A description for the case
+#Evidence number: 1
+#Examiner Name: Your name
+#Media type: fixed
+#Media characteristics: physical
+#File format: encase6
+#Compression method: deflate
+#Compression level: fast
+
+#Then use default values
+#It will generate the disk image in the current directory
+```
+
 
 ---
 

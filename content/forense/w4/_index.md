@@ -511,15 +511,3 @@ Dividir la clase en grupos y guiarlos a través del ejercicio:
 ---
 
 ### ¿Preguntas?
-
-{{% note %}}
-- Fomentar preguntas y discusión abierta.
-- Posibles temas para discutir si no hay preguntas inmediatas:
-  - Desafíos futuros en forensia digital (ej. IoT, cloud forensics).
-  - Cómo iniciarse en la carrera de investigador forense digital.
-  - Certificaciones relevantes en el campo (ej. GCFE, EnCE, CFCE).
-- Relacionar los temas vistos con posibles escenarios reales que los estudiantes puedan enfrentar en su carrera.
-- Destacar la naturaleza interdisciplinaria de la forensia digital (informática, derecho, investigación).
-- Concluir reiterando la importancia de la ética y el profesionalismo en todas las investigaciones forenses.
-{{% /note %}}
-

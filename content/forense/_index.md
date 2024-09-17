@@ -24,3 +24,4 @@ transition_speed = "fast"
 - [Semana 3]({{< ref "/forense/w3/_index.md" >}})
 - [Semana 4]({{< ref "/forense/w4/_index.md" >}})
 - [Semana 5]({{< ref "/forense/w5/_index.md" >}})
+- [Semana 6]({{< ref "/forense/w6/_index.md" >}})

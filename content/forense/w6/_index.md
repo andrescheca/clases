@@ -1,5 +1,10 @@
-# Análisis de Evidencia Digital
-## Fundamentos de Computación Forense
++++
+title = "Fundamentos de Computación Forense - Adquisición y Preservación de Evidencia"
+outputs = ["Reveal"]
++++
+
+## Análisis de Evidencia Digital
+### Fundamentos de Computación Forense
 
 ---
 
@@ -180,7 +185,7 @@ En Kali Linux, utilizaremos herramientas como ewf-tools y The Sleuth Kit para es
 1. Instalación de herramientas necesarias:
    ```
    sudo apt-get update
-   s
+   sudo apt-get install ewf-tools sleuthkit ntfs-3g
    ```
 2. Verificar la instalación:
    ```
@@ -226,7 +231,7 @@ Si los hashes coinciden, podemos estar seguros de que la imagen no ha sido alter
 1. Instalar herramientas necesarias:
    ```
    sudo apt-get update
-   sudo apt-get install ewf-tools sleuthkit ntfs-3g
+   sudo apt-get install ewf-tools sleuthkit ntfs-3g regripper
    ```
 2. Crear puntos de montaje:
    ```
@@ -270,7 +275,7 @@ Asegúrese de que los estudiantes ajusten la ruta de la imagen E01 según su con
 ### Montaje de la Imagen E01 (Paso 3: Analizar la Estructura)
 
 1. Examinar la estructura de particiones:
-   ```
+```
    kali@kali:/media/kali/Jams_ 5TB/forensics$ sudo mmls /mnt/forense/ewf1
    GUID Partition Table (EFI)
    Offset Sector: 0
@@ -285,7 +290,7 @@ Asegúrese de que los estudiantes ajusten la ruta de la imagen E01 según su con
    006:  002       0000821248   0001083391   0000262144   Microsoft reserved partition
    007:  003       0001083392   0262141951   0261058560   Basic data partition
    008:  -------   0262141952   0262143999   0000002048   Unallocated
-   ```
+```
 
 {{% note %}}
 Explicación de la salida de `mmls`:
@@ -301,18 +306,18 @@ Haga que los estudiantes noten la importancia de identificar correctamente la pa
 ### Montaje de la Imagen E01 (Paso 4: Montar la Partición)
 
 1. Montar la partición principal de datos:
-   ```
-   kali@kali:/media/kali/Jams_ 5TB/forensics$ sudo mount -o ro,loop,offset=$((512*1083392)),show_sys_files,stream_interface=windows /mnt/forense/ewf1 /mnt/evidencia
-   ```
+```
+kali@kali:/media/kali/Jams_ 5TB/forensics$ sudo mount -o ro,loop,offset=$((512*1083392)),show_sys_files,stream_interface=windows /mnt/forense/ewf1 /mnt/evidencia
+```
 
 2. Verificar el montaje:
-   ```
-   kali@kali:/media/kali/Jams_ 5TB/forensics$ ls /mnt/evidencia
-    '$AttrDef'   '$Extend'    '$Recycle.Bin'   appverifUI.dll             PerfLogs                Recovery                      vfcompat.dll
-    '$BadClus'   '$LogFile'   '$Secure'        'Documents and Settings'   'Program Files'         swapfile.sys                  Windows
-    '$Bitmap'    '$MFT'       '$UpCase'        DumpStack.log.tmp          'Program Files (x86)'   'System Volume Information'
-    '$Boot'      '$MFTMirr'   '$Volume'        pagefile.sys               ProgramData             Users
-   ```
+```
+kali@kali:/media/kali/Jams_ 5TB/forensics$ ls /mnt/evidencia
+ '$AttrDef'   '$Extend'    '$Recycle.Bin'   appverifUI.dll             PerfLogs                Recovery                      vfcompat.dll
+ '$BadClus'   '$LogFile'   '$Secure'        'Documents and Settings'   'Program Files'         swapfile.sys                  Windows
+ '$Bitmap'    '$MFT'       '$UpCase'        DumpStack.log.tmp          'Program Files (x86)'   'System Volume Information'
+ '$Boot'      '$MFTMirr'   '$Volume'        pagefile.sys               ProgramData             Users
+```
 
 {{% note %}}
 Explicación del comando de montaje:
@@ -353,13 +358,13 @@ Después del desmontaje, la evidencia ya no será accesible a través de los pun
 
 ### Análisis de Archivos
 1. Examinar el contenido del punto de montaje:
-   ```
-   ls -la /mnt/evidencia
-   ```
+```
+ls -la /mnt/evidencia
+```
 2. Buscar archivos sospechosos:
-   ```
-   find /mnt/evidencia -type f \( -name "*.png" -o -name "*.bin" -o -name "*.eml" -o -name "*.docx" -o -name "*.xlsx" -o -name "*.exe" \)
-   ```
+```
+find /mnt/evidencia -type f \( -name "*.png" -o -name "*.bin" -o -name "*.eml" -o -name "*.docx" -o -name "*.xlsx" -o -name "*.exe" \)
+```
 
 {{% note %}}
 Ahora que tenemos la imagen montada, comenzamos con un examen general:
@@ -406,16 +411,16 @@ I've successfully breached the firewall. You should now have admin access to all
 ### Análisis del Registro de Windows
 1. Localizar archivos de registro:
 
-   ```
-   find /mnt/evidencia -name "NTUSER.DAT"
-   find /mnt/evidencia -name "SYSTEM" -o -name "SOFTWARE"
-   ```
+```
+find /mnt/evidencia -name "NTUSER.DAT"
+find /mnt/evidencia -name "SYSTEM" -o -name "SOFTWARE"
+```
 2. Analizar con RegRipper:
 
-   ```
-   sudo apt install regripper
-   kali@kali:~$  regripper -r /mnt/evidencia/Windows/System32/config/SOFTWARE -p tasks                                                                     ─╯
-   ```
+```
+sudo apt install regripper
+kali@kali:~$  regripper -r /mnt/evidencia/Windows/System32/config/SOFTWARE -p tasks                                                                     ─╯
+```
 
 {{% note %}}
 El análisis del registro de Windows sigue siendo crucial:
@@ -504,6 +509,17 @@ sqlite> SELECT datetime(last_visit_time/1000000-11644473600, 'unixepoch', 'local
 2024-09-15 00:01:49|https://www.hackerforums.com/lander|
 ...
 sqlite>
+```
+
+---
+
+### Recuperando archivos eliminados
+
+```
+photorec "/media/kali/Jams_ 5TB/forensics/raw/windows_evidence.raw.raw"
+PhotoRec 7.1, Data Recovery Utility, July 2019
+Christophe GRENIER <grenier@cgsecurity.org>
+https://www.cgsecurity.org
 ```
 
 ---

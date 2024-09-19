@@ -492,5 +492,67 @@ Anima a los estudiantes a explorar estos recursos y a mantener una práctica con
 
 ---
 
+## Calculadora simple
+
+```python
+
+print("Calculadora Simple")
+
+# Obtener números del usuario
+num1 = float(input("Ingresa el primer número: "))
+num2 = float(input("Ingresa el segundo número: "))
+
+# Realizar operaciones
+suma = num1 + num2
+resta = num1 - num2
+multiplicacion = num1 * num2
+
+# Imprimir resultados
+print(f"Suma: {suma}")
+print(f"Resta: {resta}")
+print(f"Multiplicación: {multiplicacion}")
+
+# División (con manejo básico de error)
+if num2 != 0:
+    division = num1 / num2
+    print(f"División: {division}")
+else:
+    print("No se puede dividir por cero")
+```
+
+---
+
+## Convertidor de temperatura
+
+```python
+print("Conversor de Temperatura")
+
+# Obtener temperatura en Celsius del usuario
+celsius = float(input("Ingresa la temperatura en Celsius: "))
+
+# Convertir a Fahrenheit
+fahrenheit = (celsius * 9/5) + 32
+
+# Imprimir resultado
+print(f"{celsius} grados Celsius es igual a {fahrenheit} grados Fahrenheit")
+
+# Convertir de Fahrenheit a Celsius
+fahrenheit_input = float(input("Ahora ingresa una temperatura en Fahrenheit: "))
+celsius_resultado = (fahrenheit_input - 32) * 5/9
+
+# Imprimir resultado
+print(f"{fahrenheit_input} grados Fahrenheit es igual a {celsius_resultado} grados Celsius")
+```
+
+---
+
+## Más ejercicios para practicar
+
+- ¿Es primo un número ingresado por teclado?
+- Convertir una cantidad de segundos ingresada a horas, minutos y segundos.
+- Imprimir todos los números del 1 al 100 que sean múltiplos de un número dado (ingreado por teclado).
+- Solicitar al usuario su edad y determinar si es menor de edad, adulto o adulto mayor.
+- Realizar un convertidor de monedas que transforme de dólares a euros, yenes u otra moneda.
+
 ## ¿Preguntas?
 

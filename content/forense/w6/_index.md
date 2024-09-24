@@ -20,6 +20,12 @@ En esta clase, nos sumergiremos en el proceso de análisis de evidencia digital.
 
 ---
 
+### Instalar versión reciente de Autopsy
+
+- Pasos en [GitHub](https://github.com/sleuthkit/autopsy/issues/7887#issuecomment-2160954937)
+
+---
+
 ### Caso de Estudio: Sospecha de Exfiltración de Datos
 - Empresa sospecha que un empleado ha estado filtrando información confidencial
 - Tenemos acceso a una imagen del disco duro del empleado
@@ -87,10 +93,12 @@ Estas anomalías pueden ser indicadores de actividad sospechosa o maliciosa.
 4. HKEY_USERS
 
 Buscar:
+- System32 -> SAM, Security, **Software**, System
 - Software instalado recientemente
 - Claves de ejecución automática
 - Historial de USB
 - Configuraciones de red
+- Leemos los archivos con [FRED](https://files.pinguin.lu/fred-0.1.0beta4-win32.exe)
 
 {{% note %}}
 El registro de Windows es una fuente rica de información forense:
@@ -521,6 +529,19 @@ PhotoRec 7.1, Data Recovery Utility, July 2019
 Christophe GRENIER <grenier@cgsecurity.org>
 https://www.cgsecurity.org
 ```
+
+---
+
+### Ejercicio en Clase
+
+- Encontrar archivos ocultos en [imagen](https://drive.google.com/file/d/1aQhDp7BZtxCb41AchFmjrZ9aplykzCh4/view?usp=drive_link).
+
+---
+
+### Ejercicio de File Carving (Canon2)
+
+- Analicemos un [ejemplo](https://corp.digitalcorpora.org/corpora/drives/nps-2009-canon2).
+- Herramientas: sleuthkit, Autopsy, scalpel
 
 ---
 

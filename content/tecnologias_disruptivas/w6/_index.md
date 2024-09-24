@@ -554,5 +554,7 @@ print(f"{fahrenheit_input} grados Fahrenheit es igual a {celsius_resultado} grad
 - Solicitar al usuario su edad y determinar si es menor de edad, adulto o adulto mayor.
 - Realizar un convertidor de monedas que transforme de dólares a euros, yenes u otra moneda.
 
+--- 
+
 ## ¿Preguntas?
 

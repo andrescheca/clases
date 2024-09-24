@@ -575,6 +575,13 @@ Prepare una discusión final sobre la importancia de la documentación precisa y
 
 ---
 
+### Exportar archivos y crear custom images
+- En una imagen en específico podemos exportar archivos, también podemos exportar sus hashes.
+- Podemos crear custom images con archivos específicos. Lo hacemos así para que sean también imágenes forenses.
+- Tener cuidado con custom images y la cadena de custodia
+
+---
+
 ### Repitiendo el proceso desde Kali
 
 ```bash

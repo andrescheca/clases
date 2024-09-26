@@ -370,6 +370,31 @@ Explica cómo este tipo de bucle es útil cuando se conoce de antemano el númer
 
 ---
 
+## Solución 3: Factorial con While Loop
+
+```python
+def factorial(n):
+    result = 1
+    while n > 0:
+        result *= n
+        n -= 1
+    return result
+
+numero = 5
+print(f"El factorial de {numero} es {factorial(numero)}")
+```
+
+{{% note %}}
+Este programa calcula el factorial de un número usando un bucle while:
+- Inicializamos 'result' en 1 (el factorial de 0 es 1).
+- Mientras n sea mayor que 0, multiplicamos 'result' por n y decrementamos n.
+- El bucle continúa hasta que n llega a 0.
+- Finalmente, retornamos el resultado.
+Explica cómo este método es una implementación iterativa del cálculo factorial, en contraste con una implementación recursiva.
+{{% /note %}}
+
+---
+
 ## Ejemplo de Bucle While
 
 ```python
@@ -386,6 +411,12 @@ Este ejemplo ilustra un bucle 'while' en Python:
 - `i += 1` incrementa 'i' en cada iteración para evitar un bucle infinito.
 Explica que los bucles 'while' son útiles cuando no se conoce de antemano el número de iteraciones. Advierte sobre la importancia de asegurar que la condición eventualmente se vuelva falsa para evitar bucles infinitos.
 {{% /note %}}
+
+---
+
+### Ejercicio con While
+
+- Migrar el código de factorial usando While.
 
 ---
 
@@ -436,6 +467,37 @@ En este ejemplo:
 - Para números pares (cuando i % 2 == 0), 'continue' salta al inicio de la siguiente iteración.
 - Solo se imprimen los números impares: 1, 3, 5, 7, 9
 Explica cómo 'continue' es útil para saltar ciertas iteraciones basadas en una condición, sin terminar el bucle por completo.
+{{% /note %}}
+
+---
+
+## Ejemplo de otra salida abrupta de un bucle con return
+
+```python
+def es_primo(num):
+    if num < 2:
+        return False
+    for i in range(2, int(num**0.5) + 1):
+        if num % i == 0:
+            return False
+    return True
+
+def primer_primo_mayor(n):
+    num = n + 1
+    while True:
+        if es_primo(num):
+            return num
+        num += 1
+
+print(primer_primo_mayor(20))
+```
+
+{{% note %}}
+Este programa encuentra el primer número primo mayor que un número dado:
+- La función 'es_primo' verifica si un número es primo.
+- 'primer_primo_mayor' usa un bucle while para buscar el próximo primo.
+- El bucle for dentro de 'es_primo' usa break implícitamente al retornar False.
+Explica cómo este enfoque es eficiente al usar la raíz cuadrada como límite en 'es_primo'.
 {{% /note %}}
 
 ---
@@ -528,6 +590,26 @@ Explica cómo estas funciones pueden ser alternativas a los bucles tradicionales
 
 ---
 
+## Filtrar palabras largas
+
+```python
+def palabras_largas(lista):
+    return list(filter(lambda x: len(x) > 5, lista))
+
+palabras = ["casa", "elefante", "sol", "computadora", "luz", "teléfono"]
+print(palabras_largas(palabras))
+```
+
+{{% note %}}
+Esta solución usa filter() para encontrar palabras con más de 5 caracteres:
+- La función lambda 'lambda x: len(x) > 5' es el criterio de filtrado.
+- filter() aplica esta función a cada elemento de la lista 'palabras'.
+- Convertimos el resultado de filter() a una lista para imprimirlo.
+Explica cómo filter() es una alternativa concisa a un bucle for con una condición if.
+{{% /note %}}
+
+---
+
 ## Manejo de Excepciones
 Gestionan errores durante la ejecución del programa.
 
@@ -573,6 +655,33 @@ En este ejemplo, `countdown(5)` genera los números 5, 4, 3, 2, 1 uno a la vez. 
 
 ---
 
+## Generador de Fibonacci
+
+```python
+def fibonacci_generator(n):
+    a, b = 0, 1
+    count = 0
+    while count < n:
+        yield a
+        a, b = b, a + b
+        count += 1
+
+for num in fibonacci_generator(10):
+    print(num, end=" ")
+```
+
+{{% note %}}
+Este generador produce la secuencia de Fibonacci:
+- Usamos dos variables, 'a' y 'b', para mantener los dos últimos números.
+- En cada iteración, yield devuelve 'a' y actualiza 'a' y 'b'.
+- El generador se detiene después de producir 'n' números.
+- El bucle for imprime los primeros 10 números de Fibonacci.
+Explica cómo los generadores son eficientes en memoria, especialmente para secuencias largas o infinitas.
+{{% /note %}}
+
+
+---
+
 ## Decoradores
 Modifican o mejoran funciones existentes sin cambiar su código.
 
@@ -596,6 +705,47 @@ Los decoradores son una característica avanzada de Python:
 - Se definen como funciones que toman una función como argumento y devuelven una nueva función.
 - Se aplican usando la sintaxis `@` sobre la definición de una función.
 En este ejemplo, `uppercase_decorator` modifica la función `greet` para que su resultado esté en mayúsculas. Explica cómo los decoradores son útiles para aspectos como logging, medición de rendimiento, o control de acceso.
+{{% /note %}}
+
+---
+
+## Decorador de Precio de Café
+
+```python
+def cafe_base():
+    return 5  # Precio base del café
+
+def agregar_leche(func):
+    def wrapper():
+        return func() + 1  # Leche cuesta 1 adicional
+    return wrapper
+
+def agregar_cacao(func):
+    def wrapper():
+        return func() + 2  # Cacao cuesta 2 adicional
+    return wrapper
+
+def agregar_caramelo(func):
+    def wrapper():
+        return func() + 1.5  # Caramelo cuesta 1.5 adicional
+    return wrapper
+
+@agregar_caramelo
+@agregar_cacao
+@agregar_leche
+def cafe_especial():
+    return cafe_base()
+
+print(f"El precio del café especial es: ${cafe_especial()}")
+```
+
+{{% note %}}
+Este ejemplo usa decoradores para calcular el precio de un café con extras:
+- cafe_base() establece el precio base del café.
+- Cada decorador (leche, cacao, caramelo) añade un costo adicional.
+- Los decoradores se aplican de abajo hacia arriba: primero leche, luego cacao, y finalmente caramelo.
+- cafe_especial() retorna el precio total del café con todos los extras.
+Explica cómo los decoradores permiten modificar el comportamiento de funciones de manera flexible y reutilizable.
 {{% /note %}}
 
 ---

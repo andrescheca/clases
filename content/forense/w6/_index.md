@@ -655,7 +655,7 @@ Esta sección nos da una visión general del sistema:
   - Usuarios con shells interactivas (/bin/bash)
   - La cuenta 'jorge' que creamos en nuestro escenario
 
-Discuta con los estudiantes qué información podría ser relevante para la investigación.
+
 {{% /note %}}
 
 ---
@@ -684,7 +684,7 @@ Los logs de Apache pueden revelar actividades sospechosas:
   - Errores 400 (Bad Request) o 500 (Internal Server Error) repetitivos
   - Mensajes que indiquen intentos de inyección SQL o XSS
 
-Explique cómo estos logs pueden indicar intentos de ataque o compromiso del servidor web.
+
 {{% /note %}}
 
 ---
@@ -712,7 +712,7 @@ Aspectos clave de la seguridad SSH:
   - Múltiples intentos desde la misma IP podrían indicar un ataque de fuerza bruta
   - Intentos de login para usuarios que no existen en el sistema
 
-Discuta con los estudiantes cómo estas configuraciones y patrones de log pueden comprometer la seguridad del sistema.
+
 {{% /note %}}
 
 ---
@@ -738,7 +738,7 @@ El análisis de las actividades del usuario puede revelar comportamientos sospec
   - Exportaciones de variables de entorno sospechosas
   - Scripts que se ejecuten automáticamente al iniciar sesión
 
-Explique cómo los atacantes pueden manipular estos archivos para ocultar sus acciones o mantener acceso al sistema.
+
 {{% /note %}}
 
 ---
@@ -772,7 +772,7 @@ Los mecanismos de persistencia permiten a los atacantes mantener acceso al siste
   - Comandos que abran puertos de red (como nc -l)
   - Cualquier intento de ejecutar shells o comandos con privilegios elevados
 
-Explique cómo estos mecanismos pueden ser utilizados para mantener acceso no autorizado al sistema.
+
 {{% /note %}}
 
 ---
@@ -797,7 +797,6 @@ El análisis de la configuración y actividad de red puede revelar comportamient
   - Interfaces de red configuradas con IPs estáticas inusuales
   - Configuraciones que puedan permitir pivoting o tunneling
 
-Discuta cómo estas configuraciones podrían ser utilizadas por un atacante para mantener acceso o exfiltrar datos.
 {{% /note %}}
 
 ---
@@ -826,7 +825,6 @@ El análisis del sistema de archivos puede revelar actividades sospechosas:
   - Nombres de archivo sospechosos o que imiten archivos de configuración legítimos
   - Directorios ocultos en ubicaciones inusuales (como /tmp o directorios home de otros usuarios)
 
-Explique cómo analizar estos hallazgos en el contexto de una investigación forense.
 {{% /note %}}
 
 ---
@@ -859,14 +857,11 @@ La limpieza adecuada es crucial en el análisis forense:
 
 Basándose en el análisis que hemos realizado:
 
-1. ¿Qué signos de compromiso encontraron?
+1. ¿Qué signos de compromiso se encontraron?
 2. ¿Cómo estaba el atacante manteniendo la persistencia?
 3. ¿Qué pasos recomendarían para asegurar este sistema?
 
-Discutan sus hallazgos con sus compañeros.
-
 {{% note %}}
-Guíe la discusión hacia los puntos clave del escenario:
 
 1. Signos de compromiso:
    - Intentos de fuerza bruta SSH

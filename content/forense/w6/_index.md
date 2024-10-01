@@ -545,6 +545,348 @@ https://www.cgsecurity.org
 
 ---
 
+# Análisis Forense en Linux
+
+---
+
+## Preparación
+
+1. Instalar herramientas necesarias:
+   ```
+   sudo apt-get update
+   sudo apt-get install ewf-tools sleuthkit autopsy
+   ```
+
+2. Verificar la instalación:
+   ```
+   ewfinfo --version
+   mmls --version
+   ```
+
+{{% note %}}
+Estas herramientas son esenciales para nuestro análisis forense:
+
+- ewf-tools: Permite trabajar con imágenes en formato E01.
+- sleuthkit: Proporciona utilidades forenses fundamentales como mmls y fls.
+- autopsy: Interfaz gráfica para sleuthkit, útil para visualizaciones.
+
+{{% /note %}}
+
+---
+
+## Montaje de la Imagen E01
+
+1. Crear puntos de montaje:
+   ```
+   sudo mkdir /mnt/imagen_linux
+   sudo mkdir /mnt/evidencia_linux
+   ```
+
+2. Montar la imagen E01:
+   ```
+   sudo ewfmount linux_image.e01 /mnt/imagen_linux
+   ```
+
+3. Examinar la estructura de particiones:
+   ```
+   sudo mmls /mnt/imagen_linux/ewf1
+   ```
+
+{{% note %}}
+El proceso de montaje es crucial:
+
+1. Creamos dos puntos de montaje: uno para la imagen E01 y otro para la partición que analizaremos.
+2. ewfmount monta la imagen E01 como un dispositivo virtual.
+3. mmls muestra la estructura de particiones. Busquen la partición principal de Linux, generalmente la más grande.
+
+Explique a los estudiantes cómo identificar la partición correcta basándose en el tamaño y el tipo de sistema de archivos.
+{{% /note %}}
+
+---
+
+## Montaje de la Partición Linux
+
+1. Montar la partición principal (ajustar el offset según sea necesario):
+   ```
+   sudo mount -o ro,loop,offset=$((512*SECTOR_INICIO)) /mnt/imagen_linux/ewf1 /mnt/evidencia_linux
+   ```
+
+2. Verificar el montaje:
+   ```
+   ls /mnt/evidencia_linux
+   ```
+
+{{% note %}}
+Puntos clave sobre el montaje de la partición:
+
+- Reemplace SECTOR_INICIO con el sector de inicio real de la partición principal de Linux que identificamos con mmls.
+- La opción -o ro monta en modo de solo lectura, crucial para preservar la integridad de la evidencia.
+- El comando ls debería mostrar la estructura de directorios típica de un sistema Linux (/etc, /home, /var, etc.).
+
+Si no ve esta estructura, verifique que haya utilizado el offset correcto en el comando mount.
+{{% /note %}}
+
+---
+
+## Visión General del Sistema
+
+1. Examinar información del sistema:
+   ```
+   cat /mnt/evidencia_linux/etc/os-release
+   ```
+
+2. Revisar paquetes instalados:
+   ```
+   cat /mnt/evidencia_linux/var/log/dpkg.log | tail
+   ```
+
+3. Listar cuentas de usuario:
+   ```
+   cat /mnt/evidencia_linux/etc/passwd
+   ```
+
+{{% note %}}
+Esta sección nos da una visión general del sistema:
+
+- os-release proporciona información sobre la distribución y versión de Linux.
+- dpkg.log muestra los paquetes instalados recientemente. Busque cualquier software sospechoso o inesperado.
+- El archivo passwd contiene todas las cuentas de usuario. Preste especial atención a:
+  - Usuarios con ID 0 (equivalentes a root)
+  - Usuarios con shells interactivas (/bin/bash)
+  - La cuenta 'jorge' que creamos en nuestro escenario
+
+Discuta con los estudiantes qué información podría ser relevante para la investigación.
+{{% /note %}}
+
+---
+
+## Análisis de Logs de Apache
+
+1. Revisar logs de acceso de Apache:
+   ```
+   cat /mnt/evidencia_linux/var/log/apache2/access.log
+   ```
+
+2. Buscar entradas sospechosas en los logs de error:
+   ```
+   grep -i error /mnt/evidencia_linux/var/log/apache2/error.log
+   ```
+
+{{% note %}}
+Los logs de Apache pueden revelar actividades sospechosas:
+
+- En access.log, busque:
+  - Patrones de acceso inusuales (muchas solicitudes en poco tiempo)
+  - Intentos de acceso a archivos sensibles (/etc/passwd, archivos .php sospechosos)
+  - IPs que realizan muchas solicitudes
+
+- En error.log, preste atención a:
+  - Errores 400 (Bad Request) o 500 (Internal Server Error) repetitivos
+  - Mensajes que indiquen intentos de inyección SQL o XSS
+
+Explique cómo estos logs pueden indicar intentos de ataque o compromiso del servidor web.
+{{% /note %}}
+
+---
+
+## Investigación de Configuración y Logs SSH
+
+1. Examinar la configuración de SSH:
+   ```
+   cat /mnt/evidencia_linux/etc/ssh/sshd_config
+   ```
+
+2. Revisar intentos de login SSH:
+   ```
+   cat /mnt/evidencia_linux/var/log/auth.log | grep "Failed password"
+   ```
+
+{{% note %}}
+Aspectos clave de la seguridad SSH:
+
+- En sshd_config, busque configuraciones inseguras como:
+  - "PermitRootLogin yes" (permite login directo como root)
+  - "PasswordAuthentication yes" (permite autenticación por contraseña)
+
+- En auth.log, analice los intentos fallidos de login:
+  - Múltiples intentos desde la misma IP podrían indicar un ataque de fuerza bruta
+  - Intentos de login para usuarios que no existen en el sistema
+
+Discuta con los estudiantes cómo estas configuraciones y patrones de log pueden comprometer la seguridad del sistema.
+{{% /note %}}
+
+---
+
+## Análisis de Actividades de Usuario
+
+1. Revisar el historial de bash de 'jorge':
+   ```
+   cat /mnt/evidencia_linux/home/jorge/.bash_history
+   ```
+
+2. Examinar .bashrc en busca de entradas sospechosas:
+   ```
+   cat /mnt/evidencia_linux/home/jorge/.bashrc
+   ```
+
+{{% note %}}
+El análisis de las actividades del usuario puede revelar comportamientos sospechosos:
+
+- Si .bash_history está vacío o redirigido a /dev/null, esto podría indicar un intento de ocultar actividades.
+- En .bashrc, busque:
+  - Alias inusuales que puedan ocultar actividades maliciosas
+  - Exportaciones de variables de entorno sospechosas
+  - Scripts que se ejecuten automáticamente al iniciar sesión
+
+Explique cómo los atacantes pueden manipular estos archivos para ocultar sus acciones o mantener acceso al sistema.
+{{% /note %}}
+
+---
+
+## Identificación de Mecanismos de Persistencia
+
+1. Buscar servicios systemd inusuales:
+   ```
+   ls -l /mnt/evidencia_linux/etc/systemd/system/
+   ```
+
+2. Examinar archivo de servicio sospechoso:
+   ```
+   cat /mnt/evidencia_linux/etc/systemd/system/fake_service.service
+   ```
+
+3. Revisar el script asociado:
+   ```
+   cat /mnt/evidencia_linux/usr/local/bin/fake_service.sh
+   ```
+
+{{% note %}}
+Los mecanismos de persistencia permiten a los atacantes mantener acceso al sistema:
+
+- Busque servicios con nombres sospechosos o que no correspondan a software legítimo conocido.
+- En fake_service.service, preste atención a:
+  - El comando ExecStart y su ubicación
+  - Si el servicio está configurado para reiniciarse automáticamente
+
+- En fake_service.sh, busque:
+  - Comandos que abran puertos de red (como nc -l)
+  - Cualquier intento de ejecutar shells o comandos con privilegios elevados
+
+Explique cómo estos mecanismos pueden ser utilizados para mantener acceso no autorizado al sistema.
+{{% /note %}}
+
+---
+
+## Análisis de Red
+
+1. Buscar puertos en escucha:
+   ```
+   grep -r "LISTEN" /mnt/evidencia_linux/var/log/
+   ```
+
+2. Examinar configuraciones de red:
+   ```
+   cat /mnt/evidencia_linux/etc/network/interfaces
+   ```
+
+{{% note %}}
+El análisis de la configuración y actividad de red puede revelar comportamientos sospechosos:
+
+- En los logs, busque puertos en escucha inusuales, especialmente aquellos de alto número (como el 12345 de nuestro servicio falso).
+- En la configuración de red, preste atención a:
+  - Interfaces de red configuradas con IPs estáticas inusuales
+  - Configuraciones que puedan permitir pivoting o tunneling
+
+Discuta cómo estas configuraciones podrían ser utilizadas por un atacante para mantener acceso o exfiltrar datos.
+{{% /note %}}
+
+---
+
+## Análisis del Sistema de Archivos
+
+1. Buscar archivos modificados recientemente:
+   ```
+   find /mnt/evidencia_linux -type f -mtime -7 -ls
+   ```
+
+2. Buscar archivos y directorios ocultos:
+   ```
+   find /mnt/evidencia_linux -name ".*" -ls
+   ```
+
+{{% note %}}
+El análisis del sistema de archivos puede revelar actividades sospechosas:
+
+- Archivos modificados recientemente podrían indicar actividades del atacante. Preste especial atención a:
+  - Ejecutables en lugares inusuales
+  - Scripts en directorios del sistema
+  - Archivos grandes que podrían contener datos exfiltrados
+
+- Los archivos y directorios ocultos (que comienzan con .) son comunes en Linux, pero también pueden ser usados para ocultar malware. Busque:
+  - Nombres de archivo sospechosos o que imiten archivos de configuración legítimos
+  - Directorios ocultos en ubicaciones inusuales (como /tmp o directorios home de otros usuarios)
+
+Explique cómo analizar estos hallazgos en el contexto de una investigación forense.
+{{% /note %}}
+
+---
+
+## Conclusión y Limpieza
+
+1. Desmontar la evidencia:
+   ```
+   sudo umount /mnt/evidencia_linux
+   sudo umount /mnt/imagen_linux
+   ```
+
+2. Eliminar puntos de montaje:
+   ```
+   sudo rmdir /mnt/evidencia_linux
+   sudo rmdir /mnt/imagen_linux
+   ```
+
+{{% note %}}
+La limpieza adecuada es crucial en el análisis forense:
+
+- Desmontar correctamente evita la corrupción de datos y libera recursos del sistema.
+- Eliminar los puntos de montaje ayuda a mantener el sistema organizado.
+
+{{% /note %}}
+
+---
+
+## Conclusiones sobre análisis
+
+Basándose en el análisis que hemos realizado:
+
+1. ¿Qué signos de compromiso encontraron?
+2. ¿Cómo estaba el atacante manteniendo la persistencia?
+3. ¿Qué pasos recomendarían para asegurar este sistema?
+
+Discutan sus hallazgos con sus compañeros.
+
+{{% note %}}
+Guíe la discusión hacia los puntos clave del escenario:
+
+1. Signos de compromiso:
+   - Intentos de fuerza bruta SSH
+   - Configuraciones inseguras (PermitRootLogin)
+   - Historial de bash oculto
+
+2. Mecanismos de persistencia:
+   - Servicio systemd malicioso (fake_service)
+   - Posibles modificaciones en .bashrc
+
+3. Pasos para asegurar:
+   - Deshabilitar login de root vía SSH
+   - Implementar autenticación de dos factores
+   - Revisar y eliminar servicios sospechosos
+   - Actualizar y parchear el sistema
+
+{{% /note %}}
+
+---
+
 ### Preguntas
 
 

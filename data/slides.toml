@@ -36,6 +36,15 @@ welcome = """## <span class="as-code">kali@kali:~$ whoami</span>
 
 ---
 
+### <span class="as-code code-long">kali@kali:~$ cat /etc/class/policies.conf</span>
+
+{{% fragment class="long-text"%}}Las semanas empiezan los lunes{{% /fragment %}}
+{{% fragment class="long-text"%}}Sobre foros interactivos{{% /fragment %}}
+{{% fragment class="long-text" %}}Sobre los examenes (Proctorizer y Mesa de Ayuda){{% /fragment %}}
+{{% fragment class="long-text" %}}Sobre las copias y ChatGPT ó similares en tareas{{% /fragment %}}
+
+---
+
 {{% fragment class="long-text"%}}Por favor, si voy muy rápido o no entienden, no tengan vergüenza en avisarme.{{% /fragment %}}
 {{% fragment class="long-text"%}}Lo contrario también aplica, si se están aburriendo con contenido muy básico, avísenme.{{% /fragment %}}
 {{% fragment class="long-text"%}}Mi meta es que se diviertan aprendiendo.{{% /fragment %}}

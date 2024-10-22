@@ -1,5 +1,5 @@
 +++
-title = "Introducción a Kali Linux y Comandos Básicos para Computación Forense"
+title = "Conceptos introductorios al Hacking Ético"
 outputs = ["Reveal"]
 +++
 

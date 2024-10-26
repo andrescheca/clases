@@ -1,7 +1,7 @@
 +++
-title = "Fundamentos de Computación Forense"
+title = "Hacking Ético"
 outputs = ["Reveal"]
-description = "Introducción a Computación Forense"
+description = "Introducción al Hacking Ético"
 transition = "slide"
 transition_speed = "fast"
 +++

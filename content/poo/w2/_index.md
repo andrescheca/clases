@@ -220,6 +220,7 @@ Ambos tipos se estudiarán en detalle en próximas clases.
 {{% /note %}}
 
 ---
+
 {{% /section %}}
 
 ### Clase vs Objeto

@@ -26,6 +26,14 @@ span.fragment code {
     font-family: 'Courier New', Courier, monospace; /* Tipo de fuente */
 }
 
+ul > li > code {
+  color: #CED6F2;
+  background-color: #353542;
+  padding: 2px 4px;
+  border-radius: 4px;
+  font-family: 'Courier New', Courier, monospace;
+}
+
 .as-code {
     
     padding: 2px 4px; /* Espaciado interno */

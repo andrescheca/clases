@@ -150,8 +150,9 @@ La herencia:
 - Veremos más sobre herencia en próximas sesiones
 {{% /note %}}
 
-{{% section %}}
 ---
+
+{{% section %}}
 
 ### Polimorfismo
 
@@ -219,10 +220,11 @@ El polimorfismo tiene dos formas principales:
 Ambos tipos se estudiarán en detalle en próximas clases.
 {{% /note %}}
 
----
-
 {{% /section %}}
 
+---
+
+{{% section %}}
 ### Clase vs Objeto
 
 **Clase**:
@@ -236,6 +238,8 @@ Ambos tipos se estudiarán en detalle en próximas clases.
 - Tiene valores específicos
 - Es concreto y existe en memoria
 - Se pueden crear muchos
+
+---
 
 ```java
 // Definición de una clase
@@ -257,6 +261,7 @@ Coche coche2 = new Coche();  // Segundo objeto
 coche2.marca = "Honda";
 coche2.modelo = "Civic";
 ```
+{{% /section %}}
 
 ---
 

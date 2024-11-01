@@ -6,278 +6,668 @@ outputs = ["Reveal"]
 ## Semana 2
 
 - Introducción a la sintaxis de Java
-- Conceptos básicos de orientación a objetos.
+- Diferencias clave con Python
+- Conceptos básicos de orientación a objetos
+
+{{% note %}}
+Objetivos de la semana:
+- Entender las diferencias principales entre Java y Python
+- Conocer la sintaxis básica de Java
+- Introducir conceptos fundamentales de POO
+{{% /note %}}
 
 ---
 
-### Declaración de Variables en Java
+### Características de la Orientación a Objetos
 
-{{% fragment class="bullet-point" %}}Declarar una variable significa asignarle un tipo y, opcionalmente, un valor inicial.{{% /fragment %}}
-{{% fragment class="bullet-point" %}}Sintaxis: <br>`tipo nombreVariable = valor;`{{% /fragment %}}
-{{% fragment class="bullet-point" %}}Ejemplos: <br>`int edad = 30;`, <br/>`String nombre = "Ana";`{{% /fragment %}}
+{{% fragment class="bullet-point" %}}**1. Todo es parte de un objeto**: Los datos y comportamientos están unidos{{% /fragment %}}
+{{% fragment class="bullet-point" %}}**2. Organización del Código**: Cada objeto maneja sus propios datos{{% /fragment %}}
+{{% fragment class="bullet-point" %}}**3. Reutilización**: Podemos crear objetos similares fácilmente{{% /fragment %}}
+{{% fragment class="bullet-point" %}}**4. Claridad**: El código refleja el mundo real{{% /fragment %}}
+
+{{% note %}}
+Conceptos fundamentales:
+- Un objeto combina datos y acciones (como en Python)
+- Los objetos son similares a cosas del mundo real
+- Los objetos pueden interactuar entre sí
+- El código se organiza en unidades lógicas (objetos)
+{{% /note %}}
 
 ---
 
-### Estructuras Condicionales
+### Características Fundamentales de POO
 
-{{% fragment class="bullet-point" %}}Permiten ejecutar diferentes bloques de código según una condición.{{% /fragment %}}
-{{% fragment class="bullet-point" %}}`if`, `else if`, `else` son las estructuras básicas.{{% /fragment %}}
+La Programación Orientada a Objetos se basa en cuatro características principales:
+
+1. **Encapsulación**: Ocultar los detalles internos
+2. **Abstracción**: Modelar objetos del mundo real
+3. **Herencia**: Reutilizar y extender código
+4. **Polimorfismo**: Múltiples formas de comportamiento
+
+{{% note %}}
+Estas son las cuatro características fundamentales que hacen a la POO tan poderosa:
+- Cada una resuelve un problema específico del desarrollo de software
+- Se complementan entre sí
+- Son la base para crear código mantenible y reutilizable
+{{% /note %}}
 
 ---
 
-### Estructuras Condicionales (2)
-Ejemplo: 
+### Encapsulación
+
+**¿Qué es?** 
+- Ocultar los detalles internos de un objeto para simplificar el uso
+- Proteger los datos del acceso directo y evitar inconsistencias
+- Agregar lógica de negocio transparente. `setEdad()` no debería aceptar negativos
+
+**En Java se implementa con:**
+- Modificadores de acceso: `public`, `private`, `protected`
+- Métodos getters y setters
 
 ```java
-if (edad > 18){ 
-    System.out.println("Mayor de edad"); 
-}else{ 
-    System.out.println("Menor de edad"); 
+class CuentaBancaria {
+    private double saldo;  // Solo accesible dentro de la clase
+    
+    public void depositar(double monto) {
+        if (monto > 0) {
+            saldo += monto;
+        }
+    }
 }
 ```
 
+{{% note %}}
+La encapsulación:
+- Protege los datos de modificaciones no deseadas
+- Permite validar datos antes de modificarlos
+- Oculta la implementación interna
+- Veremos más detalles en próximas clases
+{{% /note %}}
+
+---
+
+### Abstracción
+
+**¿Qué es?**
+- Modelar objetos complejos de forma simplificada
+- Enfocarse en lo importante, ignorar lo no esencial
+
+**En Java se implementa con:**
+- Clases abstractas (`abstract class`)
+- Interfaces (`interface`)
+
+```java
+interface Vehiculo {
+    void mover();  // Qué hace, no cómo lo hace
+}
+
+class Coche implements Vehiculo {
+    public void mover() {
+        // Implementación específica
+    }
+}
+```
+
+{{% note %}}
+La abstracción:
+- Simplifica problemas complejos
+- Define qué hace un objeto, no cómo lo hace
+- Permite crear modelos más fáciles de entender
+- Estudiaremos interfaces y clases abstractas más adelante
+{{% /note %}}
+
+---
+
+### Herencia
+
+**¿Qué es?**
+- Crear nuevas clases basadas en existentes
+- Compartir código entre clases similares
+
+**En Java se implementa con:**
+- Palabra clave `extends`
+- Herencia simple (una sola clase padre)
+
+```java
+class Animal {
+    void comer() {
+        // Implementación
+    }
+}
+
+class Perro extends Animal {
+    void ladrar() {
+        // Implementación específica
+    }
+}
+```
+
+{{% note %}}
+La herencia:
+- Permite reutilizar código
+- Crea jerarquías de clases
+- En Java solo se puede heredar de una clase
+- Veremos más sobre herencia en próximas sesiones
+{{% /note %}}
+
+{{% section %}}
+---
+
+### Polimorfismo
+
+**¿Qué es?**
+- Diferentes comportamientos para una misma acción
+- Tratar objetos diferentes de manera uniforme
+
+**En Java se implementa con:**
+1. Sobrescritura (Override) - Polimorfismo de subtipo:
+   - Redefinir métodos de la clase padre
+   - Usar `@Override`
+   - Ocurre en tiempo de ejecución
+
+2. Sobrecarga (Overload) - Polimorfismo ad-hoc:
+   - Múltiples versiones del mismo método
+   - Diferentes parámetros
+   - Ocurre cuando creamos clases
 
 --- 
 
-### Lazos en Java
-
-{{% fragment class="bullet-point" %}}`for`, `while`, y `do-while` son los principales tipos de lazos.{{% /fragment %}}
-{{% fragment class="bullet-point" %}}`for` es útil para ciclos con un número determinado de iteraciones.{{% /fragment %}}
-
----
-
-### Lazos en Java (2)
-
-- El lazo `for-each` es usado para recorrer elementos en una colección 
-
 ```java
-for(String nombre : nombres){ 
-    System.out.println(nombre); 
+class Animal {
+    void hacerSonido() {
+        // Implementación base
+    }
+}
+
+class Perro extends Animal {
+    // Sobrescritura: mismo método, diferente implementación
+    @Override
+    void hacerSonido() {
+        System.out.println("Guau");
+    }
+    
+    // Sobrecarga: mismo nombre, diferentes parámetros
+    void hacerSonido(int veces) {
+        for(int i = 0; i < veces; i++) {
+            hacerSonido();
+        }
+    }
+    
+    void hacerSonido(String intensidad) {
+        if(intensidad.equals("fuerte")) {
+            System.out.println("GUAU!");
+        } else {
+            System.out.println("guau...");
+        }
+    }
 }
 ```
-
----
-
-### Clases Comunes en la Librería Standard de Java
-
-{{% fragment class="bullet-point" %}}`String` para cadenas de texto.{{% /fragment %}}
-{{% fragment class="bullet-point" %}}`Math` para operaciones matemáticas.{{% /fragment %}}
-{{% fragment class="bullet-point" %}}`ArrayList` y `HashMap` para estructuras de datos dinámicas.{{% /fragment %}}
-
----
-
-### Diferencia entre int e Integer
-
-{{% fragment class="bullet-point" %}}`int` es un tipo primitivo y `Integer` es una clase envoltura.{{% /fragment %}}
-{{% fragment class="bullet-point" %}}`Integer` permite usar métodos y aceptar `null` como valor.{{% /fragment %}}
-{{% fragment class="bullet-point" %}}Autoboxing y unboxing convierten entre `int` e `Integer` automáticamente.{{% /fragment %}}
-
----
-
-### Ejercicio en Clase: Manipulación de Strings
-
-{{% fragment class="bullet-point small-text-size" %}} Crea una clase `ManipulacionString`.{{% /fragment %}}
-{{% fragment class="bullet-point small-text-size" %}} Dentro de esta clase, escribe un método que acepte un string como parámetro y devuelva el mismo string pero con todas las vocales convertidas a mayúsculas.{{% /fragment %}}
-{{% fragment class="bullet-point small-text-size" %}}En el método `main`, prueba tu método con diferentes strings y muestra los resultados.{{% /fragment %}}
-{{% fragment class="bullet-point small-text-size" %}}Ejemplo de Salida:<br> Entrada: `"Hola Mundo"`<br> Salida: `"HOlA MUndO"`{{% /fragment %}}
-
----
-
-### Clases vs Programación Estructurada
-
-{{% fragment class="bullet-point" %}}Programación Estructurada: Centrada en funciones y procedimientos que operan sobre datos.{{% /fragment %}}
-{{% fragment class="bullet-point" %}}Programación Orientada a Objetos: Centrada en objetos que contienen tanto datos (atributos) como funciones (métodos).{{% /fragment %}}
-{{% fragment class="bullet-point" %}}**Ventajas de POO:** Abstracción, Encapsulación, Herencia, y Polimorfismo facilitan la reutilización y mantenimiento del código.{{% /fragment %}}
-
----
-
-### Fundamentos de Clases en Java
-
-{{% fragment class="bullet-point" %}}**Definición:** Una clase en Java define las propiedades y métodos que tendrán los objetos creados a partir de ella.{{% /fragment %}}
-{{% fragment class="bullet-point" %}}**Propiedades:** Variables que almacenan el estado de un objeto.{{% /fragment %}}
-{{% fragment class="bullet-point" %}}**Métodos:** Funciones o procedimientos que definen las acciones que puede realizar un objeto.{{% /fragment %}}
-
----
-
-### ¿Qué es un Constructor?
-
-{{% fragment class="bullet-point" %}}Un constructor es un método especial de una clase que se llama automáticamente al crear un objeto.{{% /fragment %}}
-{{% fragment class="bullet-point" %}}Su nombre debe ser igual al de la clase y no tiene tipo de retorno.{{% /fragment %}}
-
----
-
-### Sobrecarga de Constructores
-
-{{% fragment class="bullet-point" %}}La sobrecarga permite definir múltiples constructores con diferentes listas de parámetros.{{% /fragment %}}
-{{% fragment class="bullet-point" %}}Facilita la creación de objetos en diferentes estados o con diferentes inicializaciones.{{% /fragment %}}
-
----
-
-### Clase Persona en Java
 
 {{% note %}}
-javac Persona.java Main.java
-java Main
+El polimorfismo tiene dos formas principales:
+1. Polimorfismo de subtipo (Override):
+   - Permite que una clase hija redefina métodos de la clase padre
+   - Útil para especializar comportamiento
+   - Se decide en tiempo de ejecución
+
+2. Polimorfismo ad-hoc (Overload):
+   - Permite múltiples versiones del mismo método
+   - Se diferencia por número o tipo de parámetros
+   - Se decide en tiempo de compilación
+   - No requiere herencia
+
+Ambos tipos se estudiarán en detalle en próximas clases.
 {{% /note %}}
 
+---
+{{% section %}}
+
+### Clase vs Objeto
+
+**Clase**:
+- Es el plano o plantilla (los planos en papel)
+- Define atributos y comportamientos
+- Es un concepto abstracto
+- Se define una vez
+
+**Objeto**:
+- Es una instancia de una clase (la casa)
+- Tiene valores específicos
+- Es concreto y existe en memoria
+- Se pueden crear muchos
+
 ```java
-// Persona.java
-public class Persona {
-    private String nombre;
-    private int edad;
-
-    // Constructor sin parámetros
-    public Persona() {
-        this.nombre = "Desconocido";
-        this.edad = 0;
-    }
-
-    // Constructor con un parámetro
-    public Persona(String nombre) {
-        this.nombre = nombre;
-        this.edad = 0;
-    }
-
-    // Constructor con dos parámetros
-    public Persona(String nombre, int edad) {
-        this.nombre = nombre;
-        this.edad = edad;
-    }
-
-    // Método para mostrar datos de la persona
-    public void mostrarInfo() {
-        System.out.println("Nombre: " + nombre + ", Edad: " + edad);
+// Definición de una clase
+class Coche {
+    String marca;
+    String modelo;
+    
+    void arrancar() {
+        System.out.println("El coche arranca");
     }
 }
 
-// Demostración en el método main (Main.java)
-public class Main {
-    public static void main(String[] args) {
-        Persona persona1 = new Persona();
-        Persona persona2 = new Persona("Ana");
-        Persona persona3 = new Persona("Carlos", 25);
+// Creación de objetos
+Coche coche1 = new Coche();  // Primer objeto
+coche1.marca = "Toyota";
+coche1.modelo = "Corolla";
 
-        persona1.mostrarInfo();
-        persona2.mostrarInfo();
-        persona3.mostrarInfo();
-    }
-}
+Coche coche2 = new Coche();  // Segundo objeto
+coche2.marca = "Honda";
+coche2.modelo = "Civic";
 ```
 
 ---
 
-### Introducción a Paquetes y Clases en Java
+### Tipos de Datos en Java vs Python
 
-{{% fragment class="bullet-point" %}}Los paquetes organizan clases e interfaces en grupos lógicos.{{% /fragment %}}
-{{% fragment class="bullet-point" %}}`package com.midominio;` al inicio del archivo de clase.{{% /fragment %}}
-{{% fragment class="bullet-point" %}}Permiten evitar conflictos de nombres y controlar el acceso.{{% /fragment %}}
+{{% fragment class="bullet-point" %}}**Python:** Tipado dinámico, todo es un objeto{{% /fragment %}}
+{{% fragment class="bullet-point" %}}**Java:** Tipado estático, diferencia entre primitivos y objetos{{% /fragment %}}
 
----
-
-### Diferencia entre Clase y Objeto
-
-{{% fragment class="bullet-point" %}}Clase: es el molde o plantilla para crear objetos.{{% /fragment %}}
-{{% fragment class="bullet-point" %}}Objeto: es una instancia de una clase.{{% /fragment %}}
-{{% fragment class="bullet-point" %}}Ejemplo: <br> `Persona p = new Persona();` donde <br> `Persona` es la clase y `p` es el objeto.{{% /fragment %}}
-
----
-
-### Punto de Entrada a una Clase y a un Jar
-
-{{% fragment class="bullet-point" %}}El método `public static void main(String[] args)` es el punto de entrada.{{% /fragment %}}
-{{% fragment class="bullet-point" %}}`java MiClase` para ejecutar el `.class`,<br> `java -jar MiArchivo.jar` para ejecutar el JAR.{{% /fragment %}}
-
----
-
-### Conceptos Clave en Poo
-
-{{% fragment class="bullet-point" %}}**Abstracción**: Simplificar complejidades reales modelando clases apropiadas a la problemática.{{% /fragment %}}
-{{% fragment class="bullet-point" %}}**Encapsulación**: Ocultar los detalles internos del funcionamiento de una clase, exponiendo solo lo necesario al exterior.{{% /fragment %}}
-{{% fragment class="bullet-point" %}}**Herencia**: Mecanismo por el cual una clase (hija) puede heredar características (atributos y métodos) de otra clase (padre).{{% /fragment %}}
-{{% fragment class="bullet-point" %}}**Polimorfismo**: Capacidad de un método para hacer cosas diferentes basadas en el objeto que lo está ejecutando.{{% /fragment %}}
-
----
-
-### Conceptos Clave en POO 
+Primitivos en Java:
+```java
+int numero = 42;        // Similar a Python pero debe declararse
+boolean verdad = true;  // En Python es True
+char caracter = 'a';    // En Python no existe char
+```
 
 {{% note %}}
-Abstracción: La clase Vehiculo es abstracta y no se puede instanciar directamente, lo que permite abstraer el concepto general de un vehículo.
-Encapsulación: Los detalles específicos de cada vehículo, como la marca y el número de puertas en el caso del coche, están ocultos y protegidos dentro de la clase. Se proporcionan métodos públicos para acceder a estos datos de forma controlada.
-Herencia: Coche y Motocicleta heredan de Vehiculo y pueden utilizar sus métodos y propiedades, además de añadir los suyos propios.
-Polimorfismo: Coche y Motocicleta tienen diferentes implementaciones del método mover, demostrando que un método puede realizar acciones distintas dependiendo de la instancia de clase que lo invoque.
+Diferencias clave:
+- Java requiere declarar el tipo de cada variable
+- Los tipos no pueden cambiar después de declarados
+- Java distingue entre tipos primitivos y objetos
+- Python trata todo como objetos
 {{% /note %}}
 
+---
+
+### Tipos Primitivos vs Clases Envolturas
+
+{{% fragment class="bullet-point" %}}**Primitivos:** `byte`, `short`, `int`, `long`, `float`, `double`, `boolean`, `char`{{% /fragment %}}
+{{% fragment class="bullet-point" %}}**Clases Envolturas:** `Byte`, `Short`, `Integer`, `Long`, `Float`, `Double`, `Boolean`, `Character`{{% /fragment %}}
+{{% fragment class="bullet-point" %}}Son útiles cuando usamos colecciones{{% /fragment %}}
+
 ```java
-// Abstracción: Clase abstracta Vehiculo (Vehiculo.java)
-abstract class Vehiculo {
-    private String marca; // Encapsulación: campo privado
+// Primitivo
+int numero = 42;
 
-    public Vehiculo(String marca) { // Constructor
-        this.marca = marca;
-    }
+// Clase envoltura
+Integer numeroObjeto = Integer.valueOf(42);
+// Permite null
+Integer nulo = null; // Válido
+int primitivo = null; // ¡Error!
+```
 
-    public String getMarca() { // Encapsulación: método público para acceder a la marca
-        return marca;
-    }
+{{% note %}}
+Diferencias importantes:
+- Primitivos son más eficientes en memoria
+- Clases envolturas permiten null
+- Clases envolturas tienen métodos útiles
+- Las colecciones solo aceptan clases envolturas
+{{% /note %}}
 
-    // Método abstracto que deben implementar las subclases
-    public abstract void mover();
+---
+
+### Collections en Java
+
+**ArrayList**: Lista dinámica de elementos
+- Permite elementos duplicados
+- Mantiene el orden de inserción
+- Acceso rápido por índice (como arrays)
+- Puede crecer dinámicamente
+- Ideal para: listas ordenadas, acceso frecuente por posición
+- Limitación: búsquedas lentas (debe recorrer elementos)
+
+```java
+ArrayList<String> nombres = new ArrayList<>();
+nombres.add("Ana");     // ["Ana"]
+nombres.add("Ana");     // ["Ana", "Ana"] - permite duplicados
+nombres.get(0);         // "Ana" - acceso por índice
+```
+
+{{% note %}}
+ArrayList vs Arrays:
+- ArrayList crece automáticamente, los arrays tienen tamaño fijo
+- ArrayList solo acepta objetos, no primitivos
+- ArrayList tiene métodos útiles como add(), remove(), contains()
+- ArrayList ocupa más memoria que un array
+
+ArrayList vs List en Python:
+- Similar a las listas de Python en comportamiento
+- Debe especificar tipo de datos (<String>, <Integer>, etc.)
+- No permite mezclar tipos diferentes
+{{% /note %}}
+
+---
+
+### HashSet en Java
+
+**HashSet**: Colección de elementos únicos
+- No permite duplicados
+- No mantiene orden de inserción
+- Búsqueda muy rápida
+- Ideal para: eliminar duplicados, verificar existencia de elementos
+- Limitación: no hay acceso por índice, no mantiene orden
+
+```java
+HashSet<String> nombres = new HashSet<>();
+nombres.add("Ana");     // ["Ana"]
+nombres.add("Ana");     // ["Ana"] - ignora duplicados
+nombres.contains("Ana"); // true - búsqueda rápida
+```
+
+{{% note %}}
+HashSet vs ArrayList:
+- HashSet no permite duplicados, ArrayList sí
+- HashSet es más rápido para buscar elementos
+- HashSet no mantiene orden, ArrayList sí
+- HashSet no permite acceso por índice
+
+HashSet vs Set en Python:
+- Comportamiento similar a set() de Python
+- Mismas operaciones básicas (add, remove, contains)
+- Java requiere especificar tipo de elementos
+- No permite operaciones matemáticas de conjuntos directamente como en Python
+{{% /note %}}
+
+---
+
+### Estructuras de Control: Diferencias con Python
+
+#### For Loops
+
+En Python:
+```python
+for i in range(5):
+    print(i)
+
+for nombre in nombres:
+    print(nombre)
+```
+
+En Java:
+```java
+// Con índice
+for (int i = 0; i < 5; i++) {
+    System.out.println(i);
 }
 
-// Herencia: Clase Coche hereda de Vehiculo (Coche.java)
-class Coche extends Vehiculo {
-    private int numeroDePuertas;
+// For-each (como en Python)
+for (String nombre : nombres) {
+    System.out.println(nombre);
+}
+```
 
-    public Coche(String marca, int numeroDePuertas) {
-        super(marca);
-        this.numeroDePuertas = numeroDePuertas;
-    }
+{{% note %}}
+Tipos de for en Java:
+- For tradicional: control preciso de la iteración
+- For-each: más simple, similar a Python
+- No existe range() como en Python
+- Los índices deben manejarse manualmente
+{{% /note %}}
 
-    // Implementación del método abstracto, mostrando Polimorfismo
-    @Override
-    public void mover() {
-        System.out.println("El coche " + getMarca() + " está en movimiento.");
+---
+
+### While y Do-While
+
+While (existe en ambos):
+```java
+while (condicion) {
+    // código
+}
+```
+
+Do-While (exclusivo de Java):
+```java
+do {
+    // Se ejecuta al menos una vez
+} while (condicion);
+```
+
+{{% note %}}
+Diferencias con Python:
+- While funciona igual en ambos lenguajes
+- Do-while no existe en Python
+- Do-while garantiza una ejecución
+- Útil cuando necesitamos ejecutar código al menos una vez
+{{% /note %}}
+
+---
+
+### Switch en Java (No existe en Python)
+
+```java
+String dia = "Lunes";
+switch (dia) {
+    case "Lunes":
+        System.out.println("Primer día");
+        break;
+    case "Martes":
+        System.out.println("Segundo día");
+        break;
+    default:
+        System.out.println("Otro día");
+}
+```
+
+{{% note %}}
+Características del switch:
+- Alternativa a múltiples if-else
+- Requiere break para evitar continuar a otros casos
+- Más eficiente que if-else en múltiples casos
+- En Python se usa if-elif o diccionarios
+{{% /note %}}
+
+---
+
+### Enumeraciones (No existen en Python)
+
+```java
+enum DiaSemana {
+    LUNES, MARTES, MIERCOLES, JUEVES, VIERNES, SABADO, DOMINGO
+}
+
+DiaSemana hoy = DiaSemana.LUNES;
+```
+
+{{% note %}}
+Ventajas de enums:
+- Conjunto fijo de valores posibles
+- Previene errores de escritura
+- Más seguro que usar strings
+- Mejor rendimiento que strings
+- En Python se usan constantes o la clase Enum
+{{% /note %}}
+
+---
+
+### Strings en Java
+
+Los Strings son **inmutables** - cada operación crea un nuevo String:
+
+```java
+String nombre = "Juan";
+String nombreMayusculas = nombre.toUpperCase(); // Nuevo String
+System.out.println(nombre);           // "Juan"
+System.out.println(nombreMayusculas); // "JUAN"
+
+// Concatenación crea nuevos objetos
+String completo = nombre + " Pérez";  // Nuevo String
+```
+
+{{% note %}}
+Inmutabilidad de Strings:
+- Un String nunca cambia su contenido
+- Cada operación crea un nuevo String
+- El String original permanece igual
+- Esto es similar a Python
+- Ventaja: seguridad y consistencia
+- Desventaja: puede ser ineficiente con muchas operaciones
+{{% /note %}}
+
+---
+
+### Métodos de String
+
+Cada método retorna un **nuevo** String:
+
+```java
+String texto = "Hola Mundo";
+
+String mayusculas = texto.toUpperCase();    // "HOLA MUNDO"
+String subcadena = texto.substring(0, 4);   // "Hola"
+String[] palabras = texto.split(" ");       // ["Hola", "Mundo"]
+boolean contiene = texto.contains("Mundo"); // true
+int longitud = texto.length();             // 10
+
+// El String original no cambia
+System.out.println(texto); // "Hola Mundo"
+```
+
+{{% note %}}
+Métodos importantes de String:
+- toUpperCase()/toLowerCase(): convierte a mayúsculas/minúsculas
+- substring(): extrae una porción del String
+- split(): divide el String en un array
+- contains(): verifica si contiene una subcadena
+- length(): obtiene la longitud
+- trim(): elimina espacios al inicio y final
+- replace(): substituye caracteres o subcadenas
+
+Importante recordar:
+- Ninguno modifica el String original
+- Siempre guardar el resultado si se necesita
+- Similar a los métodos de strings en Python
+{{% /note %}}
+
+---
+
+### Igualdad entre Objetos (Introducción)
+
+- Para objetos, el operador `==` evalúa igualdad en referencias en memoria, no contenido
+- En datos primitivos, el operador `==` sí funciona como intuitivamente pensaríamos que funciona
+
+```java
+String str1 = "Hola";
+String str2 = "Hola";
+String str3 = new String("Hola");
+
+// NO hacer esto - comportamiento no confiable
+System.out.println(str1 == str2);      // ¡No comparar Strings con ==!
+
+// Forma correcta de comparar Strings
+System.out.println(str1.equals(str2));  // true
+System.out.println(str1.equals(str3));  // true
+```
+
+{{% note %}}
+Comparación de Strings:
+- == compara referencias (direcciones de memoria)
+- equals() compara el contenido
+- Siempre usar equals() para comparar Strings
+- Nunca confiar en == para comparar Strings
+- equals() es similar a == en Python para strings
+
+Razones para usar equals():
+- Comportamiento consistente
+- Compara el contenido real
+- Funciona con cualquier String
+- Es la forma estándar en Java
+{{% /note %}}
+
+---
+
+### Ejercicio Práctico: Sistema de Biblioteca
+
+Crear un sistema simple que demuestre los conceptos vistos:
+
+1. Usar enum para el estado del libro (DISPONIBLE, PRESTADO)
+2. Usar ArrayList para gestionar una colección de libros
+3. Mantener los datos organizados en una clase
+
+```java
+// Estados posibles de un libro
+enum EstadoLibro {
+    DISPONIBLE, PRESTADO
+}
+
+// Clase para representar un libro
+class Libro {
+    String titulo;
+    String autor;
+    EstadoLibro estado;
+
+    Libro(String titulo, String autor) {
+        this.titulo = titulo;
+        this.autor = autor;
+        this.estado = EstadoLibro.DISPONIBLE;
     }
 }
 
-// Herencia: Clase Motocicleta hereda de Vehiculo (Motocicileta.java)
-class Motocicleta extends Vehiculo {
-    public Motocicleta(String marca) {
-        super(marca);
+// Clase para gestionar la biblioteca
+class Biblioteca {
+    ArrayList<Libro> libros;
+
+    Biblioteca() {
+        libros = new ArrayList<>();
     }
 
-    // Implementación del método abstracto, mostrando Polimorfismo
-    @Override
-    public void mover() {
-        System.out.println("La motocicleta " + getMarca() + " está en movimiento.");
+    void agregarLibro(Libro libro) {
+        libros.add(libro);
     }
-}
 
-// Demostración (Main.java)
-public class Main {
-    public static void main(String[] args) {
-        Vehiculo miCoche = new Coche("Toyota", 4);
-        Vehiculo miMoto = new Motocicleta("Harley Davidson");
-
-        miCoche.mover(); // Polimorfismo en acción
-        miMoto.mover(); // Polimorfismo en acción
+    void prestarLibro(Libro libro) {
+        libro.estado = EstadoLibro.PRESTADO;
     }
 }
 ```
+
+{{% note %}}
+Conceptos utilizados:
+- Enums para estados fijos
+- ArrayList para colección de libros
+- Clases para organizar datos
+- Métodos para operaciones
+- Los estudiantes deben practicar:
+  1. Crear las clases
+  2. Instanciar objetos
+  3. Usar los métodos
+  4. Verificar estados
+{{% /note %}}
+
 ---
 
-### Ejercicio en Clase: 
-***Uso de Constructores y Herencia con Clases de Animales***
-{{% fragment class="bullet-point small-text-size" %}}Crea una clase base llamada `Animal` con propiedades comunes como `nombre` y `edad`, y un constructor para inicializarlas.{{% /fragment %}}
-{{% fragment class="bullet-point small-text-size" %}}Deriva dos clases de `Animal`: `Perro` y `Gato`.{{% /fragment %}}
-{{% fragment class="bullet-point small-text-size" %}}Añade propiedades específicas a cada clase derivada, como `raza` para `Perro` y `color` para `Gato`, y usa constructores para inicializar todas las propiedades.{{% /fragment %}}
-{{% fragment class="bullet-point small-text-size"%}}Implementa un método `emitirSonido()` en ambas clases que muestre un mensaje diferente dependiendo del animal.{{% /fragment %}}
-{{% fragment class="bullet-point small-text-size" %}}En el método `main`, crea instancias de `Perro` y `Gato` y muestra sus detalles y el sonido que emiten.{{% /fragment %}}
+### Uso del Sistema de Biblioteca
 
----
+```java
+public class Main {
+    public static void main(String[] args) {
+        // Crear una biblioteca
+        Biblioteca biblioteca = new Biblioteca();
+        
+        // Crear algunos libros
+        Libro libro1 = new Libro("Don Quijote", "Cervantes");
+        Libro libro2 = new Libro("Cien años de soledad", "García Márquez");
+        
+        // Agregar libros a la biblioteca
+        biblioteca.agregarLibro(libro1);
+        biblioteca.agregarLibro(libro2);
+        
+        // Prestar un libro
+        biblioteca.prestarLibro(libro1);
+    }
+}
+```
 
-### Correr una Aplicación con el .class y Generar un .jar
-
-{{% fragment class="bullet-point" %}}Compilar con `javac MiClase.java` para obtener `MiClase.class`.{{% /fragment %}}
-{{% fragment class="bullet-point" %}}Ejecutar con `java MiClase`.{{% /fragment %}}
-{{% fragment class="bullet-point" %}}Empaquetar en JAR con `jar cvf MiArchivo.jar MiClase.class`.{{% /fragment %}}
+{{% note %}}
+Puntos importantes:
+- Creación de objetos con new
+- Uso de métodos de clase
+- Gestión de estados
+- Interacción entre objetos
+- Este ejemplo integra:
+  - Enums
+  - ArrayList
+  - Clases y objetos
+  - Métodos
+{{% /note %}}

@@ -220,7 +220,7 @@ Ambos tipos se estudiarán en detalle en próximas clases.
 {{% /note %}}
 
 ---
-{{% section %}}
+{{% /section %}}
 
 ### Clase vs Objeto
 

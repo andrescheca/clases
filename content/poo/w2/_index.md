@@ -150,8 +150,10 @@ La herencia:
 - Veremos más sobre herencia en próximas sesiones
 {{% /note %}}
 
-{{% section %}}
 ---
+
+{{% section %}}
+
 ### Polimorfismo
 
 **¿Qué es?**

@@ -4,17 +4,17 @@ subtitle = "Abstracción, Encapsulamiento y Composición"
 outputs = ["Reveal"]
 +++
 
-# Programación Orientada a Objetos
-## Semana 3: Abstracción, Encapsulamiento y Composición
+## Programación Orientada a Objetos
+### Semana 3: Abstracción, Encapsulamiento y Composición
 
 ---
 
 ### El plan para hoy
 
-{{% fragment class="bullet-point" %}}✓ Comprender la diferencia entre abstracción y encapsulamiento{{% /fragment %}}
-{{% fragment class="bullet-point" %}}✓ Dominar los modificadores de acceso en Java{{% /fragment %}}
-{{% fragment class="bullet-point" %}}✓ Entender el rol de la composición en el diseño OO{{% /fragment %}}
-{{% fragment class="bullet-point" %}}✓ Aplicar estos conceptos en diseños prácticos{{% /fragment %}}
+{{% fragment class="bullet-point" %}} Comprender la diferencia entre abstracción y encapsulamiento{{% /fragment %}}
+{{% fragment class="bullet-point" %}} Dominar los modificadores de acceso en Java{{% /fragment %}}
+{{% fragment class="bullet-point" %}} Entender el rol de la composición en el diseño OO{{% /fragment %}}
+{{% fragment class="bullet-point" %}} Aplicar estos conceptos en diseños prácticos{{% /fragment %}}
 
 ---
 
@@ -78,6 +78,8 @@ public class ControlRemoto {
 
 ---
 
+{{% section %}}
+
 ### Encapsulamiento: En Detalle
 
 - Se centra en **proteger datos**
@@ -86,6 +88,8 @@ public class ControlRemoto {
   - Modificadores de acceso
   - Getters y setters
   - Validación de datos
+
+--- 
 
 ```java
 public class CuentaBancaria {
@@ -121,8 +125,11 @@ public class CuentaBancaria {
     }
 }
 ```
+{{% /section %}}
 
 ---
+
+{{% section %}}
 
 ### Modificadores de Acceso en Java
 
@@ -133,12 +140,18 @@ public class CuentaBancaria {
 | `protected` | ✓     | ✓       | ✓                       | ✓                    | ✗     |
 | `public`    | ✓     | ✓       | ✓                       | ✓                    | ✓     |
 
+--- 
+
 **Notas**:
 - `default`: Es el modificador que se aplica cuando no se especifica ninguno
 - `protected`: Da acceso a subclases sin importar el paquete, y a todas las clases en el mismo paquete
 - Las subclases en el mismo paquete tienen acceso a miembros `default`
 
+{{% /section %}}
+
 ---
+
+{{% section %}}
 
 ### Composición: Concepto y Relación
 
@@ -146,6 +159,8 @@ La composición es útil para modularidad y reusabilidad, y facilita la **abstra
 - Construye objetos complejos usando otros objetos
 - Implementa relaciones "tiene-un" (has-a)
 - Oculta detalles de implementación
+
+---
 
 ```java
 // Ejemplo de composición
@@ -176,6 +191,7 @@ public class Automovil {
     }
 }
 ```
+{{% /section %}}
 
 ---
 
@@ -333,10 +349,13 @@ public class Plato {
 
 ---
 
+{{% section %}}
+
 ### Estructura del Sistema de Restaurante
 
 1. **Gestión de Pedidos**
-   ```java
+
+```java
    public class GestorPedidos {
        private List<Pedido> pedidosPendientes;
        private Cocina cocina;
@@ -350,10 +369,12 @@ public class Plato {
            return new ArrayList<>(pedidosPendientes);
        }
    }
-   ```
+```
+---
 
 2. **Gestión de Inventario**
-   ```java
+
+```java
    public class Inventario {
        private Map<String, Integer> stockIngredientes;
        
@@ -366,7 +387,8 @@ public class Plato {
                stockIngredientes.getOrDefault(ingrediente, 0) - cantidad);
        }
    }
-   ```
+```
+{{% /section %}}
 
 ---
 

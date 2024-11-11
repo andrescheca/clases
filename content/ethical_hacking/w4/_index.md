@@ -321,7 +321,6 @@ Recursos comunes:
 - default-password.info
 - cirt.net
 - datarecovery.com/rd/default-passwords
-- manufacturerdefaultpassword.com
 
 {{% note %}}
 Las credenciales por defecto son un vector común:

@@ -34,6 +34,14 @@ ul > li > code {
   font-family: 'Courier New', Courier, monospace;
 }
 
+p > code {
+  color: #CED6F2;
+  background-color: #353542;
+  padding: 2px 4px;
+  border-radius: 4px;
+  font-family: 'Courier New', Courier, monospace;
+}
+
 .as-code {
     
     padding: 2px 4px; /* Espaciado interno */

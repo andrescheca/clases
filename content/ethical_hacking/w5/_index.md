@@ -80,13 +80,10 @@ services:
     container_name: webgoat
     image: webgoat/webgoat
     ports:
-      - "127.0.0.1:8080:8080"
-      - "127.0.0.1:9090:9090"
+      - "8080:8080"
+      - "9090:9090"
     volumes:
-      - webgoat_data:/home/webgoat/.webgoat
-    
-volumes:
-  webgoat_data:
+      - ./webgoat_data:/home/webgoat/.webgoat
 ```
 
 {{% note %}}

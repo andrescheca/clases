@@ -106,7 +106,6 @@ Componentes principales:
    - Aislamiento de red
 {{% /note %}}
 
-{{% /section %}}
 
 ---
 
@@ -163,7 +162,6 @@ Troubleshooting común:
    - Backup si necesario
 {{% /note %}}
 
-{{% /section %}}
 
 ---
 

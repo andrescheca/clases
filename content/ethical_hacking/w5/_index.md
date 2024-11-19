@@ -106,6 +106,8 @@ Componentes principales:
    - Aislamiento de red
 {{% /note %}}
 
+{{% /section %}}
+
 ---
 
 ### Despliegue y Acceso

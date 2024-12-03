@@ -370,8 +370,6 @@ Documentación:
 
 ---
 
-{{% section %}}
-
 ### Mitigaciones y Mejores Prácticas
 
 1. Principio de mínimo privilegio

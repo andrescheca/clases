@@ -86,7 +86,7 @@ Características de excepciones verificadas:
 ### Excepciones No Verificadas (Unchecked)
 
 ```java
-public class Calculator {
+public class VariousTasks {
     public double divide(int a, int b) {
         // ArithmeticException si b es 0
         return a / b;

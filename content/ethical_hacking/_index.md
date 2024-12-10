@@ -26,3 +26,4 @@ transition_speed = "fast"
 - [Semana 5]({{< ref "/ethical_hacking/w5/_index.md" >}})
 - [Semana 6]({{< ref "/ethical_hacking/w6/_index.md" >}})
 - [Semana 7]({{< ref "/ethical_hacking/w7/_index.md" >}})
+- [Semana 8]({{< ref "/ethical_hacking/w8/_index.md" >}})

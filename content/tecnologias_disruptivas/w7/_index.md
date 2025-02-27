@@ -7,7 +7,7 @@ outputs = ["Reveal"]
 Lenguaje de Programación: Parte II
 
 {{% note %}}
-En esta séptima semana incursionaremos en las sentencias de control que presenta Python, que permiten abstraer algoritmos o secuencias de instrucciones en un software para lograr su objetivo. Particularmente analizaremos las sentencias condicionales y las repetitivas. Prepárate para explicar cómo estas estructuras permiten crear programas más complejos y dinámicos.
+En esta séptima semana incursionaremos en las sentencias de control que presenta Python, que permiten abstraer algoritmos o secuencias de instrucciones en un software para lograr su objetivo. Particularmente analizaremos las sentencias condicionales y las repetitivas.
 {{% /note %}}
 
 ---
@@ -15,23 +15,20 @@ En esta séptima semana incursionaremos en las sentencias de control que present
 ## ¿Qué son las Sentencias de Control?
 Controlan el flujo de ejecución de un programa.
 
-{{% fragment %}}Se dividen en las sentencias condicionales y las sentencias repetitivas.{{% /fragment %}}
+{{% fragment %}}Se dividen en dos categorías: selección e iteración.{{% /fragment %}}
 
 {{% note %}}
-Las sentencias de control en Python se usan para controlar el flujo de ejecución de un programa. Estas sentencias determinan cuándo y cómo se ejecuta el código. Explica que sin estas estructuras, los programas serían lineales y limitados en su funcionalidad. Enfatiza la importancia de estas sentencias para crear programas más complejos y útiles.
+Las sentencias de control en Python se usan para controlar el flujo de ejecución de un programa. Estas sentencias determinan cuándo y cómo se ejecuta el código. Las sentencias de control de Python se dividen en dos categorías: selección e iteración.
 {{% /note %}}
 
 ---
 
 ## Tipos de Sentencias de Control
-{{% fragment %}}Selección: if-else, switch-case{{% /fragment %}}
-{{% fragment %}}Iteración: bucles for y while{{% /fragment %}}
+{{% fragment %}}**Selección**: if-else, condicionales{{% /fragment %}}
+{{% fragment %}}**Iteración**: bucles for y while{{% /fragment %}}
 
 {{% note %}}
-Las sentencias de control de Python se dividen en dos categorías principales:
-1. Selección: Permiten al programador elegir qué código ejecutar basado en condiciones.
-2. Iteración: Permiten repetir un bloque de código varias veces.
-Explica cómo estas categorías trabajan juntas para crear programas flexibles y eficientes.
+Las sentencias de selección permiten al programador seleccionar una parte específica del código a ejecutar, mientras que las sentencias de iteración permiten al programador ejecutar una parte específica del código múltiples veces.
 {{% /note %}}
 
 ---
@@ -39,11 +36,10 @@ Explica cómo estas categorías trabajan juntas para crear programas flexibles y
 ## Sentencias de Selección
 Permiten seleccionar una parte específica del código a ejecutar.
 
-{{% fragment %}}if-else{{% /fragment %}}
-{{% fragment %}}switch-case{{% /fragment %}}
+{{% fragment %}}**if-else**: Ejecuta código basándose en una condición{{% /fragment %}}
 
 {{% note %}}
-Las sentencias de selección permiten al programador ejecutar diferentes partes del código basándose en condiciones específicas. En Python, la estructura if-else es la más común. Aunque Python no tiene una sentencia switch-case nativa, se puede simular con diccionarios o if-elif-else. Proporciona ejemplos simples de cada tipo para ilustrar su uso.
+Las sentencias if-else permiten al programador ejecutar una parte del código basándose en una determinada condición, mientras que las sentencias switch-case permiten al programador elegir una determinada parte del código a ejecutar para cada valor de una determinada variable.
 {{% /note %}}
 
 ---
@@ -51,14 +47,11 @@ Las sentencias de selección permiten al programador ejecutar diferentes partes 
 ## Sentencias de Iteración
 Permiten ejecutar una parte específica del código múltiples veces.
 
-{{% fragment %}}Bucles for{{% /fragment %}}
-{{% fragment %}}Bucles while{{% /fragment %}}
+{{% fragment %}}**Bucles for**: Para un número conocido de iteraciones{{% /fragment %}}
+{{% fragment %}}**Bucles while**: Se ejecutan hasta que una condición sea falsa{{% /fragment %}}
 
 {{% note %}}
-Las sentencias de iteración, o bucles, permiten repetir un bloque de código:
-1. Bucles for: Útiles cuando se conoce el número de iteraciones.
-2. Bucles while: Se usan cuando la condición de terminación no es conocida de antemano.
-Explica las diferencias entre ambos y cuándo es más apropiado usar cada uno.
+Los bucles for permiten al programador ejecutar una cierta parte del código durante un cierto número de veces, mientras que los bucles while permiten al programador ejecutar una cierta parte del código hasta que se cumpla una cierta condición.
 {{% /note %}}
 
 ---
@@ -67,7 +60,7 @@ Explica las diferencias entre ambos y cuándo es más apropiado usar cada uno.
 Conjunto de sentencias agrupadas lógicamente.
 
 {{% note %}}
-Los bloques de código son fundamentales en Python. Son conjuntos de sentencias que se ejecutan como una unidad. En Python, los bloques se definen por su indentación, lo que hace que la estructura del código sea visualmente clara. Explica cómo los bloques se usan en estructuras de control y funciones.
+Los bloques de código son una parte fundamental de la programación estructurada. Son un conjunto de sentencias agrupadas lógicamente y que suelen comenzar con una palabra clave como if, while o for. Estos bloques de código contienen sentencias que se encuentran delimitadas por un inicio y un final. Esta forma de delimitación va a depender del lenguaje de programación que se esté utilizando.
 {{% /note %}}
 
 ---
@@ -76,7 +69,7 @@ Los bloques de código son fundamentales en Python. Son conjuntos de sentencias 
 Indica la estructura del código.
 
 {{% note %}}
-En Python, la indentación es crucial y obligatoria. A diferencia de otros lenguajes que usan llaves o palabras clave, Python usa la indentación para definir bloques de código. Generalmente, se usan 4 espacios para cada nivel de indentación. Enfatiza que una indentación incorrecta puede llevar a errores de sintaxis o lógica.
+En un lenguaje informático, la indentación es similar a la sangría en un lenguaje humano escrito (en un nivel formal). Así como en un lenguaje formal se debe seguir cierta sangría, los lenguajes de programación requieren indentación. Aunque no todos los lenguajes de programación requieren esta sangría, se considera una buena práctica usarlo para mejorar la legibilidad del código fuente. En el caso de Python, la sangría es obligatoria, ya que de ella depende la estructura del código.
 {{% /note %}}
 
 ---
@@ -86,10 +79,39 @@ En Python, la indentación es crucial y obligatoria. A diferencia de otros lengu
 ```python
 if x > 7:
     print("x es mayor que 7")
+    if x % 2 == 0:
+        print("x es un número par")
 ```
 
 {{% note %}}
-En este ejemplo, la línea `print("x es mayor que 7")` está indentada, lo que indica que pertenece al bloque de código del `if`. Si no estuviera indentada, se ejecutaría siempre, independientemente del valor de x. Muestra cómo cambiaría el comportamiento si la línea no estuviera indentada.
+En este ejemplo, vemos cómo la indentación marca la estructura del código. El primer print está indentado bajo el if principal, lo que indica que pertenece a ese bloque. El segundo if y su print están aún más indentados, formando un bloque anidado. Una sangría de cuatro espacios en blanco indica que las sentencias sangradas están anidadas dentro de la misma estructura de control.
+{{% /note %}}
+
+---
+
+## Ejercicio 1: Indentación
+
+Corrige la indentación del siguiente código:
+
+```python
+x = 10
+if x > 5:
+print("x es mayor que 5")
+    if x < 15:
+        print("x es menor que 15")
+print("Este código siempre se ejecuta")
+```
+
+{{% note %}}
+Solución:
+```python
+x = 10
+if x > 5:
+    print("x es mayor que 5")
+    if x < 15:
+        print("x es menor que 15")
+print("Este código siempre se ejecuta")
+```
 {{% /note %}}
 
 ---
@@ -98,7 +120,7 @@ En este ejemplo, la línea `print("x es mayor que 7")` está indentada, lo que i
 Indicación de la codificación de caracteres utilizada en el archivo.
 
 {{% note %}}
-La codificación de texto es importante para asegurar que los caracteres especiales se interpreten correctamente. En Python 3, UTF-8 es la codificación por defecto, pero es una buena práctica especificarla explícitamente al principio del archivo. Explica por qué es importante, especialmente cuando se trabaja con diferentes idiomas o sistemas.
+El encoding es una indicación que se coloca al inicio de un archivo Python, a efectos de indicarle al sistema la codificación de caracteres que se va a utilizar en el archivo. Si no se le indicara a Python esta codificación, el resultado de la ejecución del código fuente podría resultar erróneo.
 {{% /note %}}
 
 ---
@@ -111,22 +133,33 @@ print("El niño juntó leños")
 ```
 
 {{% note %}}
-Este ejemplo muestra cómo especificar la codificación UTF-8 al inicio de un archivo Python. La línea `# -*- coding: utf-8 -*-` le dice al intérprete de Python que use UTF-8 para leer el archivo. Esto es especialmente útil para asegurar que los caracteres no ASCII (como las tildes y la ñ en español) se interpreten correctamente.
+En este ejemplo, se utiliza la codificación UTF-8, que es la más utilizada. Se usa para almacenar caracteres unicode, lo que significa que puede almacenar cualquier carácter de cualquier idioma. Si no se utiliza la sentencia anterior, al ejecutar el código fuente imprimirá un mensaje de error de sintaxis debido a los caracteres no ASCII.
 {{% /note %}}
 
 ---
 
 ## Opciones de Encoding
-{{% fragment %}}UTF-8{{% /fragment %}}
-{{% fragment %}}ASCII{{% /fragment %}}
-{{% fragment %}}Unicode{{% /fragment %}}
+{{% fragment %}}**UTF-8**: Más utilizada, soporta todos los idiomas{{% /fragment %}}
+{{% fragment %}}**ASCII**: Limitada a 128 caracteres{{% /fragment %}}
+{{% fragment %}}**Unicode**: Flexible, soporta hasta 65,536 caracteres{{% /fragment %}}
 
 {{% note %}}
-Existen varias opciones de codificación:
-1. UTF-8: Versátil, soporta múltiples idiomas, es la más recomendada.
-2. ASCII: Limitada a caracteres en inglés, pero muy eficiente.
-3. Unicode: Incluye UTF-8, UTF-16, y UTF-32, soporta todos los caracteres.
-Explica las ventajas y desventajas de cada una, y por qué UTF-8 es generalmente la mejor opción para la mayoría de los casos.
+La codificación más utilizada es UTF-8. ASCII es otra codificación popular pero es una codificación de 7 bits, lo que significa que sólo puede almacenar hasta 128 caracteres. Unicode es una codificación que puede almacenar cualquier carácter de cualquier idioma y es una codificación de 16 bits, lo que significa que puede almacenar hasta 65.536 caracteres.
+{{% /note %}}
+
+---
+
+## Ejercicio 2: Encoding
+
+¿Qué salida produciría el siguiente código y por qué?
+
+```python
+# Sin declaración de encoding
+print("España")
+```
+
+{{% note %}}
+Respuesta: En Python 3, la codificación por defecto es UTF-8, por lo que se mostraría "España" correctamente. Sin embargo, en Python 2 sin declaración de encoding, daría un error de sintaxis porque el carácter 'ñ' no es ASCII.
 {{% /note %}}
 
 ---
@@ -139,22 +172,52 @@ a, b, c = 'casa', 244, False
 ```
 
 {{% note %}}
-La asignación múltiple en Python permite inicializar varias variables en una sola línea. En este ejemplo, `a` se asigna a 'casa' (string), `b` a 244 (integer), y `c` a False (boolean). Esta técnica puede hacer el código más conciso, pero debe usarse con cuidado para mantener la legibilidad. Muestra cómo esto sería en múltiples líneas y compara la legibilidad.
+Python también presenta la posibilidad de asignar múltiples variables en una sola instrucción. En este ejemplo, tenemos una sola instrucción y valores asignados a tres variables diferentes: a recibe 'casa' (string), b recibe 244 (entero) y c recibe False (booleano).
+{{% /note %}}
+
+---
+
+## Ejemplo con Tupla y Lista
+
+```python
+# Con tupla
+ejemplo_tupla = ('Título', 2023) 
+texto, anio = ejemplo_tupla 
+
+# Con lista
+ejemplo_lista = ['león', 'África'] 
+animal, continente = ejemplo_lista 
+```
+
+{{% note %}}
+También puede utilizarse una tupla o una lista para realizar la asignación múltiple de variables. En el primer ejemplo, los valores de la tupla se asignan a las variables texto y anio. En el segundo ejemplo, los valores de la lista se asignan a las variables animal y continente.
+{{% /note %}}
+
+---
+
+## Ejercicio 3: Asignación Múltiple
+
+Escribe una línea de código que asigne los valores 10, 20, 30 a las variables x, y, z respectivamente.
+
+{{% note %}}
+Solución:
+```python
+x, y, z = 10, 20, 30
+```
 {{% /note %}}
 
 ---
 
 ## Estructuras de Control
-{{% fragment %}}Secuenciales{{% /fragment %}}
-{{% fragment %}}Selectivas{{% /fragment %}}
-{{% fragment %}}Iterativas{{% /fragment %}}
+{{% fragment %}}**Secuenciales**: Ejecución línea por línea{{% /fragment %}}
+{{% fragment %}}**Selectivas**: Decisiones basadas en condiciones{{% /fragment %}}
+{{% fragment %}}**Iterativas**: Repetición de código{{% /fragment %}}
 
 {{% note %}}
-Las estructuras de control en programación se dividen en tres tipos:
-1. Secuenciales: Ejecución línea por línea.
-2. Selectivas: Ejecución basada en condiciones (if-else).
-3. Iterativas: Repetición de código (bucles).
-Explica cómo estas estructuras se combinan para crear programas complejos y cómo cada una contribuye a la lógica del programa.
+Existen tres tipos de estructuras de control en programación:
+1. Secuenciales: es la estructura básica de un programa, que permite que las instrucciones se ejecuten en el orden en que fueron escritas.
+2. Selectivas: sirven cuando necesitamos evaluar el valor de una variable o de una condición establecida, para saber que se debe ejecutar en el paso siguiente.
+3. Iterativas: son las que permiten ejecutar un mismo código de manera repetida mientras se cumpla una condición determinada.
 {{% /note %}}
 
 ---
@@ -163,7 +226,7 @@ Explica cómo estas estructuras se combinan para crear programas complejos y có
 Permiten tomar decisiones basadas en condiciones.
 
 {{% note %}}
-Las estructuras de control condicionales son fundamentales en programación. Permiten que el programa tome diferentes caminos basados en condiciones específicas. Esto hace que los programas sean dinámicos y capaces de responder a diferentes situaciones. Prepara ejemplos de situaciones cotidianas donde se usan decisiones condicionales.
+Las estructuras selectivas, de selección o condicionales sirven cuando necesitamos evaluar el valor de una variable o de una condición establecida, para saber qué se debe ejecutar en el paso siguiente. Se pueden clasificar en: selectivas simples, selectivas dobles y selectivas múltiples o anidadas.
 {{% /note %}}
 
 ---
@@ -172,26 +235,7 @@ Las estructuras de control condicionales son fundamentales en programación. Per
 Instrucción que permite tomar una decisión.
 
 {{% note %}}
-Una bifurcación en programación es un punto donde el flujo del programa puede tomar diferentes caminos basados en una condición. Es fundamental para la lógica de programación y se implementa mediante estructuras como if-else. Las bifurcaciones permiten que los programas sean flexibles y capaces de manejar diferentes escenarios. Menciona cómo las bifurcaciones se usan en algoritmos más complejos y en la toma de decisiones en inteligencia artificial.
-{{% /note %}}
-
----
-
-## Ejemplo de Estructura Condicional
-
-```python
-if x > 7:
-    print("x es mayor que 7")
-else:
-    print("x es menor o igual que 7")
-```
-
-{{% note %}}
-Este ejemplo muestra una estructura condicional básica en Python:
-- La condición `x > 7` se evalúa primero.
-- Si es verdadera, se ejecuta el primer bloque de código.
-- Si es falsa, se ejecuta el bloque después de `else`.
-Explica cómo esto permite que el programa responda de manera diferente según el valor de x. Proporciona ejemplos de cómo esto podría usarse en una aplicación real.
+Una bifurcación en programación se refiere a una instrucción que permite tomar una decisión. Estas decisiones se basan en la evaluación de una o más condiciones previamente establecidas. Si se cumple la condición, se ejecuta un bloque de código. De lo contrario, se ejecuta otro bloque. Las bifurcaciones se utilizan para introducir condicionalidad en el flujo de ejecución de un programa.
 {{% /note %}}
 
 ---
@@ -200,7 +244,7 @@ Explica cómo esto permite que el programa responda de manera diferente según e
 Utilizados para comparar dos valores.
 
 {{% note %}}
-Los operadores relacionales son cruciales para crear condiciones en estructuras de control. Comparan dos valores y devuelven un resultado booleano (True o False). Estos operadores son la base para tomar decisiones en el código. Explica cómo estos operadores se usan en la vida cotidiana para tomar decisiones.
+Los operadores relacionales se utilizan para comparar dos valores. Estos operadores permiten tomar decisiones basadas en la igualdad, desigualdad, mayor que, menor que, y otros aspectos relacionales de los valores. Si la comparativa es cierta devolverán TRUE, caso contrario devolverán FALSE.
 {{% /note %}}
 
 ---
@@ -217,12 +261,7 @@ Los operadores relacionales son cruciales para crear condiciones en estructuras 
 | !=       | Distinto que |
 
 {{% note %}}
-Explica cada operador:
-- < y >: Comparan si un valor es estrictamente menor o mayor que otro.
-- <= y >=: Incluyen la igualdad en la comparación.
-- ==: Comprueba si dos valores son iguales (no confundir con =, que es asignación).
-- !=: Comprueba si dos valores son diferentes.
-Proporciona ejemplos de uso para cada operador y cómo se utilizan en condiciones reales.
+Los operadores relacionales son: menor que (<), mayor que (>), menor o igual que (<=), mayor o igual que (>=), igual que (==) y distinto que (!=). Estos operadores se pueden usar para construir condiciones de decisión que permiten establecer el flujo de ejecución de un programa.
 {{% /note %}}
 
 ---
@@ -240,36 +279,132 @@ print(a != b)  # True
 ```
 
 {{% note %}}
-Este ejemplo muestra cómo se utilizan los operadores relacionales:
-- `a > b` es True porque 10 es mayor que 5.
-- `a < b` es False porque 10 no es menor que 5.
-- `a == b` es False porque 10 no es igual a 5.
-- `a != b` es True porque 10 es diferente de 5.
-Explica cómo estos operadores se pueden usar en estructuras condicionales para tomar decisiones en el programa.
+En este ejemplo, a = 10 y b = 5. La operación "a > b" devuelve True porque 10 es mayor que 5. "a < b" devuelve False porque 10 no es menor que 5. "a == b" devuelve False porque 10 no es igual a 5. "a != b" devuelve True porque 10 es distinto de 5.
 {{% /note %}}
 
 ---
 
-## Estructuras Selectivas
-Sirven para evaluar el valor de una variable o condición establecida.
+## Ejercicio 4: Operadores Relacionales
+
+¿Qué valor devolverán estas expresiones?
+
+```python
+x = 15
+y = 15
+z = "15"
+
+a = x == y
+b = x == z
+c = x > y
+d = x >= y
+```
 
 {{% note %}}
-Las estructuras selectivas son la base de la toma de decisiones en programación. Permiten que el programa ejecute diferentes bloques de código basados en condiciones específicas. Esto hace que los programas sean dinámicos y capaces de responder a diferentes situaciones. Prepara ejemplos de cómo estas estructuras se usan en aplicaciones del mundo real.
+Solución:
+- a = True (x y y son iguales, ambos valen 15)
+- b = False (x es un entero, z es una cadena, son tipos diferentes)
+- c = False (x no es mayor que y, son iguales)
+- d = True (x es mayor o igual que y, en este caso son iguales)
+{{% /note %}}
+
+---
+
+## Operadores Lógicos
+Para evaluar múltiples condiciones simultáneamente.
+
+| Operador | Explicación |
+|----------|-------------|
+| and      | Verdadero si ambas condiciones son verdaderas |
+| or       | Verdadero si al menos una condición es verdadera |
+| xor      | Verdadero si solo una condición es verdadera |
+
+{{% note %}}
+Para poder evaluar más de una condición en forma simultánea se pueden utilizar los operadores lógicos. El operador "and" devuelve True solo si ambas condiciones son verdaderas. El operador "or" devuelve True si al menos una de las condiciones es verdadera. El operador "xor" devuelve True solo si una condición es verdadera y la otra es falsa.
+{{% /note %}}
+
+---
+
+## Ejemplo de Operadores Lógicos
+
+```python
+a = 10
+b = 5
+
+print(a > 5 and b > 3)  # True
+print(a > 15 or b > 3)  # True
+print(a > 15 and b > 3) # False
+```
+
+{{% note %}}
+En este ejemplo: "a > 5 and b > 3" devuelve True porque ambas condiciones son verdaderas (10 > 5 y 5 > 3). "a > 15 or b > 3" devuelve True porque al menos una condición es verdadera (5 > 3). "a > 15 and b > 3" devuelve False porque no se cumplen ambas condiciones (10 no es mayor que 15).
 {{% /note %}}
 
 ---
 
 ## Clasificación de Estructuras Selectivas
-{{% fragment %}}Selectivas simples{{% /fragment %}}
-{{% fragment %}}Selectivas dobles{{% /fragment %}}
-{{% fragment %}}Selectivas múltiples o anidadas{{% /fragment %}}
+{{% fragment %}}**Selectivas simples**: Ejecutan código si se cumple una condición{{% /fragment %}}
+{{% fragment %}}**Selectivas dobles**: Alternativa entre dos bloques de código{{% /fragment %}}
+{{% fragment %}}**Selectivas múltiples**: Combinan varias condiciones{{% /fragment %}}
 
 {{% note %}}
-Explica cada tipo de estructura selectiva:
-1. Selectivas simples: Ejecutan un bloque de código si se cumple una condición (if).
-2. Selectivas dobles: Ejecutan un bloque si se cumple la condición y otro si no (if-else).
-3. Selectivas múltiples o anidadas: Manejan múltiples condiciones o condiciones dentro de otras (if-elif-else, if anidados).
-Proporciona ejemplos de situaciones donde cada tipo sería más apropiado.
+Las estructuras selectivas se clasifican en:
+1. Selectivas simples: cuando dada una condición establecen los pasos a seguir si se cumple dicha condición.
+2. Selectivas dobles: determinan los pasos a seguir en caso de cumplirse la condición dada así como las instrucciones a ejecutar en caso de no cumplirse.
+3. Selectivas múltiples o anidadas: son las que permiten combinar los diferentes tipos de selectivas, simples y dobles, para crear condiciones más complejas.
+{{% /note %}}
+
+---
+
+## Sentencias if / elif / else
+Ejecutan código basado en condiciones.
+
+{{% note %}}
+La sentencia if en Python se utiliza para ejecutar un bloque de código si una condición dada es verdadera. Esta sentencia es una poderosa herramienta que permite controlar el flujo de un programa basado en ciertas condiciones. También se utiliza para controlar la iteración de un bucle y para comprobar la condición de una variable o una expresión.
+{{% /note %}}
+
+---
+
+## Sintaxis de la Sentencia If
+
+```python
+if condición:
+    # bloque de código 1
+```
+
+{{% note %}}
+La sintaxis de la sentencia if es bastante simple. Consiste en una expresión booleana seguida de un bloque de código. La expresión booleana se evalúa y si devuelve True, entonces se ejecuta el bloque de código.
+{{% /note %}}
+
+---
+
+## Sintaxis de la Sentencia If-Else
+
+```python
+if condición:
+    # bloque de código 1
+else:
+    # bloque de código 2
+```
+
+{{% note %}}
+La sintaxis de una sentencia if también puede incluir una cláusula else. Esta cláusula se utiliza para ejecutar un bloque de código diferente si la condición dada no es verdadera. Si la condición es True, entonces se ejecuta el bloque de código 1. Si la condición es False, entonces se ejecuta el bloque de código 2.
+{{% /note %}}
+
+---
+
+## Sintaxis de la Sentencia If-Elif-Else
+
+```python
+if condición1:
+    # bloque de código 1
+elif condición2:
+    # bloque de código 2
+else:
+    # bloque de código 3
+```
+
+{{% note %}}
+La sintaxis de la sentencia if también puede incluir una cláusula elif. Esta cláusula se utiliza para comprobar múltiples condiciones. Si la condición1 es Verdadero, entonces se ejecuta el bloque de código 1. Si la condición2 es Verdadero, entonces se ejecuta el bloque de código 2. Si ninguna de las condiciones es Verdadero, entonces se ejecuta el bloque de código 3.
 {{% /note %}}
 
 ---
@@ -284,11 +419,7 @@ if x > 5:
 ```
 
 {{% note %}}
-En este ejemplo de selectiva simple:
-- Se evalúa la condición `x > 5`.
-- Si es verdadera, se ejecuta el bloque indentado.
-- Si es falsa, no se hace nada.
-Explica que este tipo de estructura es útil cuando solo necesitamos ejecutar código en caso de que se cumpla una condición, sin necesidad de una alternativa.
+En este ejemplo, si el valor de x es mayor que 5, se ejecutará la sentencia print("x es mayor que 5"). Como x vale 10, esta condición se cumple y se mostrará el mensaje.
 {{% /note %}}
 
 ---
@@ -298,33 +429,92 @@ Explica que este tipo de estructura es útil cuando solo necesitamos ejecutar c�
 ```python
 x = 10
 
-if x > 5:
-    print("x es mayor que 5")
+if x > 15:
+    print("x es mayor que 15")
+else:
+    print("x es menor o igual que 15")
+```
+
+{{% note %}}
+En este ejemplo, si x es mayor que 15, se mostrará "x es mayor que 15". De lo contrario, se mostrará "x es menor o igual que 15". Como x vale 10, se ejecutará el bloque else y se mostrará "x es menor o igual que 15".
+{{% /note %}}
+
+---
+
+## Ejemplo de Selectiva Múltiple
+
+```python
+x = 10
+
+if x > 15:
+    print("x es mayor que 15")
+elif x > 5:
+    print("x es mayor que 5 pero menor o igual que 15")
 else:
     print("x es menor o igual que 5")
 ```
 
 {{% note %}}
-En este ejemplo de selectiva doble:
-- Se evalúa la condición `x > 5`.
-- Si es verdadera, se ejecuta el primer bloque.
-- Si es falsa, se ejecuta el bloque después de `else`.
-Explica que esta estructura es útil cuando necesitamos manejar dos casos mutuamente excluyentes.
+En este ejemplo, se evalúan múltiples condiciones. Como x vale 10, no es mayor que 15, así que se pasa a la siguiente condición. Como x es mayor que 5, se ejecuta el bloque de código correspondiente y se muestra "x es mayor que 5 pero menor o igual que 15".
 {{% /note %}}
 
 ---
 
-## Ejemplo de Selectiva Múltiple/Anidada
+## Ejercicio 5: Estructura If
+
+Escribe un programa que determine si un número es positivo, negativo o cero.
+
+{{% note %}}
+Solución:
+```python
+numero = int(input("Ingresa un número: "))
+
+if numero > 0:
+    print("El número es positivo")
+elif numero < 0:
+    print("El número es negativo")
+else:
+    print("El número es cero")
+```
+{{% /note %}}
+
+---
+
+## Ejercicio 6: Calificaciones
+
+Escribe un programa que califique una nota de 0 a 100 en:
+- Excelente (90-100)
+- Muy Bueno (80-89)
+- Bueno (70-79)
+- Regular (60-69)
+- Insuficiente (0-59)
+
+{{% note %}}
+Solución:
+```python
+nota = int(input("Ingresa la calificación (0-100): "))
+
+if nota >= 90 and nota <= 100:
+    print("Excelente")
+elif nota >= 80 and nota <= 89:
+    print("Muy Bueno")
+elif nota >= 70 and nota <= 79:
+    print("Bueno")
+elif nota >= 60 and nota <= 69:
+    print("Regular")
+elif nota >= 0 and nota <= 59:
+    print("Insuficiente")
+else:
+    print("Nota fuera de rango")
+```
+{{% /note %}}
+
+---
+
+## Estructuras If Anidadas
 
 ```python
 x = 10
-
-if x > 10:
-    print("x es mayor que 10")
-elif x == 10:
-    print("x es igual a 10")
-else:
-    print("x es menor que 10")
 
 if x > 7:
     if x % 2 == 0:
@@ -336,10 +526,27 @@ else:
 ```
 
 {{% note %}}
-Este ejemplo muestra dos tipos de estructuras selectivas múltiples:
-1. Usando `elif` para manejar múltiples condiciones.
-2. Usando `if` anidados para condiciones más complejas.
-Explica cómo estas estructuras permiten manejar casos más complejos y tomar decisiones más específicas. Menciona que aunque son poderosas, el uso excesivo de anidación puede hacer el código difícil de leer.
+Las estructuras if anidadas se utilizan para comprobar múltiples condiciones dentro de una única sentencia. En este ejemplo, si x es mayor que 7 (lo cual es verdadero), se comprueba si x es par. Como 10 es divisible por 2, se muestra "x es mayor que 7 y par".
+{{% /note %}}
+
+---
+
+## Ejercicio 7: Año Bisiesto
+
+Escribe un programa que determine si un año es bisiesto. Un año es bisiesto si:
+- Es divisible por 4
+- No es divisible por 100, a menos que sea divisible por 400
+
+{{% note %}}
+Solución:
+```python
+año = int(input("Ingresa un año: "))
+
+if (año % 4 == 0 and año % 100 != 0) or (año % 400 == 0):
+    print(f"{año} es un año bisiesto")
+else:
+    print(f"{año} no es un año bisiesto")
+```
 {{% /note %}}
 
 ---
@@ -348,12 +555,13 @@ Explica cómo estas estructuras permiten manejar casos más complejos y tomar de
 Permiten ejecutar un código repetidamente.
 
 {{% note %}}
-Las estructuras de control iterativas, también conocidas como bucles, son fundamentales en programación. Permiten repetir un bloque de código múltiples veces, lo que es esencial para procesar listas de datos, realizar cálculos complejos, o cualquier tarea que requiera repetición. En Python, los dos tipos principales de bucles son 'for' y 'while'. Explica cómo estos bucles pueden hacer que los programas sean más eficientes y poderosos.
+Los bucles en Python son un tipo de estructura de flujo de control que permite ejecutar un conjunto de instrucciones varias veces. Son útiles para realizar tareas repetitivas y simplificar el proceso de codificación. Hay dos tipos de bucles en Python - el bucle for y el bucle while.
 {{% /note %}}
 
 ---
 
-## Ejemplo de Bucle For
+## Bucles For
+Para iterar sobre una secuencia conocida.
 
 ```python
 for i in range(5):
@@ -361,41 +569,55 @@ for i in range(5):
 ```
 
 {{% note %}}
-Este ejemplo muestra un bucle 'for' básico en Python:
-- `range(5)` genera una secuencia de números del 0 al 4.
-- El bucle se ejecuta 5 veces, con 'i' tomando cada valor en la secuencia.
-- En cada iteración, se imprime el valor actual de 'i'.
-Explica cómo este tipo de bucle es útil cuando se conoce de antemano el número de iteraciones. Proporciona ejemplos de uso real, como procesar una lista de elementos.
+El bucle for se utiliza para ejecutar un conjunto de instrucciones un número fijo de veces. Se utiliza cuando se conoce el número exacto de veces que se desea repetir el conjunto de instrucciones. En este ejemplo, el bucle imprimirá los números del 0 al 4.
 {{% /note %}}
 
 ---
 
-## Solución 3: Factorial con While Loop
+## Función Range()
+Genera secuencias numéricas.
 
 ```python
-def factorial(n):
-    result = 1
-    while n > 0:
-        result *= n
-        n -= 1
-    return result
+# range(parada)
+for i in range(5):
+    print(i)  # 0, 1, 2, 3, 4
 
-numero = 5
-print(f"El factorial de {numero} es {factorial(numero)}")
+# range(inicio, parada)
+for i in range(2, 5):
+    print(i)  # 2, 3, 4
+
+# range(inicio, parada, paso)
+for i in range(0, 10, 2):
+    print(i)  # 0, 2, 4, 6, 8
 ```
 
 {{% note %}}
-Este programa calcula el factorial de un número usando un bucle while:
-- Inicializamos 'result' en 1 (el factorial de 0 es 1).
-- Mientras n sea mayor que 0, multiplicamos 'result' por n y decrementamos n.
-- El bucle continúa hasta que n llega a 0.
-- Finalmente, retornamos el resultado.
-Explica cómo este método es una implementación iterativa del cálculo factorial, en contraste con una implementación recursiva.
+La función range() permite generar secuencias numéricas. Puede tomar de 1 a 3 argumentos:
+- Con un argumento: range(parada) genera números desde 0 hasta parada-1.
+- Con dos argumentos: range(inicio, parada) genera números desde inicio hasta parada-1.
+- Con tres argumentos: range(inicio, parada, paso) genera números desde inicio hasta parada-1, incrementando de paso en paso.
 {{% /note %}}
 
 ---
 
-## Ejemplo de Bucle While
+## Ejercicio 8: Suma con For
+
+Escribe un programa que sume todos los números del 1 al 10 usando un bucle for.
+
+{{% note %}}
+Solución:
+```python
+suma = 0
+for i in range(1, 11):
+    suma += i
+print(f"La suma de los números del 1 al 10 es: {suma}")
+```
+{{% /note %}}
+
+---
+
+## Bucles While
+Se ejecutan mientras una condición sea verdadera.
 
 ```python
 i = 0
@@ -405,34 +627,42 @@ while i < 5:
 ```
 
 {{% note %}}
-Este ejemplo ilustra un bucle 'while' en Python:
-- La condición `i < 5` se evalúa antes de cada iteración.
-- El bucle continúa mientras la condición sea verdadera.
-- `i += 1` incrementa 'i' en cada iteración para evitar un bucle infinito.
-Explica que los bucles 'while' son útiles cuando no se conoce de antemano el número de iteraciones. Advierte sobre la importancia de asegurar que la condición eventualmente se vuelva falsa para evitar bucles infinitos.
+El bucle while se utiliza cuando no sabes el número exacto de veces que quieres repetir el conjunto de instrucciones. Ejecutará el conjunto de instrucciones hasta que se cumpla una determinada condición. En este ejemplo, el bucle se ejecutará mientras i sea menor que 5, imprimiendo los números del 0 al 4.
 {{% /note %}}
 
 ---
 
-### Ejercicio con While
+## Ejercicio 9: Factorial con While
 
-- Migrar el código de factorial usando While.
+Escribe un programa que calcule el factorial de un número usando un bucle while.
+
+{{% note %}}
+Solución:
+```python
+numero = int(input("Ingresa un número para calcular su factorial: "))
+factorial = 1
+contador = 1
+
+while contador <= numero:
+    factorial *= contador
+    contador += 1
+
+print(f"El factorial de {numero} es {factorial}")
+```
+{{% /note %}}
 
 ---
 
 ## Sentencias Break y Continue
-Controlan el flujo de los bucles.
+Controlan el flujo dentro de los bucles.
 
 {{% note %}}
-Las sentencias 'break' y 'continue' son herramientas poderosas para controlar el flujo dentro de los bucles:
-- 'break' termina el bucle inmediatamente.
-- 'continue' salta al inicio de la siguiente iteración.
-Estas sentencias permiten un control más fino sobre la ejecución del bucle, permitiendo salir temprano o saltar iteraciones basadas en condiciones específicas.
+Las sentencias break y continue se utilizan para controlar el flujo del bucle. La sentencia break se utiliza para terminar el bucle y la sentencia continue se utiliza para saltar la iteración actual del bucle y pasar a la siguiente iteración.
 {{% /note %}}
 
 ---
 
-## Ejemplo de Sentencia Break
+## Ejemplo de Break
 
 ```python
 for i in range(10):
@@ -442,17 +672,12 @@ for i in range(10):
 ```
 
 {{% note %}}
-En este ejemplo:
-- El bucle está configurado para iterar de 0 a 9.
-- Cuando 'i' llega a 5, la sentencia 'break' se ejecuta.
-- El bucle termina inmediatamente, sin completar las iteraciones restantes.
-- La salida será: 0, 1, 2, 3, 4
-Explica cómo 'break' es útil para salir de un bucle cuando se cumple una cierta condición, como encontrar un elemento específico en una lista.
+En este ejemplo, el bucle for itera de 0 a 9. Cuando i llega a 5, la sentencia break termina el bucle inmediatamente. Por lo tanto, solo se imprimirán los números del 0 al 4.
 {{% /note %}}
 
 ---
 
-## Ejemplo de Sentencia Continue
+## Ejemplo de Continue
 
 ```python
 for i in range(10):
@@ -462,42 +687,27 @@ for i in range(10):
 ```
 
 {{% note %}}
-En este ejemplo:
-- El bucle itera de 0 a 9.
-- Para números pares (cuando i % 2 == 0), 'continue' salta al inicio de la siguiente iteración.
-- Solo se imprimen los números impares: 1, 3, 5, 7, 9
-Explica cómo 'continue' es útil para saltar ciertas iteraciones basadas en una condición, sin terminar el bucle por completo.
+En este ejemplo, el bucle for itera de 0 a 9. Para los números pares (cuando i % 2 == 0), la sentencia continue salta a la siguiente iteración sin ejecutar el resto del código en el bucle. Por lo tanto, solo se imprimirán los números impares: 1, 3, 5, 7, 9.
 {{% /note %}}
 
 ---
 
-## Ejemplo de otra salida abrupta de un bucle con return
+## Ejercicio 10: Números Primos
 
-```python
-def es_primo(num):
-    if num < 2:
-        return False
-    for i in range(2, int(num**0.5) + 1):
-        if num % i == 0:
-            return False
-    return True
-
-def primer_primo_mayor(n):
-    num = n + 1
-    while True:
-        if es_primo(num):
-            return num
-        num += 1
-
-print(primer_primo_mayor(20))
-```
+Escribe un programa que imprima todos los números primos entre 1 y 20.
 
 {{% note %}}
-Este programa encuentra el primer número primo mayor que un número dado:
-- La función 'es_primo' verifica si un número es primo.
-- 'primer_primo_mayor' usa un bucle while para buscar el próximo primo.
-- El bucle for dentro de 'es_primo' usa break implícitamente al retornar False.
-Explica cómo este enfoque es eficiente al usar la raíz cuadrada como límite en 'es_primo'.
+Solución:
+```python
+for num in range(2, 21):
+    es_primo = True
+    for i in range(2, num):
+        if num % i == 0:
+            es_primo = False
+            break
+    if es_primo:
+        print(num, end=" ")
+```
 {{% /note %}}
 
 ---
@@ -505,251 +715,169 @@ Explica cómo este enfoque es eficiente al usar la raíz cuadrada como límite e
 ## Bucles Anidados
 Bucles dentro de bucles.
 
-{{% note %}}
-Los bucles anidados son bucles que se encuentran dentro de otros bucles. Son poderosos para trabajar con estructuras de datos multidimensionales o para realizar operaciones complejas que requieren múltiples niveles de iteración. Sin embargo, pueden ser computacionalmente costosos si no se usan con cuidado, ya que el número total de iteraciones es el producto de las iteraciones de cada bucle.
-{{% /note %}}
-
----
-
-## Ejemplo de Bucle Anidado
-
 ```python
 for i in range(3):
     for j in range(3):
-        print(i, j)
+        print(f"({i}, {j})")
 ```
 
 {{% note %}}
-Este ejemplo muestra un bucle 'for' anidado:
-- El bucle externo (i) se ejecuta 3 veces.
-- Para cada iteración del bucle externo, el bucle interno (j) se ejecuta 3 veces.
-- Se imprime cada combinación de i y j.
-- La salida será: (0,0), (0,1), (0,2), (1,0), (1,1), (1,2), (2,0), (2,1), (2,2)
-Explica cómo esto puede ser útil para trabajar con matrices o para generar todas las combinaciones posibles de dos conjuntos de elementos.
+Los bucles anidados son bucles dentro de bucles. Se utilizan para iterar sobre múltiples secuencias de valores y ejecutar un conjunto de instrucciones para cada combinación de valores. En este ejemplo, para cada valor de i (0, 1, 2), el bucle interno itera sobre cada valor de j (0, 1, 2), generando 9 combinaciones en total.
 {{% /note %}}
 
 ---
 
-## floop
-Un bucle que se resulta útil para filtrar valores en una secuencia.
+## Ejemplo Práctico: Tabla de Multiplicación
 
 ```python
-for i in range(7):
-    if i%2 != 0:
+for i in range(1, 6):
+    for j in range(1, 6):
+        print(f"{i} x {j} = {i * j}")
+    print()  # Línea en blanco entre tablas
+```
+
+{{% note %}}
+Este ejemplo genera las tablas de multiplicar del 1 al 5. El bucle externo (i) recorre los números del 1 al 5, y para cada uno, el bucle interno (j) calcula y muestra el producto con los números del 1 al 5. El print() vacío al final de cada iteración del bucle externo añade una línea en blanco para separar las tablas.
+{{% /note %}}
+
+---
+
+## Ejercicio 11: Patrón de Asteriscos
+
+Escribe un programa que dibuje un triángulo de asteriscos:
+```
+*
+**
+***
+****
+*****
+```
+
+{{% note %}}
+Solución:
+```python
+filas = 5
+for i in range(1, filas + 1):
+    print("*" * i)
+```
+{{% /note %}}
+
+---
+
+## Combinación de Estructuras
+Usando condicionales dentro de bucles.
+
+```python
+for i in range(1, 11):
+    if i % 2 == 0:
+        print(f"{i} es un número par")
+    else:
+        print(f"{i} es un número impar")
+```
+
+{{% note %}}
+Es común combinar diferentes estructuras de control. En este ejemplo, un bucle for itera sobre los números del 1 al 10, y para cada número, una estructura condicional determina si es par o impar. Esta combinación permite crear lógicas más complejas en los programas.
+{{% /note %}}
+
+---
+
+## Ejercicio 12: FizzBuzz
+
+Escribe un programa que imprima los números del 1 al 20, pero:
+- Para múltiplos de 3, imprime "Fizz"
+- Para múltiplos de 5, imprime "Buzz"
+- Para múltiplos de ambos, imprime "FizzBuzz"
+
+{{% note %}}
+Solución:
+```python
+for i in range(1, 21):
+    if i % 3 == 0 and i % 5 == 0:
+        print("FizzBuzz")
+    elif i % 3 == 0:
+        print("Fizz")
+    elif i % 5 == 0:
+        print("Buzz")
+    else:
         print(i)
 ```
-
-1, 3, 5
-
-{{% note %}}
-Este ejemplo muestra un patrón común en Python, a veces llamado "floop" (filtered loop):
-- El bucle itera sobre un rango de 0 a 6.
-- La condición `i%2 != 0` filtra los números impares.
-- Solo se imprimen los números que cumplen la condición: 1, 3, 5
-Explica cómo este patrón es útil para filtrar elementos de una secuencia basándose en una condición. Menciona que en Python moderno, esto a menudo se puede hacer de manera más concisa usando comprensiones de lista o la función filter().
 {{% /note %}}
 
 ---
 
-## Comprensiones de Lista
-Una forma concisa de crear listas basadas en existentes.
+## Proyecto Final: Calculadora con Menú
 
+Crea una calculadora que muestre un menú con las siguientes operaciones:
+1. Suma
+2. Resta
+3. Multiplicación
+4. División
+5. Potencia
+6. Salir
+
+El programa debe pedir dos números y realizar la operación seleccionada.
+
+{{% note %}}
+Solución:
 ```python
-squares = [x**2 for x in range(10)]
-print(squares)
+# -*- coding: utf-8 -*-
+while True:
+    print("\nCalculadora")
+    print("1. Suma")
+    print("2. Resta")
+    print("3. Multiplicación")
+    print("4. División")
+    print("5. Potencia")
+    print("6. Salir")
+    
+    opcion = int(input("\nSelecciona una opción (1-6): "))
+    
+    if opcion == 6:
+        print("¡Hasta luego!")
+        break
+        
+    if opcion < 1 or opcion > 5:
+        print("Opción no válida. Intenta de nuevo.")
+        continue
+        
+    num1 = float(input("Ingresa el primer número: "))
+    num2 = float(input("Ingresa el segundo número: "))
+    
+    if opcion == 1:
+        resultado = num1 + num2
+        print(f"Resultado: {num1} + {num2} = {resultado}")
+    elif opcion == 2:
+        resultado = num1 - num2
+        print(f"Resultado: {num1} - {num2} = {resultado}")
+    elif opcion == 3:
+        resultado = num1 * num2
+        print(f"Resultado: {num1} * {num2} = {resultado}")
+    elif opcion == 4:
+        if num2 == 0:
+            print("Error: No se puede dividir entre cero")
+        else:
+            resultado = num1 / num2
+            print(f"Resultado: {num1} / {num2} = {resultado}")
+    elif opcion == 5:
+        resultado = num1 ** num2
+        print(f"Resultado: {num1} ^ {num2} = {resultado}")
 ```
-
-{{% note %}}
-Las comprensiones de lista son una característica poderosa de Python que permite crear nuevas listas de manera concisa:
-- Este ejemplo crea una lista de los cuadrados de los números del 0 al 9.
-- La sintaxis `[x**2 for x in range(10)]` es equivalente a un bucle for que crea una lista.
-- Es más conciso y a menudo más eficiente que un bucle tradicional.
-Explica cómo las comprensiones de lista pueden hacer el código más legible y eficiente, pero advierte que no deben usarse en exceso si comprometen la claridad.
 {{% /note %}}
 
 ---
 
-## Funciones map() y filter()
-Funciones de orden superior para procesamiento de secuencias.
-
-```python
-# map()
-squares = list(map(lambda x: x**2, range(10)))
-
-# filter()
-odds = list(filter(lambda x: x%2 != 0, range(10)))
-```
+## Resumen
+- Las sentencias de control permiten controlar el flujo de ejecución
+- Estructuras selectivas: if, if-else, if-elif-else
+- Estructuras iterativas: for, while
+- Sentencias break y continue
+- La indentación es crucial en Python para definir bloques
+- Combinando estas estructuras podemos crear programas complejos
 
 {{% note %}}
-`map()` y `filter()` son funciones de orden superior útiles para procesamiento de secuencias:
-- `map()` aplica una función a cada elemento de una secuencia.
-- `filter()` crea una nueva secuencia con elementos que cumplen una condición.
-- Ambas funciones son útiles en programación funcional y pueden hacer el código más declarativo.
-Explica cómo estas funciones pueden ser alternativas a los bucles tradicionales en ciertos casos, y cómo se relacionan con las comprensiones de lista.
+En esta semana hemos visto que las sentencias de control son un concepto esencial cuando se trata de programar con Python, ya que permiten al programador controlar el flujo de ejecución del programa posibilitándole, además, decidir qué parte del código ejecutar y qué código ignorar. Las estructuras selectivas y las iterativas nos dan el poder de crear programas dinámicos y flexibles.
 {{% /note %}}
 
 ---
 
-## Filtrar palabras largas
-
-```python
-def palabras_largas(lista):
-    return list(filter(lambda x: len(x) > 5, lista))
-
-palabras = ["casa", "elefante", "sol", "computadora", "luz", "teléfono"]
-print(palabras_largas(palabras))
-```
-
-{{% note %}}
-Esta solución usa filter() para encontrar palabras con más de 5 caracteres:
-- La función lambda 'lambda x: len(x) > 5' es el criterio de filtrado.
-- filter() aplica esta función a cada elemento de la lista 'palabras'.
-- Convertimos el resultado de filter() a una lista para imprimirlo.
-Explica cómo filter() es una alternativa concisa a un bucle for con una condición if.
-{{% /note %}}
-
----
-
-## Manejo de Excepciones
-Gestionan errores durante la ejecución del programa.
-
-```python
-try:
-    result = 10 / 0
-except ZeroDivisionError:
-    print("Error: División por cero")
-finally:
-    print("Esta línea siempre se ejecuta")
-```
-
-{{% note %}}
-El manejo de excepciones es crucial para crear programas robustos:
-- El bloque `try` contiene el código que puede generar una excepción.
-- El bloque `except` maneja la excepción si ocurre.
-- El bloque `finally` se ejecuta siempre, ocurra o no una excepción.
-Explica cómo el manejo de excepciones permite que los programas respondan graciosamente a errores en lugar de fallar abruptamente. Menciona que Python tiene muchos tipos de excepciones incorporadas y que también se pueden crear excepciones personalizadas.
-{{% /note %}}
-
----
-
-## Generadores
-Funciones que generan una secuencia de valores sobre tiempo.
-
-```python
-def countdown(n):
-    while n > 0:
-        yield n
-        n -= 1
-
-for i in countdown(5):
-    print(i)
-```
-
-{{% note %}}
-Los generadores son una poderosa característica de Python:
-- Se definen como funciones, pero usan `yield` en lugar de `return`.
-- Generan valores uno a la vez, bajo demanda, en lugar de crear toda la secuencia en memoria.
-- Son útiles para trabajar con grandes conjuntos de datos o secuencias infinitas.
-En este ejemplo, `countdown(5)` genera los números 5, 4, 3, 2, 1 uno a la vez. Explica cómo los generadores pueden ser más eficientes en memoria que las listas para grandes conjuntos de datos.
-{{% /note %}}
-
----
-
-## Generador de Fibonacci
-
-```python
-def fibonacci_generator(n):
-    a, b = 0, 1
-    count = 0
-    while count < n:
-        yield a
-        a, b = b, a + b
-        count += 1
-
-for num in fibonacci_generator(10):
-    print(num, end=" ")
-```
-
-{{% note %}}
-Este generador produce la secuencia de Fibonacci:
-- Usamos dos variables, 'a' y 'b', para mantener los dos últimos números.
-- En cada iteración, yield devuelve 'a' y actualiza 'a' y 'b'.
-- El generador se detiene después de producir 'n' números.
-- El bucle for imprime los primeros 10 números de Fibonacci.
-Explica cómo los generadores son eficientes en memoria, especialmente para secuencias largas o infinitas.
-{{% /note %}}
-
-
----
-
-## Decoradores
-Modifican o mejoran funciones existentes sin cambiar su código.
-
-```python
-def uppercase_decorator(function):
-    def wrapper():
-        result = function()
-        return result.upper()
-    return wrapper
-
-@uppercase_decorator
-def greet():
-    return "hello, world!"
-
-print(greet())  # HELLO, WORLD!
-```
-
-{{% note %}}
-Los decoradores son una característica avanzada de Python:
-- Permiten modificar o extender el comportamiento de funciones o clases sin modificar su código.
-- Se definen como funciones que toman una función como argumento y devuelven una nueva función.
-- Se aplican usando la sintaxis `@` sobre la definición de una función.
-En este ejemplo, `uppercase_decorator` modifica la función `greet` para que su resultado esté en mayúsculas. Explica cómo los decoradores son útiles para aspectos como logging, medición de rendimiento, o control de acceso.
-{{% /note %}}
-
----
-
-## Decorador de Precio de Café
-
-```python
-def cafe_base():
-    return 5  # Precio base del café
-
-def agregar_leche(func):
-    def wrapper():
-        return func() + 1  # Leche cuesta 1 adicional
-    return wrapper
-
-def agregar_cacao(func):
-    def wrapper():
-        return func() + 2  # Cacao cuesta 2 adicional
-    return wrapper
-
-def agregar_caramelo(func):
-    def wrapper():
-        return func() + 1.5  # Caramelo cuesta 1.5 adicional
-    return wrapper
-
-@agregar_caramelo
-@agregar_cacao
-@agregar_leche
-def cafe_especial():
-    return cafe_base()
-
-print(f"El precio del café especial es: ${cafe_especial()}")
-```
-
-{{% note %}}
-Este ejemplo usa decoradores para calcular el precio de un café con extras:
-- cafe_base() establece el precio base del café.
-- Cada decorador (leche, cacao, caramelo) añade un costo adicional.
-- Los decoradores se aplican de abajo hacia arriba: primero leche, luego cacao, y finalmente caramelo.
-- cafe_especial() retorna el precio total del café con todos los extras.
-Explica cómo los decoradores permiten modificar el comportamiento de funciones de manera flexible y reutilizable.
-{{% /note %}}
-
----
-
-## ¿Preguntas?
-
-
+## Preguntas

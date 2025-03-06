@@ -7,7 +7,7 @@ outputs = ["Reveal"]
 Lenguaje de Programación: Parte III
 
 {{% note %}}
-En esta semana, exploraremos los fundamentos de las funciones en Python, cómo definirlas y cómo llamarlas. Las funciones permiten escribir código de manera concisa y organizada, facilitando la reutilización en múltiples aplicaciones. Prepárate para explicar cómo las funciones son una herramienta fundamental para estructurar y modularizar el código Python.
+En esta semana, exploraremos los fundamentos de las funciones en Python, cómo definirlas y cómo llamarlas. Las funciones son herramientas poderosas que permiten escribir código de manera concisa y organizada, a la vez que posibilitan crear código reutilizable que puede ser usado en múltiples aplicaciones.
 {{% /note %}}
 
 ---
@@ -16,7 +16,7 @@ En esta semana, exploraremos los fundamentos de las funciones en Python, cómo d
 Un bloque de código que realiza una tarea específica y puede ser reutilizado en otras partes de un programa.
 
 {{% note %}}
-Las funciones son esenciales en Python porque facilitan la escritura de código organizado, eficiente y fácil de leer. También facilitan la depuración, ya que se puede probar una función a la vez en lugar de todo el programa. Enfatiza cómo las funciones promueven el principio DRY (Don't Repeat Yourself) en programación.
+Una función Python es un bloque de código que realiza una tarea específica y puede ser reutilizado en otras partes de un programa. Las funciones son una parte esencial de Python, ya que facilitan la escritura de un código más organizado, eficiente y fácil de leer. También facilitan la depuración de su código, ya que se puede probar una función a la vez en lugar de todo el programa.
 {{% /note %}}
 
 ---
@@ -28,16 +28,31 @@ Las funciones son esenciales en Python porque facilitan la escritura de código 
 {{% fragment %}}Admiten diversos parámetros{{% /fragment %}}
 
 {{% note %}}
-Las funciones pueden tener parámetros y pueden devolver resultados. Sin embargo, también pueden existir funciones sin parámetros que no devuelvan resultados. Explica cada característica:
-1. Actividad específica: Una función debe tener un propósito claro y bien definido.
-2. Retorno de resultado: Aunque no es obligatorio, muchas funciones devuelven un valor.
-3. Identificación por nombre: El nombre de la función debe ser descriptivo de su propósito.
-4. Parámetros: Permiten que la función sea más flexible y reutilizable.
+Las funciones tienen las siguientes características:
+- Realizan una actividad específica
+- Pueden devolver un resultado al desarrollar su actividad específica
+- Se identifican con un nombre
+- Admiten diversos parámetros para realizar su actividad específica
+
+Los parámetros que intervienen como el resultado que se obtiene son opcionales, ya que pueden existir funciones sin datos y que devuelven resultados, funciones sin datos que no devuelven nada, funciones con datos que no devuelven resultados y funciones con datos que devuelven resultados.
 {{% /note %}}
 
 ---
 
-## Ventajas de las Funciones en Python
+## Tipos de Funciones en Python
+
+{{% fragment %}}Funciones incorporadas (built-in){{% /fragment %}}
+{{% fragment %}}Funciones definidas por el usuario{{% /fragment %}}
+
+{{% note %}}
+Las funciones de Python pueden ser funciones incorporadas o funciones definidas por el usuario. 
+Las funciones incorporadas son funciones que están incluidas en la biblioteca estándar de Python, como la función print(), que imprime una cadena en la salida.
+Las funciones definidas por el usuario son funciones que crea el programador, y que se utilizan para realizar una tarea específica dentro del programa.
+{{% /note %}}
+
+---
+
+## Ventajas de una Función
 {{% fragment %}}Reusabilidad{{% /fragment %}}
 {{% fragment %}}Modularidad{{% /fragment %}}
 {{% fragment %}}Facilidad de lectura{{% /fragment %}}
@@ -45,18 +60,17 @@ Las funciones pueden tener parámetros y pueden devolver resultados. Sin embargo
 {{% fragment %}}Funciones lambda{{% /fragment %}}
 
 {{% note %}}
-Las funciones en Python ofrecen numerosas ventajas:
-1. Reusabilidad: Escribir código una vez y usarlo muchas veces.
-2. Modularidad: Dividir el programa en partes más pequeñas y manejables.
-3. Facilidad de lectura: El código se vuelve más organizado y comprensible.
-4. Flexibilidad: Las funciones pueden adaptarse a diferentes situaciones mediante parámetros.
-5. Funciones lambda: Permiten crear funciones anónimas para tareas simples.
-Explica cómo estas ventajas contribuyen a un código más eficiente y mantenible.
+Python es un lenguaje de programación muy popular y versátil que ofrece varias bondades en sus funciones:
+- Reusabilidad: las funciones en Python permiten escribir un bloque de código una vez y reutilizarlo muchas veces en todo el programa.
+- Modularidad: las funciones en Python ayudan a dividir el programa en módulos más pequeños y manejables.
+- Facilidad de lectura: las funciones en Python son fáciles de leer y entender, lo que facilita la colaboración entre desarrolladores.
+- Flexibilidad: Python ofrece una variedad de funciones integradas y permite la creación de funciones personalizadas.
+- Funciones lambda: Python permite la creación de funciones lambda, que son funciones anónimas y pequeñas para tareas simples y rápidas.
 {{% /note %}}
 
 ---
 
-## ¿Cómo Definir una Función en Python?
+## ¿Cómo Definir una Función de Python?
 
 ```python
 def nombre(param1, param2):
@@ -65,140 +79,140 @@ def nombre(param1, param2):
 ```
 
 {{% note %}}
-La palabra clave "def" se usa para definir una función en Python. Explica cada parte de la definición:
-- "def" indica el inicio de la definición de la función.
-- "nombre" es el identificador de la función.
-- "param1, param2" son los parámetros (pueden ser ninguno, uno o varios).
-- El bloque de instrucciones está indentado.
-- "return" (opcional) especifica el valor que la función devuelve.
-Menciona que el cuerpo de la función debe estar indentado, generalmente con 4 espacios.
+La palabra clave "def" se usa para definir una función en Python. A continuación, se invoca la función usando el nombre de la misma.
+
+La definición de la función incluye una lista de parámetros (que pueden estar vacíos) y termina con dos puntos. Después de los dos puntos, se incluye el cuerpo de la función con mayor sangría. Este cuerpo consta de un conjunto de instrucciones que se encapsulan en la función y le dan significado.
+
+La instrucción con la palabra clave return se agrega para devolver un resultado (opcional).
 {{% /note %}}
 
 ---
 
-## Ejemplo de una Función Simple
+## Sintaxis de una Función
+
+{{< imgref src="/images/2025/03/funcion_python.svg" alt="Funciones en Python" class="img">}}
+
+{{% note %}}
+Cuando se define una función en Python, es necesario seguir una sintaxis específica:
+- def: palabra clave que define una función.
+- nombre: identificación que recibe la función. Debe ser lo más descriptivo posible.
+- parámetros: son los elementos de entrada que tiene la función. Su número es optativo.
+- dos puntos: indica el final de la definición de la función.
+- bloque de instrucciones: es el bloque de código que realiza la ejecución de la función.
+- return: es la palabra que ejecuta el retorno de datos que utiliza la función. Este retorno no es obligatorio.
+- valor: datos que devuelve la ejecución de la función.
+{{% /note %}}
+
+---
+
+## Ejercicio para Enseñar: Definir una Función Simple
+
+```python
+# Definir la función
+def saludo():
+    print("Buenos días, ¿cómo estás?")
+
+# Llamar a la función
+print("Primer saludo: ", end=" ")
+saludo()
+print("Segundo saludo: ", end="")
+saludo()
+```
+
+{{% note %}}
+Este código define una función simple llamada "saludo" que imprime un mensaje. Se llama a la función dos veces para demostrar la reutilización.
+
+El resultado será:
+Primer saludo: Buenos días, ¿cómo estás?
+Segundo saludo: Buenos días, ¿cómo estás?
+
+Observen cómo podemos reutilizar la misma función múltiples veces.
+{{% /note %}}
+
+---
+
+## Ejemplo de una Función Sin Retorno de Valores (Sin Parámetros)
 
 ```python
 def saludo():
-    print("Buenos días")
+    print("Buen día")
+
+saludo()  # Muestra: Buen día
 ```
 
 {{% note %}}
-Este ejemplo muestra una función simple llamada "saludo" que imprime "Buenos días". Puntos a destacar:
-- No tiene parámetros (los paréntesis están vacíos).
-- No devuelve ningún valor explícitamente (no hay declaración 'return').
-- Su único propósito es imprimir un mensaje.
-Explica cómo se llamaría esta función (saludo()) y qué sucedería cuando se llama.
+Este es un ejemplo sencillo donde:
+- Se define una función "saludo" sin parámetros
+- La función simplemente imprime "Buen día"
+- Al llamar a la función con saludo(), se ejecuta y muestra el mensaje
 {{% /note %}}
 
 ---
 
-## Funciones con Parámetros
+## Función con un Parámetro
 
 ```python
-def saludo_personalizado(nombre):
-    print("Buen día " + nombre)
+def saludopersonalizado(name):
+    print("Buen día " + name)
 
-saludo_personalizado("Clara")
+saludopersonalizado("Clara")  # Muestra: Buen día Clara
 ```
 
 {{% note %}}
-Este ejemplo muestra una función con un parámetro:
-- "nombre" es el parámetro que la función espera recibir.
-- La función usa este parámetro para personalizar el mensaje.
-- Se llama a la función con el argumento "Clara".
-Explica la diferencia entre parámetros y argumentos, y cómo los argumentos proporcionan valores a los parámetros cuando se llama a la función.
+En este ejemplo:
+- Se define una función que acepta un parámetro "name"
+- La función utiliza ese parámetro para personalizar el mensaje
+- Al llamar a la función con el argumento "Clara", el resultado es "Buen día Clara"
 {{% /note %}}
 
 ---
 
-## Funciones con Retorno de Valores
+## Función con Varios Parámetros y Retorno
 
 ```python
 def multiplica(val1, val2, val3):
     return val1 * val2 * val3
 
 resultado = multiplica(2, 3, 4)
-print(resultado)
+print(resultado)  # Muestra: 24
 ```
 
 {{% note %}}
-Este ejemplo muestra una función que devuelve un valor:
-- La función "multiplica" toma tres parámetros.
-- Usa "return" para devolver el producto de los tres valores.
-- El valor devuelto se asigna a la variable "resultado".
-- Finalmente, se imprime el resultado.
-Explica la importancia de la declaración "return" y cómo permite que las funciones produzcan resultados que pueden ser utilizados en otras partes del programa.
+Este ejemplo muestra:
+- Una función que acepta tres parámetros
+- La función multiplica estos valores y devuelve el resultado
+- Al llamar a la función con los valores 2, 3 y 4, el resultado es 24
+- El valor retornado se almacena en la variable "resultado" y luego se imprime
 {{% /note %}}
 
 ---
 
-## Parámetros de una Función
-Los parámetros son variables que se definen en la declaración de una función.
+## Ejercicio para Estudiantes: Crear una Función para Calcular el Área de un Rectángulo
+
+Escriba una función llamada `area_rectangulo` que:
+1. Reciba dos parámetros: `base` y `altura`
+2. Calcule el área del rectángulo (base × altura)
+3. Devuelva el resultado
+
+Luego, use la función para calcular el área de un rectángulo con base 5 y altura 3.
+
+{{% note %}}
+Solución:
 
 ```python
-def saludar(nombre):
-    print("Hola, " + nombre)
+def area_rectangulo(base, altura):
+    return base * altura
+
+# Ejemplo de uso
+area = area_rectangulo(5, 3)
+print("El área del rectángulo es:", area)  # Mostrará: El área del rectángulo es: 15
 ```
 
-{{% note %}}
-En este ejemplo:
-- "nombre" es un parámetro de la función "saludar".
-- Los parámetros son como variables locales dentro de la función.
-- Actúan como marcadores de posición para los valores que se pasarán a la función.
-Explica que los parámetros permiten que las funciones sean más flexibles y reutilizables, ya que pueden trabajar con diferentes valores cada vez que se llaman.
-{{% /note %}}
-
----
-
-## Argumentos de una Función
-Los argumentos son los valores reales que se pasan a la función cuando se llama.
-
-```python
-saludar("Clara")
-```
-
-{{% note %}}
-En este ejemplo:
-- "Clara" es un argumento pasado a la función "saludar".
-- Los argumentos son los valores concretos que se utilizan cuando se llama a la función.
-- Proporcionan los datos reales que los parámetros utilizarán dentro de la función.
-Enfatiza que los argumentos deben coincidir en número y tipo con los parámetros definidos en la función, a menos que se usen parámetros opcionales o con valores por defecto.
-{{% /note %}}
-
----
-
-## Diferencia Clave
-**Parámetros**: Definidos en la declaración de la función.
-
-**Argumentos**: Proporcionados al llamar la función.
-
-{{% note %}}
-La diferencia clave entre parámetros y argumentos es:
-- Parámetros: Se definen cuando se declara la función. Son como variables locales dentro de la función.
-- Argumentos: Se proporcionan cuando se llama a la función. Son los valores reales que se pasan a la función.
-Usa el ejemplo anterior para ilustrar: "nombre" es el parámetro, "Clara" es el argumento. Esta distinción es importante para entender cómo las funciones reciben y procesan datos.
-{{% /note %}}
-
----
-
-## Ejemplo Completo
-
-```python
-# Definición de la función con parámetro
-def saludar(nombre):
-    print("Hola, " + nombre)
-
-# Llamada a la función con argumento
-saludar("Clara")
-```
-
-{{% note %}}
-Este ejemplo completo muestra tanto la definición como el uso de una función:
-1. Se define la función "saludar" con un parámetro "nombre".
-2. Se llama a la función con el argumento "Clara".
-3. Dentro de la función, el parámetro "nombre" toma el valor del argumento "Clara".
-Explica cómo este flujo permite que las funciones sean flexibles y reutilizables con diferentes valores.
+Los estudiantes deben entender que:
+1. La función recibe dos parámetros
+2. Realiza un cálculo simple: multiplicar base por altura
+3. Devuelve el resultado usando "return"
+4. Al llamar a la función, el valor retornado se puede asignar a una variable
 {{% /note %}}
 
 ---
@@ -209,400 +223,487 @@ Explica cómo este flujo permite que las funciones sean flexibles y reutilizable
 {{% fragment %}}Funciones anónimas (lambda){{% /fragment %}}
 
 {{% note %}}
-Python soporta varios tipos avanzados de funciones:
-1. Funciones de primera clase: Pueden ser tratadas como cualquier otro tipo de dato.
-2. Funciones de orden superior: Pueden aceptar otras funciones como argumentos o devolverlas.
-3. Funciones lambda: Funciones anónimas para tareas simples y rápidas.
-Explica cómo estos tipos de funciones proporcionan flexibilidad y potencia adicionales al lenguaje Python.
+En Python se pueden utilizar, para la escritura de los códigos, tres tipos de funciones:
+- Funciones de primera clase: se encuentran definidas por cómo el lenguaje de programación se relaciona con las mismas. Pueden tratarse como datos primitivos y asociarse a variables o estructuras de datos.
+- Funciones de orden superior: pueden actuar como resultados o parámetros de otras funciones.
+- Funciones anónimas: son funciones sin nombre que se pueden utilizar para asociarlas directamente a variables y para insertarse a otras funciones.
 {{% /note %}}
 
 ---
 
-## Funciones de Primera Clase
-Las funciones de primera clase pueden ser tratadas como cualquier otro dato: asignadas a variables, pasadas como argumentos y retornadas por otras funciones.
+## Funciones de Primera Clase - Ejemplo
 
 ```python
-# Asignar una función a una variable
-def saludo():
-    return "Hola, mundo!"
+def saludo(texto):
+    return texto.upper() + "!"
 
-saludo_var = saludo
-print(saludo_var())
+print(saludo("Buen día"))  # Muestra: BUEN DÍA!
+
+# Asignar función a una variable
+gritando = saludo
+print(gritando("Buen día"))  # También muestra: BUEN DÍA!
 ```
 
 {{% note %}}
-Este ejemplo demuestra cómo las funciones son objetos de primera clase en Python:
-1. Se define una función "saludo".
-2. Se asigna esta función a la variable "saludo_var".
-3. Se llama a la función a través de la variable.
-Explica cómo esto permite una gran flexibilidad, como pasar funciones como argumentos o almacenarlas en estructuras de datos.
+En este ejemplo, la función definida es un dato que está asociado con una variable dada, que en este caso es "gritando". La función se ejecuta primero con el nombre original de la función (saludo), mientras que luego se ejecuta con la variable que apunta a la función. Por lo tanto, una función es de primera clase cuando puede tener diferentes nombres si se le asignan diferentes variables.
 {{% /note %}}
 
 ---
 
-## Funciones de Orden Superior
-Las funciones de orden superior son funciones que aceptan otras funciones como argumentos o retornan funciones como resultados.
+## Funciones Lambda - Ejemplo
 
 ```python
-# Función de orden superior que acepta una función como argumento
-def aplicar_funcion(func, valor):
-    return func(valor)
+# Función lambda para calcular el cuadrado de un número
+cuadrado = lambda x: x * x
 
-# Función que se pasará como argumento
+# Uso de la función lambda
+print(cuadrado(5))  # Muestra: 25
+```
+
+{{% note %}}
+En la función anónima encontramos la instrucción de lambda, que puede definirse como una serie de parámetros sin paréntesis separados por comas. La lambda sólo admite una instrucción y nunca se utiliza el return. Las funciones lambda son útiles para operaciones simples y pequeñas.
+{{% /note %}}
+
+---
+
+## Ejercicio para Enseñar: Funciones de Orden Superior
+
+```python
+# Función que aplica otra función a un valor
+def aplicar_funcion(f, valor):
+    return f(valor)
+
+# Funciones para usar con la función de orden superior
+def duplicar(x):
+    return x * 2
+
 def cuadrado(x):
     return x * x
 
-resultado = aplicar_funcion(cuadrado, 5)
-print(resultado)
+# Aplicar las funciones
+print(aplicar_funcion(duplicar, 5))  # Muestra: 10
+print(aplicar_funcion(cuadrado, 5))  # Muestra: 25
 ```
 
 {{% note %}}
-Este ejemplo muestra una función de orden superior:
-1. "aplicar_funcion" toma otra función como argumento.
-2. "cuadrado" es una función que se pasa como argumento.
-3. "aplicar_funcion" llama a la función pasada con el valor dado.
-Explica cómo esto permite una gran flexibilidad y abstracción en el diseño de programas. Las funciones de orden superior son fundamentales en la programación funcional.
+Este ejemplo muestra una función de orden superior "aplicar_funcion" que:
+1. Recibe una función y un valor como parámetros
+2. Aplica la función recibida al valor
+3. Devuelve el resultado
+
+Usamos esta función con dos funciones diferentes ("duplicar" y "cuadrado") para mostrar su flexibilidad.
 {{% /note %}}
 
 ---
 
-## Función de Orden Superior que Retorna una Función
+## Funciones Incorporadas en Python (Built-in)
+
+Python cuenta con una librería de funciones y tipos predefinidos:
+
+{{% fragment %}}print() - para imprimir en pantalla{{% /fragment %}}
+{{% fragment %}}input() - para recibir datos del usuario{{% /fragment %}}
+{{% fragment %}}len() - para obtener la longitud de una lista o cadena{{% /fragment %}}
+{{% fragment %}}str() - para convertir a cadena{{% /fragment %}}
+{{% fragment %}}int() - para convertir a entero{{% /fragment %}}
+{{% fragment %}}float() - para convertir a número decimal{{% /fragment %}}
+
+{{% note %}}
+Python cuenta con una librería de funciones y tipos que ya vienen incluidos en él, por lo tanto siempre están disponibles para ser utilizados por los programadores. Se denominan funciones built-in. Estas funciones proporcionan una gran cantidad de funcionalidades útiles, como la conversión de tipos de datos, la gestión de cadenas de caracteres, el trabajo con listas y diccionarios, la manipulación de archivos, entre otras.
+{{% /note %}}
+
+---
+
+## Ejemplo: Función print()
 
 ```python
-# Función de orden superior que retorna una función
-def crear_multiplicador(n):
-    def multiplicar(x):
-        return x * n
-    return multiplicar
+print("Buen día")
+```
 
-duplicar = crear_multiplicador(2)
-triplicar = crear_multiplicador(3)
-
-print(duplicar(5))
-print(triplicar(5))
+Resultado:
+```
+Buen día
 ```
 
 {{% note %}}
-Este ejemplo muestra una función de orden superior que devuelve otra función:
-1. "crear_multiplicador" es una función que devuelve otra función.
-2. La función interna "multiplicar" usa el valor de "n" de la función externa.
-3. Se crean dos nuevas funciones: "duplicar" y "triplicar".
-4. Estas nuevas funciones se usan para multiplicar números.
-Explica el concepto de clausura (closure) y cómo las funciones internas pueden "recordar" el entorno en el que fueron creadas.
+La función print() es una de las más básicas y usadas en Python. Permite mostrar información en la consola o terminal. Puede recibir múltiples argumentos y mostrarlos uno tras otro.
 {{% /note %}}
 
 ---
 
-## Ejemplo de Función Lambda
+## Ejemplo: Función input()
 
 ```python
-suma = lambda a, b: a + b
-print(suma(2, 3))
+saludo = input("¿Cuál es tu nombre?")
+print("Hola", saludo, "¿cómo estás?")
+```
 
-def suma_funcion(a, b):
-    return a + b
+Si el usuario ingresa "Carlos":
+```
+¿Cuál es tu nombre? Carlos
+Hola Carlos ¿cómo estás?
 ```
 
 {{% note %}}
-Este ejemplo compara una función lambda con una función regular:
-1. La función lambda "suma" toma dos parámetros y devuelve su suma.
-2. Se muestra una función regular equivalente para comparación.
-Explica que las funciones lambda son útiles para operaciones simples y cuando se necesita una función rápida sin definirla formalmente. Sin embargo, para operaciones más complejas, las funciones regulares son más apropiadas.
+La función input() se utiliza para recibir datos de entrada del usuario a través del teclado. El argumento que se le pasa a input() se muestra como un mensaje o prompt para el usuario. El valor introducido por el usuario se devuelve como una cadena de texto (string).
 {{% /note %}}
 
 ---
 
-## Funciones Lambda con Funciones de Orden Superior
+## Ejemplo: Función len()
 
 ```python
-# Uso de funciones lambda con funciones de orden superior
-numeros = [1, 2, 3, 4, 5]
-cuadrados = list(map(lambda x: x * x, numeros))
-print(cuadrados)
+# Longitud de una cadena
+print(len("Buen día"))  # Muestra: 8
+
+# Longitud de una lista
+print(len(["uno", "dos", "tres"]))  # Muestra: 3
 ```
 
 {{% note %}}
-Este ejemplo muestra cómo se pueden usar funciones lambda con funciones de orden superior:
-1. Se usa la función "map" para aplicar una operación a cada elemento de una lista.
-2. La función lambda `lambda x: x * x` calcula el cuadrado de cada número.
-3. El resultado se convierte de nuevo a una lista.
-Explica cómo esta combinación de funciones lambda y funciones de orden superior permite operaciones concisas y poderosas sobre colecciones de datos.
+La función len() devuelve el número de elementos en un objeto. Cuando el objeto es una cadena, devuelve el número de caracteres. Cuando es una lista, tupla, conjunto o diccionario, devuelve el número de elementos.
 {{% /note %}}
 
 ---
 
-## Funciones Incorporadas en Python
-También reconocidas como built-in
-
-{{% fragment %}}print(){{% /fragment %}}
-{{% fragment %}}input(){{% /fragment %}}
-{{% fragment %}}len(){{% /fragment %}}
-{{% fragment %}}str(){{% /fragment %}}
-{{% fragment %}}int(){{% /fragment %}}
-{{% fragment %}}open(){{% /fragment %}}
-
-{{% note %}}
-Python incluye muchas funciones incorporadas que proporcionan funcionalidades útiles:
-- print(): Muestra información en la consola.
-- input(): Recibe entrada del usuario.
-- len(): Devuelve la longitud de un objeto.
-- str(): Convierte un objeto a string.
-- int(): Convierte a entero.
-- open(): Abre un archivo y devuelve un objeto de archivo.
-Explica que estas funciones están siempre disponibles sin necesidad de importar módulos adicionales, y son fundamentales para muchas operaciones básicas en Python.
-{{% /note %}}
-
----
-
-## Ejemplo de Función Incorporada
+## Ejemplo: Función str()
 
 ```python
-nombre = input("¿Cuál es tu nombre?")
-print("Hola, " + nombre)
+# Convertir un número a una cadena
+numero = 42
+texto = str(numero)
+print(texto, type(texto))  # "42" <class 'str'>
+
+# Convertir un booleano a una cadena
+verdadero = True
+texto_bool = str(verdadero)
+print(texto_bool, type(texto_bool))  # "True" <class 'str'>
+
+# Convertir una lista a una cadena
+mi_lista = [1, 2, 3]
+texto_lista = str(mi_lista)
+print(texto_lista, type(texto_lista))  # "[1, 2, 3]" <class 'str'>
 ```
 
 {{% note %}}
-Este ejemplo ilustra el uso de dos funciones incorporadas fundamentales:
-1. input(): Muestra el mensaje "¿Cuál es tu nombre?" y espera la entrada del usuario.
-2. print(): Muestra un saludo personalizado usando el nombre ingresado.
-Explica cómo estas funciones permiten la interacción básica con el usuario. Destaca que aunque son simples, forman la base para construir interfaces de usuario más complejas en programas de consola.
+La función str() se utiliza para convertir diferentes tipos de datos (números, booleanos, listas, etc.) a cadenas de texto (strings). Esto es útil cuando necesitamos representar cualquier tipo de objeto como texto, por ejemplo, para mostrarlo al usuario o para concatenarlo con otras cadenas.
 {{% /note %}}
 
 ---
 
-## Funciones con Argumentos por Defecto
+## Ejemplo: Función int()
 
 ```python
-def saludar(nombre="Invitado"):
-    print(f"Hola, {nombre}!")
-
-saludar()  # Imprime: Hola, Invitado!
-saludar("Ana")  # Imprime: Hola, Ana!
+b = int(12.5)
+print(b)  # Muestra: 12
 ```
 
 {{% note %}}
-Los argumentos por defecto permiten definir valores predeterminados para los parámetros:
-- Si no se proporciona un argumento al llamar la función, se usa el valor por defecto.
-- Esto hace que las funciones sean más flexibles y fáciles de usar.
-- Es útil para parámetros opcionales o para proporcionar comportamientos predeterminados.
-Explica que los argumentos por defecto deben ser valores inmutables para evitar comportamientos inesperados.
+La función int() convierte un número o una cadena a un entero (números positivos o negativos sin decimales). Si se convierte un número flotante, se trunca la parte decimal (no se redondea).
 {{% /note %}}
 
 ---
 
-## Funciones con Número Variable de Argumentos
+## Ejemplo: Función float()
 
 ```python
-def suma(*args):
-    total = 0
-    for num in args:
-        total += num
-    return total
-
-print(suma(1, 2, 3))  # 6
-print(suma(1, 2, 3, 4, 5))  # 15
+a = float(True)
+b = float(5)
+print(a, type(a))  # Muestra: 1.0 <class 'float'>
+print(b, type(b))  # Muestra: 5.0 <class 'float'>
 ```
 
 {{% note %}}
-El asterisco (*) antes del parámetro permite que la función acepte cualquier número de argumentos posicionales:
-- *args recoge todos los argumentos en una tupla.
-- Esto permite crear funciones muy flexibles que pueden manejar un número variable de entradas.
-- Es útil cuando no se sabe de antemano cuántos argumentos se pasarán a la función.
-Menciona que aunque el nombre 'args' es convencional, se puede usar cualquier nombre válido después del asterisco.
+La función float() permite representar números reales (números positivos o negativos con decimales). Puede convertir enteros o booleanos a números flotantes.
 {{% /note %}}
 
 ---
 
-## Funciones con Argumentos de Palabra Clave Variables
+## Más Funciones Built-in
+
+{{% fragment %}}abs() - devuelve el valor absoluto{{% /fragment %}}
+{{% fragment %}}max() - devuelve el valor más grande{{% /fragment %}}
+{{% fragment %}}min() - devuelve el valor más pequeño{{% /fragment %}}
+{{% fragment %}}sum() - suma los elementos de una lista{{% /fragment %}}
+{{% fragment %}}round() - redondea un número{{% /fragment %}}
+{{% fragment %}}open() - abre un archivo{{% /fragment %}}
+
+{{% note %}}
+Python ofrece muchas más funciones incorporadas que son muy útiles para diversas tareas. Algunas de ellas son:
+- abs(): devuelve el valor absoluto de un número
+- max(): devuelve el valor más grande de los argumentos presentes
+- min(): devuelve el menor valor de los argumentos presentes
+- sum(): suma los elementos de una lista, tupla o conjunto
+- round(): redondea un número a un número determinado de decimales
+- open(): abre un archivo y devuelve el objeto correspondiente
+{{% /note %}}
+
+---
+
+## Ejemplo: Función abs()
 
 ```python
-def imprimir_info(**kwargs):
-    for key, value in kwargs.items():
-        print(f"{key}: {value}")
-
-imprimir_info(nombre="Ana", edad=30, ciudad="Madrid")
+print(abs(23))    # Muestra: 23
+print(abs(-23))   # Muestra: 23
 ```
 
 {{% note %}}
-El doble asterisco (**) permite que la función acepte cualquier número de argumentos de palabra clave:
-- **kwargs recoge todos los argumentos de palabra clave en un diccionario.
-- Cada argumento se convierte en un par clave-valor en el diccionario.
-- Esto es útil para funciones que necesitan manejar múltiples parámetros nombrados de forma flexible.
-Explica cómo esto se puede usar para crear funciones que aceptan configuraciones o opciones personalizables.
+La función abs() devuelve el valor absoluto de un número, es decir, su valor sin signo. Si el número es positivo, devuelve el mismo número. Si es negativo, devuelve el número con signo opuesto (positivo).
 {{% /note %}}
 
 ---
 
-## Docstrings en Funciones
+## Ejemplo: Funciones max() y min()
 
 ```python
-def area_circulo(radio):
-    """
-    Calcula el área de un círculo.
-    
-    :param radio: El radio del círculo
-    :return: El área del círculo
-    """
-    import math
-    return math.pi * radio ** 2
-
-print(area_circulo.__doc__)
+print(max(23, 44, 10))  # Muestra: 44
+print(min(23, 44, 10))  # Muestra: 10
 ```
 
 {{% note %}}
-Los docstrings son cadenas de documentación que describen lo que hace una función:
-- Se colocan justo después de la definición de la función.
-- Pueden ser accedidos mediante el atributo __doc__ de la función.
-- Ayudan a otros programadores (y a ti mismo) a entender cómo usar la función.
-- Pueden ser utilizados por herramientas de generación de documentación automática.
-Enfatiza la importancia de documentar las funciones para mejorar la mantenibilidad del código.
+La función max() devuelve el valor más grande de los argumentos presentes, mientras que min() devuelve el valor más pequeño.
 {{% /note %}}
 
 ---
 
-## Funciones como Objetos
+## Ejemplo: Función sum()
 
 ```python
-def saludar(nombre):
-    return f"Hola, {nombre}!"
-
-# Asignar la función a una variable
-mi_funcion = saludar
-
-# Usar la función a través de la variable
-print(mi_funcion("Carlos"))  # Imprime: Hola, Carlos!
+numeros = [5, 10, 2, 40]
+suma = sum(numeros)
+print("La suma de los números de la lista es:", suma)  # Muestra: 57
 ```
 
 {{% note %}}
-En Python, las funciones son objetos de primera clase:
-- Pueden ser asignadas a variables.
-- Pueden ser pasadas como argumentos a otras funciones.
-- Pueden ser retornadas por otras funciones.
-Este concepto es fundamental para entender características avanzadas de Python como decoradores y programación funcional. Explica cómo esto permite una gran flexibilidad en el diseño de programas.
+La función sum() se utiliza para sumar los elementos de una lista, tupla o conjunto. Toma un iterable como argumento y devuelve la suma de sus elementos.
 {{% /note %}}
 
 ---
 
-## Funciones Anidadas
+## Ejemplo: Función round()
 
 ```python
-def outer_function(x):
-    def inner_function(y):
-        return x + y
-    return inner_function
+# Redondear a 2 decimales
+numero = 23.4589
+redondeado = round(numero, 2)
+print(redondeado)  # Muestra: 23.46
 
-add_five = outer_function(5)
-result = add_five(3)
-print(result)  # Imprime: 8
+# Redondear al entero más cercano
+numero = 17.8
+redondeado = round(numero)
+print(redondeado)  # Muestra: 18
 ```
 
 {{% note %}}
-Las funciones anidadas son funciones definidas dentro de otras funciones:
-- Tienen acceso al ámbito de la función exterior.
-- Pueden ser utilizadas para crear "closures" (cierres).
-- Son útiles para encapsular lógica y crear funciones especializadas.
-Este ejemplo demuestra cómo una función interna puede "recordar" el valor de la función externa. Explica el concepto de cierre y cómo se relaciona con el ámbito de las variables.
+La función round() se utiliza para redondear un número a un número determinado de decimales. Si no se especifica el número de decimales, redondea al entero más cercano.
 {{% /note %}}
 
 ---
 
-## Decoradores
+## Ejercicio para Estudiantes: Calculadora Simple
 
-```python
-def mi_decorador(func):
-    def wrapper():
-        print("Algo antes de la función")
-        func()
-        print("Algo después de la función")
-    return wrapper
+Cree una función llamada `calculadora` que:
+1. Reciba tres parámetros: `num1`, `num2` y `operacion`
+2. Realice la operación indicada (suma, resta, multiplicación o división)
+3. Devuelva el resultado
 
-@mi_decorador
-def saludar():
-    print("¡Hola!")
-
-saludar()
-```
+Pruebe la función con varias operaciones.
 
 {{% note %}}
-Los decoradores son una forma poderosa de modificar o extender el comportamiento de las funciones:
-- Un decorador es una función que toma otra función y extiende su comportamiento.
-- Se aplican usando el símbolo @ seguido del nombre del decorador.
-- Permiten añadir funcionalidad antes y/o después de la función decorada.
-- Son útiles para logging, medición de rendimiento, control de acceso, etc.
-Explica cómo los decoradores aprovechan el concepto de funciones de orden superior y cómo pueden hacer el código más limpio y modular.
-{{% /note %}}
-
----
-
-## Generadores
+Solución:
 
 ```python
-def contador(max):
-    n = 0
-    while n < max:
-        yield n
-        n += 1
-
-for i in contador(5):
-    print(i)
-```
-
-{{% note %}}
-Los generadores son funciones especiales que generan una secuencia de valores:
-- Usan la palabra clave 'yield' en lugar de 'return'.
-- Mantienen su estado entre llamadas, permitiendo reanudar donde se quedaron.
-- Son eficientes en memoria, ya que no calculan todos los valores de una vez.
-- Son útiles para trabajar con grandes conjuntos de datos o secuencias infinitas.
-Explica cómo los generadores difieren de las funciones normales y cómo pueden mejorar el rendimiento en ciertos escenarios.
-{{% /note %}}
-
----
-
-## Funciones Recursivas
-
-```python
-def factorial(n):
-    if n == 0 or n == 1:
-        return 1
+def calculadora(num1, num2, operacion):
+    if operacion == "suma":
+        return num1 + num2
+    elif operacion == "resta":
+        return num1 - num2
+    elif operacion == "multiplicacion":
+        return num1 * num2
+    elif operacion == "division":
+        if num2 != 0:  # Evitar división por cero
+            return num1 / num2
+        else:
+            return "Error: División por cero"
     else:
-        return n * factorial(n-1)
+        return "Operación no válida"
 
-print(factorial(5))  # Imprime: 120
+# Pruebas
+print(calculadora(10, 5, "suma"))           # 15
+print(calculadora(10, 5, "resta"))          # 5
+print(calculadora(10, 5, "multiplicacion")) # 50
+print(calculadora(10, 5, "division"))       # 2.0
+print(calculadora(10, 0, "division"))       # Error: División por cero
+print(calculadora(10, 5, "potencia"))       # Operación no válida
 ```
 
-{{% note %}}
-Las funciones recursivas son aquellas que se llaman a sí mismas:
-- Deben tener un caso base que detenga la recursión.
-- Son útiles para problemas que pueden descomponerse en subproblemas similares.
-- Pueden hacer que ciertos algoritmos sean más claros y concisos.
-- Sin embargo, pueden ser menos eficientes que las soluciones iterativas para algunos problemas.
-Explica la importancia del caso base y cómo la recursión funciona "desenrollándose" hasta llegar al caso base. Advierte sobre los peligros de la recursión infinita.
+Esta función demuestra:
+1. El uso de parámetros
+2. Toma de decisiones con if-elif-else
+3. Manejo de casos especiales (división por cero)
+4. Retorno de diferentes tipos de valores (números o strings)
 {{% /note %}}
 
 ---
 
-## Resumen y Mejores Prácticas
+## Uso de Parámetros y Argumentos en una Función Python
 
-- Escribir funciones con un propósito claro y único
-- Usar nombres descriptivos para funciones y parámetros
-- Documentar las funciones con docstrings
-- Manejar errores y excepciones dentro de las funciones
-- Evitar efectos secundarios no deseados
-- Preferir funciones puras cuando sea posible
+**Parámetros**: Nombres especificados en la definición de la función.
+
+**Argumentos**: Valores que se pasan a la función cuando es llamada.
 
 {{% note %}}
-Repasa los puntos clave sobre las mejores prácticas al escribir funciones:
-- Claridad de propósito: Cada función debe hacer una cosa y hacerla bien.
-- Nomenclatura: Los nombres deben indicar claramente qué hace la función.
-- Documentación: Los docstrings ayudan a entender cómo usar la función.
-- Manejo de errores: Las funciones deben manejar situaciones inesperadas.
-- Efectos secundarios: Minimizar los cambios no esperados fuera de la función.
-- Funciones puras: Preferir funciones que no modifiquen el estado global.
-Enfatiza que seguir estas prácticas lleva a un código más legible, mantenible y menos propenso a errores.
+En Python (y en la mayoría de los lenguajes de programación), los términos "parámetros" y "argumentos" se refieren a diferentes cosas.
+
+Un parámetro es un nombre que se especifica en la definición de una función y que se utiliza para referirse a un valor que pasará a la función cuando sea llamada.
+
+Cuando llamamos a la función y le pasamos valores para los parámetros, estos valores se convierten en los argumentos de la función.
+{{% /note %}}
+
+---
+
+## Ejemplo de Parámetros y Argumentos
+
+```python
+# Definición de función con parámetros
+def sumar(a, b):
+    return a + b
+
+# Llamada a la función con argumentos
+resultado = sumar(2, 3)
+print(resultado)  # Muestra: 5
+```
+
+{{% note %}}
+En este ejemplo:
+- a y b son los parámetros de la función sumar().
+- 2 y 3 son los argumentos que se pasan a la función sumar() cuando es llamada.
+- La función toma estos valores y los utiliza para calcular y devolver el resultado.
+{{% /note %}}
+
+---
+
+## Optimización de Funciones Python
+
+{{% fragment %}}Mantener el código organizado y legible{{% /fragment %}}
+{{% fragment %}}Utilizar los tipos y estructuras de datos correctos{{% /fragment %}}
+{{% fragment %}}Usar la sintaxis correcta{{% /fragment %}}
+{{% fragment %}}Probar el código{{% /fragment %}}
+
+{{% note %}}
+Es importante optimizar las funciones de Python para obtener la máxima eficiencia:
+1. Mantener el código organizado y fácil de leer mediante la sangría correcta y nombres significativos.
+2. Utilizar los tipos y estructuras de datos correctos para cada tarea.
+3. Utilizar la sintaxis correcta al escribir funciones Python.
+4. Probar el código ejecutándolo y comprobando la salida para asegurar que funciona como se espera.
+{{% /note %}}
+
+---
+
+## Tipos de Errores en las Funciones de Python
+
+{{% fragment %}}Errores de sintaxis{{% /fragment %}}
+{{% fragment %}}Errores de tiempo de ejecución{{% /fragment %}}
+{{% fragment %}}Errores de lógica{{% /fragment %}}
+{{% fragment %}}Errores de tipo{{% /fragment %}}
+{{% fragment %}}Errores de importación{{% /fragment %}}
+
+{{% note %}}
+Los errores en las funciones de Python pueden ser de diferentes tipos:
+- Errores de sintaxis: ocurren cuando se ha escrito una línea de código incorrecta.
+- Errores de tiempo de ejecución: ocurren durante la ejecución del programa (ej. división por cero).
+- Errores de lógica: ocurren cuando la lógica de la función está mal escrita.
+- Errores de tipo: ocurren cuando se espera un tipo de datos específico y se recibe otro.
+- Errores de importación: ocurren cuando se intenta importar un módulo inexistente.
+{{% /note %}}
+
+---
+
+## Ejercicio Final para Estudiantes: Validador de Contraseñas
+
+Cree una función llamada `validar_contraseña` que:
+1. Reciba una contraseña como parámetro
+2. Verifique si cumple con los requisitos:
+   - Al menos 8 caracteres
+   - Al menos una letra mayúscula
+   - Al menos un número
+   - Al menos un carácter especial (@, #, $, %, &, *)
+3. Devuelva True si cumple todos los requisitos, o False en caso contrario
+
+{{% note %}}
+Solución:
+
+```python
+def validar_contraseña(contraseña):
+    # Verificar longitud mínima
+    if len(contraseña) < 8:
+        return False
+    
+    # Verificar al menos una mayúscula
+    tiene_mayuscula = False
+    for char in contraseña:
+        if char.isupper():
+            tiene_mayuscula = True
+            break
+    if not tiene_mayuscula:
+        return False
+    
+    # Verificar al menos un número
+    tiene_numero = False
+    for char in contraseña:
+        if char.isdigit():
+            tiene_numero = True
+            break
+    if not tiene_numero:
+        return False
+    
+    # Verificar al menos un carácter especial
+    caracteres_especiales = "@#$%&*"
+    tiene_especial = False
+    for char in contraseña:
+        if char in caracteres_especiales:
+            tiene_especial = True
+            break
+    if not tiene_especial:
+        return False
+    
+    # Si pasa todas las verificaciones
+    return True
+
+# Pruebas
+print(validar_contraseña("abc123"))              # False (muy corta)
+print(validar_contraseña("abcdefgh"))            # False (sin mayúscula, número ni especial)
+print(validar_contraseña("Abcdefgh1"))           # False (sin carácter especial)
+print(validar_contraseña("Abcdefgh@"))           # False (sin número)
+print(validar_contraseña("abcdefgh1@"))          # False (sin mayúscula)
+print(validar_contraseña("Abcdefgh1@"))          # True (cumple todos los requisitos)
+```
+
+Esta función demuestra:
+1. Uso de la función len() para verificar la longitud
+2. Iteración a través de los caracteres de una cadena
+3. Uso de métodos de string (isupper(), isdigit())
+4. Verificación de pertenencia de un carácter a un conjunto
+5. Retorno de valores booleanos basados en condiciones
+{{% /note %}}
+
+---
+
+## Cierre
+
+Las funciones son una parte integral del lenguaje Python:
+- Permiten construir programas efectivos y modulares
+- Son esenciales para la reutilización de código
+- Facilitan la organización y mantenimiento del código
+- Su dominio es fundamental para tener éxito en la programación
+
+{{% note %}}
+Saber cómo son las funciones de Python es una parte esencial de la comprensión de la estructura del lenguaje de programación. Sin un conocimiento profundo de cómo trabajan las funciones, sería imposible construir programas efectivos que sean capaces de completar tareas complejas.
+
+Las funciones son una parte integral del lenguaje Python, por lo que ser capaz de reconocerlas y comprenderlas es un activo valioso. Saber cómo escribir funciones eficientes en Python puede ser la diferencia entre crear código sólido y escribir código ineficiente.
+
+Por lo tanto, es importante saber cómo son las funciones de Python para tener éxito en la programación.
 {{% /note %}}
 
 ---
 
 ## ¿Preguntas?
-
-

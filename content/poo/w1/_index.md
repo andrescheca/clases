@@ -163,6 +163,22 @@ Para instalar IntelliJ IDEA:
 {{% /note %}}
 
 ---
+### Instalemos IntelliJ y el JDK
+
+- [JDK](https://www.oracle.com/java/technologies/downloads/)
+- [Solicitar acceso gratuito a IntelliJ](https://www.jetbrains.com/community/education/)
+- [Descarga de IntelliJ](https://www.jetbrains.com/idea/download/?section=mac)
+
+{{% note %}}
+Pasos de instalación:
+- Demostrar la descarga del JDK
+- Proceso de solicitud de licencia educativa
+- Instalación paso a paso de IntelliJ
+- Verificación de la instalación
+- Problemas comunes y soluciones
+{{% /note %}}
+
+---
 
 {{% section %}}
 

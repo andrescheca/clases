@@ -970,6 +970,453 @@ public class SistemaFormas {
 
 ---
 
+{{% section %}}
+
+### Errores Comunes
+
+**Herencia vs Composición: El dilema fundamental**
+
+- Uno de los errores más comunes es usar herencia cuando la composición sería más apropiada. 
+- La herencia crea un acoplamiento fuerte entre clases y puede conducir a jerarquías frágiles.
+
+```java
+// 1. Uso excesivo de herencia cuando composición sería mejor opción
+class ArrayList<E> { /* ... */ }
+// Problemático: herencia innecesaria
+class Pila<E> extends ArrayList<E> {
+    public void push(E item) { add(item); }
+    public E pop() { return remove(size() - 1); }
+}
+class PilaCompuesta<E> {
+    private ArrayList<E> elementos = new ArrayList<>();
+    
+    public void push(E item) { elementos.add(item); }
+    public E pop() { return elementos.remove(elementos.size() - 1); }
+}
+```
+La composición proporciona mayor flexibilidad, mejor encapsulamiento y reduce el acoplamiento entre clases.
+
+---
+
+### Error: Clase Base Frágil
+
+**El problema de la clase base frágil** ocurre cuando cambios en una clase base rompen el funcionamiento de las clases derivadas. Esto sucede porque las subclases a menudo dependen de detalles de implementación de la superclase.
+
+```java
+// Clase base
+public class Contenedor {
+    protected int capacidad;
+    
+    public Contenedor(int capacidad) {
+        this.capacidad = capacidad;
+    }
+    
+    protected boolean estaLleno(int cantidad) {
+        return cantidad >= capacidad;
+    }
+}
+
+// Clase derivada dependiente de implementación base
+public class ContenedorLiquido extends Contenedor {
+    private int cantidadActual = 0;
+    
+    public ContenedorLiquido(int capacidad) {
+        super(capacidad);
+    }
+    
+    public boolean agregarLiquido(int cantidad) {
+        if (!estaLleno(cantidadActual + cantidad)) {
+            cantidadActual += cantidad;
+            return true;
+        }
+        return false;
+    }
+}
+
+// Cambio en la clase base rompe la derivada
+public class ContenedorModificado {
+    protected int capacidad;
+    
+    public ContenedorModificado(int capacidad) {
+        this.capacidad = capacidad;
+    }
+    
+    // Cambio de lógica!
+    protected boolean estaLleno(int cantidad) {
+        return cantidad > (capacidad * 0.9); // 90% ahora se considera lleno
+    }
+}
+```
+
+---
+
+Para mitigar este problema:
+- Diseña clases base para extensión o márcarlas como finales
+- Documenta claramente el contrato de la clase base
+- Evita depender de detalles de implementación
+
+---
+
+### Error: Confusión entre Clases Abstractas e Interfaces
+
+Las **clases abstractas** proporcionan implementación parcial y establecen una relación "es-un". Las **interfaces** definen capacidades sin implementación y establecen una relación "puede-hacer".
+
+```java
+// ❌ Error común: Crear una interfaz con detalles de implementación
+public interface Animal {
+    String nombre = "Animal"; // Constante (final implícito)
+    
+    void comer();
+    void dormir();
+    
+    // Intento de compartir implementación en una interfaz (antes de Java 8)
+    // NO se puede hacer esto en interfaces tradicionales
+    public void respirar() {
+        System.out.println("Respirando...");
+    }
+}
+
+// ✅ Mejor: Usar clase abstracta cuando se comparte implementación
+public abstract class Animal {
+    protected String nombre;
+    
+    public Animal(String nombre) {
+        this.nombre = nombre;
+    }
+    
+    public abstract void comer();
+    public abstract void dormir();
+    
+    // Método con implementación compartida
+    public void respirar() {
+        System.out.println("Respirando...");
+    }
+}
+
+// Alternativa correcta con Java 8+: Métodos default en interfaces
+public interface AnimalModerno {
+    void comer();
+    void dormir();
+    
+    // Método default (a partir de Java 8)
+    default void respirar() {
+        System.out.println("Respirando...");
+    }
+}
+```
+---
+
+Regla general:
+- Usa **clases abstractas** cuando necesites compartir implementación
+- Usa **interfaces** cuando quieras definir comportamientos que pueden ser implementados por clases no relacionadas
+
+---
+
+### Error: Problemas con Polimorfismo
+
+El **polimorfismo** permite tratar objetos de diferentes clases a través de una interfaz común. Un error común es no verificar tipos antes de realizar conversiones (casts).
+
+```java
+public class GestorAnimales {
+    public static void main(String[] args) {
+        List<Animal> animales = new ArrayList<>();
+        animales.add(new Perro("Fido"));
+        animales.add(new Gato("Garfield"));
+        
+        // ❌ Error común: Casting incorrecto
+        Perro perro1 = (Perro) animales.get(0); // Funciona, pero peligroso
+        Perro perro2 = (Perro) animales.get(1); // ClassCastException en runtime!
+        
+        // ✅ Mejor: Verificar antes de convertir
+        Animal animal = animales.get(1);
+        if (animal instanceof Perro) {
+            Perro perro = (Perro) animal;
+            perro.ladrar();
+        } else if (animal instanceof Gato) {
+            Gato gato = (Gato) animal;
+            gato.maullar();
+        }
+        
+        // ✅ Mejor aún (Java 16+): Pattern Matching en instanceof
+        if (animal instanceof Perro perro) {
+            perro.ladrar();
+        } else if (animal instanceof Gato gato) {
+            gato.maullar();
+        }
+    }
+}
+```
+---
+
+Para evitar errores:
+- Siempre verifica el tipo antes de hacer una conversión
+- Considera si realmente necesitas la conversión o puedes usar polimorfismo
+
+---
+
+### Error: Uso Excesivo de instanceof
+
+El uso excesivo de `instanceof` indica generalmente un diseño deficiente. A menudo señala que el polimorfismo no se está aprovechando correctamente.
+
+```java
+// ❌ Mal diseño que lleva a abuso de instanceof
+class ProcesamientoAnimales {
+    public void procesar(Animal animal) {
+        if (animal instanceof Perro) {
+            System.out.println("Procesando perro");
+            ((Perro) animal).ladrar();
+        } else if (animal instanceof Gato) {
+            System.out.println("Procesando gato");
+            ((Gato) animal).maullar();
+        } else if (animal instanceof Ave) {
+            System.out.println("Procesando ave");
+            ((Ave) animal).volar();
+        }
+        // Cada nuevo tipo requiere modificar este código
+    }
+}
+
+// ✅ Mejor: Usar polimorfismo correctamente con método en la clase base
+abstract class Animal {
+    public abstract void emitirSonido();
+    public abstract void procesar();
+}
+
+class Perro extends Animal {
+    @Override
+    public void emitirSonido() { System.out.println("Guau"); }
+    
+    @Override
+    public void procesar() {
+        System.out.println("Procesando perro");
+        this.emitirSonido();
+    }
+}
+
+// Uso correcto
+class ProcesamientoMejorado {
+    public void procesar(Animal animal) {
+        animal.procesar(); // El método polimórfico maneja cada tipo
+    }
+}
+```
+---
+
+Ventajas del diseño polimórfico correcto:
+- Código más extensible (nuevas clases no requieren modificar código existente).
+- Mejor aplicación del principio Open/Closed. Abierto para extender, cerrado para modificar.
+- Menor acoplamiento entre clases.
+
+---
+
+### Error: Problemas con Genéricos
+
+Los genéricos proporcionan seguridad de tipos en tiempo de compilación, pero tienen ciertas limitaciones y confusiones comunes.
+
+```java
+// ❌ Error común: Olvidar especificar el tipo genérico
+ArrayList lista = new ArrayList(); // Raw type, no type-safety
+lista.add("texto");
+lista.add(42);       // Mezclamos tipos sin control
+
+// Problemas posteriores:
+String valor = (String) lista.get(1); // ClassCastException en runtime!
+
+// ✅ Correcto: Especificar el tipo
+ArrayList<String> listaStrings = new ArrayList<>();
+listaStrings.add("texto");
+// listaStrings.add(42);  // Error de compilación!
+
+// ❌ Error común: Crear arrays de tipos genéricos
+// T[] array = new T[10];  // No compila!
+
+// ✅ Solución: Usar un arreglo de Object con casting seguro
+public class Contenedor<T> {
+    private Object[] elementos;
+    
+    public Contenedor(int capacidad) {
+        elementos = new Object[capacidad];
+    }
+    
+    public void agregar(int indice, T elemento) {
+        elementos[indice] = elemento;
+    }
+    
+    @SuppressWarnings("unchecked")
+    public T obtener(int indice) {
+        return (T) elementos[indice];
+    }
+}
+```
+---
+
+Buenas prácticas con genéricos:
+- Siempre especifica el tipo
+- Usa comodines (? extends, ? super) para mayor flexibilidad
+- Ten en cuenta las limitaciones del borrado de tipos
+
+```java
+public void procesarNumeros(List<? extends Number> numeros) {
+    for (Number n : numeros) {
+        System.out.println(n.doubleValue());
+    }
+}
+
+// Puedo usarlo con:
+List<Integer> enteros = new ArrayList<>();
+List<Double> decimales = new ArrayList<>();
+procesarNumeros(enteros);    // Funciona porque Integer extiende Number
+procesarNumeros(decimales);  // Funciona porque Double extiende Number
+
+public void agregarEnteros(List<? super Integer> lista) {
+    lista.add(1);
+    lista.add(2);
+    lista.add(3);
+}
+
+// Puedo usarlo con:
+List<Number> numeros = new ArrayList<>();
+List<Object> objetos = new ArrayList<>();
+agregarEnteros(numeros);  // Funciona porque Number es supertipo de Integer
+agregarEnteros(objetos);  // Funciona porque Object es supertipo de Integer
+```
+
+---
+
+### Error: Borrado de Tipos (Type Erasure)
+
+El **borrado de tipos** es el proceso por el cual el compilador de Java elimina la información de tipos genéricos en tiempo de ejecución, lo que causa algunas limitaciones.
+
+```java
+public class EjemploBorradoTipos<T> {
+    // ❌ Error: No se puede hacer esto debido al borrado de tipos
+    public boolean esEntero() {
+        return T == Integer.class; // Error! T no existe en runtime
+    }
+    
+    // ❌ Error: Métodos genéricos con ambigüedad tras borrado de tipos
+    public <T> void procesar(List<T> lista) {
+        System.out.println("Lista de objetos genéricos");
+    }
+    
+    public <T extends Number> void procesar(List<T> lista) {
+        System.out.println("Lista de números");
+    }
+    // Error de compilación: ambos métodos tienen la misma firma después del borrado de tipos
+    
+    // Otro ejemplo problemático:
+    public <T> void mostrar(T[] arreglo) {
+        System.out.println("Arreglo genérico");
+    }
+    
+    public <T> void mostrar(List<T> lista) {
+        System.out.println("Lista genérica");
+    }
+    // Problema: mostrar(null) es ambiguo, ¿a qué método llama?
+    
+    // ✅ Solución: Usar Class<T> para mantener información de tipo
+    private Class<T> tipo;
+    
+    public EjemploBorradoTipos(Class<T> tipo) {
+        this.tipo = tipo;
+    }
+    
+    public boolean esEntero() {
+        return tipo == Integer.class;
+    }
+}
+```
+---
+
+Para trabajar con el borrado de tipos:
+- Usa el patrón Class Token para preservar información de tipo en runtime. 
+- Consiste en pasar un objeto Class<T> como parámetro al constructor, ya que T se borra durante la compilación debido al type erasure, pero Class<T> permanece accesible en tiempo de ejecución.
+- Evita sobrecargar métodos que después del borrado de tipos tendrían la misma firma
+
+---
+
+### Ejercicio: Identificar Problemas en Código Existente
+
+```java
+class Figura {
+    protected String nombre;
+    
+    public Figura(String nombre) {
+        this.nombre = nombre;
+    }
+    
+    public double calcularArea() {
+        return 0; // Implementación por defecto
+    }
+}
+
+class Circulo extends Figura {
+    private double radio;
+    
+    public Circulo(String nombre, double radio) {
+        super(nombre);
+        this.radio = radio;
+    }
+    
+    public double calcularArea() {
+        return Math.PI * radio * radio;
+    }
+}
+
+class Rectangulo extends Figura {
+    private double base;
+    private double altura;
+    
+    public Rectangulo(String nombre, double base, double altura) {
+        super(nombre);
+        this.base = base;
+        this.altura = altura;
+    }
+    
+    public double calcularArea() {
+        return base * altura;
+    }
+}
+
+class GestorFiguras {
+    public static void imprimirDetalles(Figura figura) {
+        System.out.println("Nombre: " + figura.nombre);
+        
+        if (figura instanceof Circulo) {
+            Circulo c = (Circulo) figura;
+            System.out.println("Tipo: Círculo");
+            System.out.println("Radio: " + c.getRadio());
+        } else if (figura instanceof Rectangulo) {
+            Rectangulo r = (Rectangulo) figura;
+            System.out.println("Tipo: Rectángulo");
+            System.out.println("Base: " + r.getBase());
+            System.out.println("Altura: " + r.getAltura());
+        }
+        
+        System.out.println("Área: " + figura.calcularArea());
+    }
+}
+```
+
+---
+
+**Problemas a identificar:**
+1. `Figura` debería ser una clase abstracta ya que representa un concepto que no tiene implementación concreta.
+2. El método `calcularArea()` debería ser abstracto para forzar a las subclases a implementarlo.
+3. El uso de `instanceof` indica un diseño deficiente - la clase debería tener un método para obtener sus características.
+4. El acceso directo a `figura.nombre` rompe el principio de encapsulamiento.
+
+**Solución mejorada:**
+- Convertir `Figura` en clase abstracta
+- Añadir método `mostrarDetalles()` a la jerarquía
+- Usar polimorfismo en lugar de `instanceof`
+
+{{% /section %}}
+
+---
+
+{{% section %}}
+
 ### Ejercicio para Estudiantes: Sistema de Biblioteca
 
 Crear un sistema de gestión de biblioteca con:
@@ -983,41 +1430,381 @@ public interface Prestable {
 }
 ```
 
-2. Clase abstracta `MaterialBiblioteca`
-```java
-public abstract class MaterialBiblioteca implements Prestable, Comparable<MaterialBiblioteca> {
+2. Crea la clase abstracta MaterialBiblioteca con:
+
+```
+Atributos: String codigo, String titulo, boolean prestado
+Constructor que inicialice código y título (prestado = false)
+Getters para todos los atributos
+Método abstracto: String obtenerTipoMaterial()
+Implementa Prestable, Comparable<MaterialBiblioteca> y Serializable
+Implementa compareTo para ordenar alfabéticamente por título
+```
+
+{{% note %}}
+```
+// Interface that defines loanable items
+public interface Prestable {
+    boolean prestar();
+    boolean devolver();
+    boolean estaDisponible();
+}
+
+// Abstract base class for all library materials
+public abstract class MaterialBiblioteca implements Prestable, Comparable<MaterialBiblioteca>, Serializable {
+    private static final long serialVersionUID = 1L;
+    
     protected String codigo;
     protected String titulo;
     protected boolean prestado;
     
+    public MaterialBiblioteca(String codigo, String titulo) {
+        this.codigo = codigo;
+        this.titulo = titulo;
+        this.prestado = false;
+    }
+    
+    public String getCodigo() {
+        return codigo;
+    }
+    
+    public String getTitulo() {
+        return titulo;
+    }
+    
     public abstract String obtenerTipoMaterial();
+    
+    @Override
+    public boolean prestar() {
+        if (!prestado) {
+            prestado = true;
+            return true;
+        }
+        return false;
+    }
+    
+    @Override
+    public boolean devolver() {
+        if (prestado) {
+            prestado = false;
+            return true;
+        }
+        return false;
+    }
+    
+    @Override
+    public boolean estaDisponible() {
+        return !prestado;
+    }
     
     @Override
     public int compareTo(MaterialBiblioteca otro) {
         return this.titulo.compareTo(otro.titulo);
     }
+    
+    @Override
+    public String toString() {
+        return String.format("%s - Código: %s, Título: %s, Disponible: %s", 
+                obtenerTipoMaterial(), codigo, titulo, estaDisponible() ? "Sí" : "No");
+    }
+}
+
+// Libro implementation
+public class Libro extends MaterialBiblioteca {
+    private String autor;
+    private String isbn;
+    private int numeroPaginas;
+    
+    public Libro(String codigo, String titulo, String autor, String isbn, int numeroPaginas) {
+        super(codigo, titulo);
+        this.autor = autor;
+        this.isbn = isbn;
+        this.numeroPaginas = numeroPaginas;
+    }
+    
+    public String getAutor() {
+        return autor;
+    }
+    
+    public String getIsbn() {
+        return isbn;
+    }
+    
+    public int getNumeroPaginas() {
+        return numeroPaginas;
+    }
+    
+    @Override
+    public String obtenerTipoMaterial() {
+        return "Libro";
+    }
+}
+
+// Revista implementation
+public class Revista extends MaterialBiblioteca {
+    private int numero;
+    private String periodicidad;
+    private LocalDate fechaPublicacion;
+    
+    public Revista(String codigo, String titulo, int numero, String periodicidad, LocalDate fechaPublicacion) {
+        super(codigo, titulo);
+        this.numero = numero;
+        this.periodicidad = periodicidad;
+        this.fechaPublicacion = fechaPublicacion;
+    }
+    
+    public int getNumero() {
+        return numero;
+    }
+    
+    public String getPeriodicidad() {
+        return periodicidad;
+    }
+    
+    public LocalDate getFechaPublicacion() {
+        return fechaPublicacion;
+    }
+    
+    @Override
+    public String obtenerTipoMaterial() {
+        return "Revista";
+    }
+}
+
+// DVD implementation
+public class DVD extends MaterialBiblioteca {
+    private String director;
+    private int duracionMinutos;
+    private String genero;
+    
+    public DVD(String codigo, String titulo, String director, int duracionMinutos, String genero) {
+        super(codigo, titulo);
+        this.director = director;
+        this.duracionMinutos = duracionMinutos;
+        this.genero = genero;
+    }
+    
+    public String getDirector() {
+        return director;
+    }
+    
+    public int getDuracionMinutos() {
+        return duracionMinutos;
+    }
+    
+    public String getGenero() {
+        return genero;
+    }
+    
+    @Override
+    public String obtenerTipoMaterial() {
+        return "DVD";
+    }
+}
+
+// Comparators for different sorting options
+public class ComparadorPorCodigo implements Comparator<MaterialBiblioteca> {
+    @Override
+    public int compare(MaterialBiblioteca m1, MaterialBiblioteca m2) {
+        return m1.getCodigo().compareTo(m2.getCodigo());
+    }
+}
+
+public class ComparadorPorTipo implements Comparator<MaterialBiblioteca> {
+    @Override
+    public int compare(MaterialBiblioteca m1, MaterialBiblioteca m2) {
+        int tipoComparison = m1.obtenerTipoMaterial().compareTo(m2.obtenerTipoMaterial());
+        if (tipoComparison == 0) {
+            return m1.getTitulo().compareTo(m2.getTitulo());
+        }
+        return tipoComparison;
+    }
+}
+
+// Main Biblioteca class to manage all materials
+public class Biblioteca implements Serializable {
+    private static final long serialVersionUID = 1L;
+    
+    private List<MaterialBiblioteca> materiales;
+    
+    public Biblioteca() {
+        this.materiales = new ArrayList<>();
+    }
+    
+    public void agregarMaterial(MaterialBiblioteca material) {
+        materiales.add(material);
+    }
+    
+    public MaterialBiblioteca buscarPorCodigo(String codigo) {
+        for (MaterialBiblioteca material : materiales) {
+            if (material.getCodigo().equals(codigo)) {
+                return material;
+            }
+        }
+        return null;
+    }
+    
+    public List<MaterialBiblioteca> buscarPorTipo(String tipo) {
+        List<MaterialBiblioteca> resultado = new ArrayList<>();
+        for (MaterialBiblioteca material : materiales) {
+            if (material.obtenerTipoMaterial().equals(tipo)) {
+                resultado.add(material);
+            }
+        }
+        return resultado;
+    }
+    
+    public List<MaterialBiblioteca> buscarPorTipoUsandoInstanceof(Class<?> claseDeseada) {
+        List<MaterialBiblioteca> resultado = new ArrayList<>();
+        for (MaterialBiblioteca material : materiales) {
+            if (claseDeseada.isInstance(material)) {
+                resultado.add(material);
+            }
+        }
+        return resultado;
+    }
+    
+    public void ordenarPorTitulo() {
+        Collections.sort(materiales);
+    }
+    
+    public void ordenarPorCodigo() {
+        Collections.sort(materiales, new ComparadorPorCodigo());
+    }
+    
+    public void ordenarPorTipo() {
+        Collections.sort(materiales, new ComparadorPorTipo());
+    }
+    
+    public Map<String, Integer> obtenerEstadisticasPorTipo() {
+        Map<String, Integer> estadisticas = new HashMap<>();
+        for (MaterialBiblioteca material : materiales) {
+            String tipo = material.obtenerTipoMaterial();
+            estadisticas.put(tipo, estadisticas.getOrDefault(tipo, 0) + 1);
+        }
+        return estadisticas;
+    }
+    
+    public void guardarEstado(String archivo) {
+        try (ObjectOutputStream out = new ObjectOutputStream(
+                new FileOutputStream(archivo))) {
+            out.writeObject(this);
+            System.out.println("Biblioteca guardada correctamente en " + archivo);
+        } catch (IOException e) {
+            System.err.println("Error al guardar la biblioteca: " + e.getMessage());
+        }
+    }
+    
+    public static Biblioteca cargarEstado(String archivo) {
+        try (ObjectInputStream in = new ObjectInputStream(
+                new FileInputStream(archivo))) {
+            Biblioteca biblioteca = (Biblioteca) in.readObject();
+            System.out.println("Biblioteca cargada correctamente desde " + archivo);
+            return biblioteca;
+        } catch (IOException | ClassNotFoundException e) {
+            System.err.println("Error al cargar la biblioteca: " + e.getMessage());
+            return new Biblioteca();
+        }
+    }
+    
+    public void mostrarCatalogo() {
+        System.out.println("CATÁLOGO DE LA BIBLIOTECA");
+        System.out.println("-------------------------");
+        for (MaterialBiblioteca material : materiales) {
+            System.out.println(material);
+        }
+    }
+    
+    // Example usage
+    public static void main(String[] args) {
+        Biblioteca biblioteca = new Biblioteca();
+        
+        // Add some materials
+        biblioteca.agregarMaterial(new Libro("L001", "Don Quijote", "Miguel de Cervantes", "978-84-376-0494-7", 863));
+        biblioteca.agregarMaterial(new Libro("L002", "Cien años de soledad", "Gabriel García Márquez", "978-84-376-0494-8", 417));
+        biblioteca.agregarMaterial(new Revista("R001", "National Geographic", 255, "Mensual", LocalDate.of(2023, 5, 15)));
+        biblioteca.agregarMaterial(new DVD("D001", "El Padrino", "Francis Ford Coppola", 175, "Drama"));
+        
+        // Show catalog
+        biblioteca.mostrarCatalogo();
+        
+        // Loan a book
+        MaterialBiblioteca material = biblioteca.buscarPorCodigo("L001");
+        if (material != null) {
+            material.prestar();
+            System.out.println("\nMaterial prestado: " + material);
+        }
+        
+        // Sort by type and show catalog
+        System.out.println("\nCATÁLOGO ORDENADO POR TIPO:");
+        biblioteca.ordenarPorTipo();
+        biblioteca.mostrarCatalogo();
+        
+        // Show statistics
+        System.out.println("\nESTADÍSTICAS:");
+        Map<String, Integer> estadisticas = biblioteca.obtenerEstadisticasPorTipo();
+        for (Map.Entry<String, Integer> entry : estadisticas.entrySet()) {
+            System.out.printf("%s: %d materiales%n", entry.getKey(), entry.getValue());
+        }
+        
+        // Save library state
+        biblioteca.guardarEstado("biblioteca.dat");
+        
+        // Load library state
+        Biblioteca bibliotecaCargada = Biblioteca.cargarEstado("biblioteca.dat");
+        if (bibliotecaCargada != null) {
+            System.out.println("\nCATÁLOGO CARGADO:");
+            bibliotecaCargada.mostrarCatalogo();
+        }
+    }
 }
 ```
-
-3. Implementar las siguientes clases:
-   - `Libro`
-   - `Revista`
-   - `DVD`
+{{% /note %}}
 
 ---
 
-### Requisitos Adicionales
+3. Crea la clase Libro extendiendo MaterialBiblioteca:
 
-1. Crear una clase `Biblioteca` que maneje una colección de materiales
-2. Implementar búsqueda por tipo usando `instanceof`
-3. Agregar `Serializable` para persistencia
-4. Crear comparadores adicionales (por código, tipo)
-5. Implementar un método que muestre estadísticas por tipo
+```
+Atributos adicionales: String autor, String isbn, int numeroPaginas
+Constructor completo y getters
+Implementa obtenerTipoMaterial() para retornar "Libro"
+```
 
-Entregables:
-- Código fuente comentado
-- Diagrama de clases
-- Ejemplos de uso
+4. Crea las clases Revista y DVD siguiendo estructura similar:
+
+```
+Revista: Añade int numero, String periodicidad, LocalDate fechaPublicacion
+DVD: Añade String director, int duracionMinutos, String genero
+```
+
+---
+
+5. Crea dos clases Comparator para ordenamiento:
+
+```
+ComparadorPorCodigo: Ordena materiales por su código
+ComparadorPorTipo: Ordena por tipo y luego por título
+```
+
+6. Implementa la clase Biblioteca:
+
+Atributo: List<MaterialBiblioteca> materiales
+Métodos:
+
+```
+void agregarMaterial(MaterialBiblioteca material)
+MaterialBiblioteca buscarPorCodigo(String codigo)
+List<MaterialBiblioteca> buscarPorTipo(String tipo)
+List<MaterialBiblioteca> buscarPorTipoUsandoInstanceof(Class<?> clase)
+void ordenarPorTitulo(), ordenarPorCodigo(), ordenarPorTipo()
+Map<String, Integer> obtenerEstadisticasPorTipo() // Contar por cada tipo
+void guardarEstado(String archivo) // Serializar
+static Biblioteca cargarEstado(String archivo) // Deserializar
+void mostrarCatalogo() // Imprimir todos los materiales
+```
+
+{{% /section %}}
 
 ---
 

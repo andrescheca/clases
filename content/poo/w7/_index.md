@@ -135,6 +135,341 @@ Ejemplos en Java Standard Library:
 
 ---
 
+### Ejemplo con Factory Method
+
+```java
+// Producto (interface)
+interface Pizza {
+    String getDescription();
+}
+
+// Implementaciones concretas
+class PizzaMargarita implements Pizza {
+    private String masa;
+    private String salsa;
+    private String queso;
+    private List<String> toppings = new ArrayList<>();
+    
+    public PizzaMargarita() {
+        this.masa = "delgada";
+        this.salsa = "tomate";
+        this.queso = "mozzarella";
+        this.toppings.add("albahaca");
+    }
+    
+    @Override
+    public String getDescription() {
+        return "Pizza Margarita con masa " + masa + ", salsa " + salsa + 
+               ", queso " + queso + " y toppings: " + toppings;
+    }
+}
+
+class PizzaHawaiana implements Pizza {
+    private String masa;
+    private String salsa;
+    private String queso;
+    private List<String> toppings = new ArrayList<>();
+    
+    public PizzaHawaiana() {
+        this.masa = "gruesa";
+        this.salsa = "BBQ";
+        this.queso = "cheddar";
+        this.toppings.add("jamón");
+        this.toppings.add("piña");
+    }
+    
+    @Override
+    public String getDescription() {
+        return "Pizza Hawaiana con masa " + masa + ", salsa " + salsa + 
+               ", queso " + queso + " y toppings: " + toppings;
+    }
+}
+
+// Factory Method (interface)
+interface PizzaFactory {
+    Pizza crearPizza();
+}
+
+// Implementaciones concretas de Factory
+class PizzaMargaritaFactory implements PizzaFactory {
+    @Override
+    public Pizza crearPizza() {
+        return new PizzaMargarita();
+    }
+}
+
+class PizzaHawaianaFactory implements PizzaFactory {
+    @Override
+    public Pizza crearPizza() {
+        return new PizzaHawaiana();
+    }
+}
+
+// Uso
+public class Main {
+    public static void main(String[] args) {
+        // Crear pizzas usando diferentes factories
+        PizzaFactory factoryMargarita = new PizzaMargaritaFactory();
+        Pizza pizzaMargarita = factoryMargarita.crearPizza();
+        System.out.println(pizzaMargarita.getDescription());
+        
+        PizzaFactory factoryHawaiana = new PizzaHawaianaFactory();
+        Pizza pizzaHawaiana = factoryHawaiana.crearPizza();
+        System.out.println(pizzaHawaiana.getDescription());
+    }
+}
+```
+
+{{% note %}}
+Propósito:
+
+Builder: Construye objetos complejos paso a paso con control preciso sobre cada componente
+Factory Method: Crea objetos donde el tipo exacto se determina en tiempo de ejecución, ocultando los detalles de implementación
+
+
+Flexibilidad:
+
+Builder: Permite crear diferentes representaciones del mismo objeto variando la configuración de los componentes
+Factory Method: Crea objetos diferentes pero relacionados dentro de una interfaz/abstracción común
+
+
+Implementación:
+
+Builder: Utiliza encadenamiento de métodos (return this) para construir un solo objeto de forma incremental
+Factory Method: Utiliza herencia y polimorfismo para devolver objetos completamente construidos de diferentes tipos
+
+
+Código Cliente:
+
+Builder: El cliente especifica exactamente cómo debe configurarse el objeto
+Factory Method: El cliente solo conoce la interfaz abstracta, no los detalles de implementación concretos
+
+
+Extensibilidad:
+
+Builder: Para añadir nuevos componentes, modificas la clase builder existente
+Factory Method: Para añadir nuevos tipos de productos, creas nuevas clases concretas sin cambiar el código existente
+
+{{% /note %}}
+
+---
+
+### Ejemplo con Abstract Factory
+
+```java
+// Product interfaces
+interface Pizza {
+    String getDescription();
+}
+
+interface Bebida {
+    String getDescription();
+}
+
+// Pizza implementations
+class PizzaMargaritaItaliana implements Pizza {
+    @Override
+    public String getDescription() {
+        return "Pizza Margarita Italiana con masa fina, salsa de tomate casera, mozzarella fresca y albahaca";
+    }
+}
+
+class PizzaHawaianaItaliana implements Pizza {
+    @Override
+    public String getDescription() {
+        return "Pizza Hawaiana Italiana con masa fina, salsa de tomate, mozzarella, jamón y piña";
+    }
+}
+
+class PizzaMargaritaAmericana implements Pizza {
+    @Override
+    public String getDescription() {
+        return "Pizza Margarita Americana con masa gruesa, salsa de tomate, queso mozzarella y orégano";
+    }
+}
+
+class PizzaHawaianaAmericana implements Pizza {
+    @Override
+    public String getDescription() {
+        return "Pizza Hawaiana Americana con masa gruesa, salsa BBQ, queso cheddar, jamón y piña";
+    }
+}
+
+// Bebida implementations
+class BebidaItaliana implements Bebida {
+    @Override
+    public String getDescription() {
+        return "Vino tinto italiano";
+    }
+}
+
+class BebidaAmericana implements Bebida {
+    @Override
+    public String getDescription() {
+        return "Refresco de cola grande";
+    }
+}
+
+// Abstract Factory interface
+interface PizzaRestaurantFactory {
+    Pizza crearPizza(String tipo);
+    Bebida crearBebida();
+}
+
+// Concrete Factories
+class PizzeriaItaliana implements PizzaRestaurantFactory {
+    @Override
+    public Pizza crearPizza(String tipo) {
+        if (tipo.equals("margarita")) {
+            return new PizzaMargaritaItaliana();
+        } else if (tipo.equals("hawaiana")) {
+            return new PizzaHawaianaItaliana();
+        }
+        throw new IllegalArgumentException("Tipo de pizza no disponible");
+    }
+    
+    @Override
+    public Bebida crearBebida() {
+        return new BebidaItaliana();
+    }
+}
+
+class PizzeriaAmericana implements PizzaRestaurantFactory {
+    @Override
+    public Pizza crearPizza(String tipo) {
+        if (tipo.equals("margarita")) {
+            return new PizzaMargaritaAmericana();
+        } else if (tipo.equals("hawaiana")) {
+            return new PizzaHawaianaAmericana();
+        }
+        throw new IllegalArgumentException("Tipo de pizza no disponible");
+    }
+    
+    @Override
+    public Bebida crearBebida() {
+        return new BebidaAmericana();
+    }
+}
+
+// Client code
+public class Main {
+    public static void main(String[] args) {
+        // Crear un pedido italiano
+        PizzaRestaurantFactory pizzeriaItaliana = new PizzeriaItaliana();
+        Pizza pizzaItalianaMargarita = pizzeriaItaliana.crearPizza("margarita");
+        Bebida bebidaItaliana = pizzeriaItaliana.crearBebida();
+        
+        System.out.println("Pedido italiano:");
+        System.out.println(pizzaItalianaMargarita.getDescription());
+        System.out.println(bebidaItaliana.getDescription());
+        
+        // Crear un pedido americano
+        PizzaRestaurantFactory pizzeriaAmericana = new PizzeriaAmericana();
+        Pizza pizzaAmericanaHawaiana = pizzeriaAmericana.crearPizza("hawaiana");
+        Bebida bebidaAmericana = pizzeriaAmericana.crearBebida();
+        
+        System.out.println("\nPedido americano:");
+        System.out.println(pizzaAmericanaHawaiana.getDescription());
+        System.out.println(bebidaAmericana.getDescription());
+    }
+}
+```
+
+{{% note %}}
+Propósito:
+
+Abstract Factory: Crea familias de objetos relacionados sin especificar sus clases concretas
+Factory Method: Crea un solo producto
+Builder: Construye un objeto complejo paso a paso
+
+
+Alcance:
+
+Abstract Factory: Maneja múltiples tipos de productos (Pizza Y Bebida)
+Factory Method: Se centra en una sola jerarquía de productos (solo Pizza)
+Builder: Se centra en diferentes configuraciones de un solo objeto
+
+
+Estructura:
+
+Abstract Factory: Contiene múltiples métodos factory para crear productos relacionados
+Factory Method: Contiene un único método de creación
+Builder: Contiene múltiples métodos setter para configurar un objeto
+
+
+Aplicabilidad:
+
+Abstract Factory: Úsalo cuando tu sistema necesite trabajar con múltiples familias de productos
+Factory Method: Úsalo cuando necesites un solo producto con subclases que se seleccionan en tiempo de ejecución
+Builder: Úsalo cuando necesites crear objetos complejos con muchos parámetros opcionales
+
+
+Característica Clave:
+
+Abstract Factory: Asegura la compatibilidad entre los productos creados (las pizzas italianas van con bebidas italianas)
+Factory Method: Desacopla la creación del producto de su uso
+Builder: Proporciona un control preciso sobre la construcción de objetos
+{{% /note %}}
+
+---
+### Casos Prácticos: Builder
+* Sistema de pedidos de restaurante (Subway, Chipotle)
+* Generador de documentos PDF (iText, PDFBox)
+* Configuración de conexiones a bases de datos (Hibernate)
+* Frameworks UI fluidos (SwiftUI, Flutter)
+* Constructores de consultas SQL (JPA Criteria API)
+{{% note %}} 
+**Sistema de pedidos de restaurante**: Un cliente selecciona paso a paso los ingredientes de su comida. Cada método del builder añade un componente (pan, proteína, vegetales, salsas) y al final se llama a build() para crear el producto final validado.
+
+**Generador de documentos PDF**: Las librerías como iText permiten crear documentos complejos paso a paso, configurando márgenes, orientación, fuentes y añadiendo elementos secuencialmente antes de generar el archivo PDF final.
+
+**Configuración de bases de datos**: Hibernate utiliza patrones tipo builder para configurar SessionFactory con decenas de parámetros opcionales como cache, dialect, pool size, etc.: `new Configuration().setProperty("hibernate.dialect", "...").setProperty("hibernate.connection.url", "...").buildSessionFactory();`
+
+**Frameworks UI**: En SwiftUI o Flutter, construyes interfaces encadenando modificadores: `Text("Hola").font(.title).foregroundColor(.blue).padding()`
+
+**Constructores de consultas**: JPA Criteria API permite construir consultas SQL dinámicas y tipadas: `criteriaBuilder.createQuery().select().where().orderBy().build()`
+{{% /note %}} 
+
+---
+### Casos Prácticos: Factory Method
+* Drivers de bases de datos (JDBC)
+* Procesadores de pago (tarjeta, PayPal, transferencia)
+* Logística y transporte (camión, barco, avión)
+* Parsers de diferentes formatos de archivo (PDF, DOC, XML)
+* Renderizadores de gráficos (según capacidades hardware)
+{{% note %}} 
+**Drivers de bases de datos**: JDBC es el ejemplo clásico - `DriverManager.getConnection(url)` determina en tiempo de ejecución qué implementación de Connection crear (MySQL, Oracle, PostgreSQL) según la URL proporcionada. El código cliente trabaja solo con la interfaz Connection sin importar el motor de base de datos.
+
+**Procesadores de pago**: Un e-commerce puede implementar `PaymentProcessor processor = PaymentProcessorFactory.createProcessor("creditcard")` que devuelve diferentes implementaciones según el método de pago seleccionado. Cada implementación maneja la lógica específica de cada pasarela de pago pero comparte la misma interfaz.
+
+**Logística y transporte**: Una aplicación de envíos como DHL o Fedex podría usar `Transporte vehiculo = TransporteFactory.createTransport("express")` que devuelve diferentes tipos de transporte con diferentes algoritmos de ruta, capacidades y costos.
+
+**Parsers de archivo**: Microsoft Office o Adobe podría implementar `DocumentParser parser = ParserFactory.createParser(filename)` que devuelve el parser adecuado según la extensión del archivo (.docx, .pdf, .xlsx).
+
+**Renderizadores gráficos**: Un motor de videojuegos podría usar `Renderer renderer = RendererFactory.createRenderer(deviceCapabilities)` para crear el renderizador óptimo según las capacidades gráficas (DirectX, OpenGL, software) detectadas en tiempo de ejecución.
+{{% /note %}} 
+
+---
+### Casos Prácticos: Abstract Factory
+* Interfaces UI multiplataforma (Windows, macOS, Linux)
+* Temas visuales en videojuegos (medieval, futurista, actual)
+* Conectores a múltiples bases de datos con sus herramientas
+* Sistemas de reservas de viaje (económico, business, premium)
+* Suites de producción multimedia (diferentes formatos)
+{{% note %}} 
+**Interfaces UI multiplataforma**: Frameworks como JavaFX o Qt implementan `UIFactory factory = UIFactoryProvider.getFactory("windows")` para crear familias completas de controles nativos: `Button button = factory.createButton(); Menu menu = factory.createMenu();` Esto garantiza que todos los componentes tengan un aspecto coherente según la plataforma.
+
+**Temas visuales en videojuegos**: Juegos como Civilization crean familias de elementos según la era: `EraFactory medieval = new MedievalEraFactory(); Building castle = medieval.createMilitaryBuilding(); Unit knight = medieval.createMilitaryUnit();` Cada factory crea componentes temáticamente coherentes (edificios, unidades, música, efectos visuales).
+
+**Conectores a bases de datos**: Un ORM podría implementar `DatabaseFactory mysqlFactory = new MySQLFactory(); Connection conn = mysqlFactory.createConnection(); QueryBuilder builder = mysqlFactory.createQueryBuilder(); Transaction tx = mysqlFactory.createTransaction();` garantizando que todos estos componentes sean compatibles con el mismo motor de base de datos.
+
+**Sistemas de reservas**: Booking.com podría usar `TravelFactory luxury = new LuxuryTravelFactory(); Flight businessClass = luxury.createFlight(); Hotel fiveStars = luxury.createAccommodation(); Insurance fullCoverage = luxury.createInsurance();` donde cada factory crea una familia de servicios de nivel similar.
+
+**Suites multimedia**: Adobe podría implementar `MediaFactory mp4Factory = new MP4Factory(); VideoCodec h264 = mp4Factory.createVideoCodec(); AudioCodec aac = mp4Factory.createAudioCodec(); Container container = mp4Factory.createContainer();` donde cada factory crea componentes compatibles para un formato específico.
+{{% /note %}} 
+
+---
+
 ### Patrón Decorator
 
 Permite añadir funcionalidades a objetos existentes dinámicamente.
@@ -247,6 +582,74 @@ Ejemplos en Java Standard Library:
 {{% /note %}}
 
 ---
+### Casos Prácticos: Decorator
+* Streams de Java (FileInputStream, BufferedInputStream)
+* Sistemas de notificación (email, SMS, push)
+* Renderizadores de texto (negrita, cursiva, subrayado)
+* Sistemas de autorización y seguridad (filtros, validaciones)
+* Bebidas personalizables en cafeterías (extras y modificadores)
+{{% note %}} 
+**Streams de Java**: La biblioteca de I/O de Java es el ejemplo por excelencia del patrón Decorator. Puedes encadenar decoradores para añadir funcionalidades:
+```java
+// InputStream básico
+InputStream fileStream = new FileInputStream("datos.txt");
+// Decorador para mejorar rendimiento
+InputStream bufferedStream = new BufferedInputStream(fileStream);
+// Decorador para descompresión
+InputStream gzipStream = new GZIPInputStream(bufferedStream);
+// Lees desde gzipStream, pero realmente hay 3 capas operando en secuencia
+```
+Cada decorador añade una responsabilidad específica (buffering, descompresión) manteniendo la misma interfaz.
+
+**Sistemas de notificación**: Un sistema de notificaciones puede usar decoradores para combinar múltiples canales:
+```java
+Notificador notificador = new NotificadorEmail(new Usuario("ana@ejemplo.com"));
+notificador = new NotificadorSMS(notificador, "+34612345678");
+notificador = new NotificadorPush(notificador, "token123");
+// Enviará por email, SMS y push con una sola llamada
+notificador.enviar("Recordatorio de cita");
+```
+Cada decorador mantiene la interfaz Notificador y delega al componente envuelto tras añadir su propia funcionalidad.
+
+**Renderizadores de texto**: Editores de texto como Word o Google Docs utilizan decoradores para aplicar formatos múltiples:
+```java
+TextoComponente texto = new TextoBase("Hola mundo");
+texto = new DecoradorNegrita(texto);
+texto = new DecoradorItalica(texto);
+texto = new DecoradorSubrayado(texto);
+String resultado = texto.renderizar(); // "<u><i><b>Hola mundo</b></i></u>"
+```
+Esta estructura permite aplicar formatos en cualquier orden y combinación.
+
+**Autorización y seguridad**: En frameworks web, puedes decorar controladores con capas de seguridad:
+```java
+Handler paginaAdmin = new PaginaAdminHandler();
+paginaAdmin = new DecoradorAutenticacion(paginaAdmin);
+paginaAdmin = new DecoradorAutorizacionAdmin(paginaAdmin);
+paginaAdmin = new DecoradorRegistroAuditoria(paginaAdmin);
+paginaAdmin = new DecoradorRateLimiter(paginaAdmin);
+// La solicitud pasa por múltiples comprobaciones antes de llegar al handler real
+paginaAdmin.manejarSolicitud(request, response);
+```
+Cada decorador puede rechazar la solicitud o modificarla antes de pasarla al siguiente.
+
+**Cafeterías (Starbucks)**: El ejemplo clásico que utiliza Starbucks en sus sistemas de pedidos:
+```java
+Bebida bebida = new Espresso();
+bebida = new DecoradorLeche(bebida);
+bebida = new DecoradorCaramelo(bebida);
+bebida = new DecoradorCrema(bebida);
+// Calculamos precio sumando base + extras
+double precio = bebida.calcularPrecio();
+// Generamos descripción completa
+String descripcion = bebida.getDescripcion(); // "Espresso con leche, caramelo y crema"
+```
+Cada decorador añade precio e ingrediente, y el sistema puede componerse dinámicamente según las preferencias del cliente.
+
+Los decoradores son extremadamente útiles cuando necesitas añadir responsabilidades a objetos de forma dinámica y transparente, especialmente cuando tienes muchas combinaciones posibles que serían imprácticas de implementar mediante subclases.
+{{% /note %}} 
+
+---
 
 ### Patrón Adapter
 
@@ -353,6 +756,79 @@ Ejemplos en Java Standard Library:
 - InputStreamReader/OutputStreamWriter
 - Collections.list()/Collections.enumeration()
 {{% /note %}}
+
+---
+### Casos Prácticos: Adapter
+* Frameworks de lecturas de datos legacy (JDBC-ODBC Bridge)
+* Integración de APIs de terceros (redes sociales, pagos)
+* Wrappers de librerías gráficas (JavaFX con Swing)
+* Adaptadores de formatos de archivo (XML a JSON)
+* Conectores entre sistemas incompatibles (antiguos y modernos)
+{{% note %}} 
+**JDBC-ODBC Bridge**: Un ejemplo clásico es el puente JDBC-ODBC que permitía a aplicaciones Java acceder a bases de datos a través de ODBC. El puente adaptaba la interfaz JDBC que esperaban las aplicaciones Java a la interfaz ODBC del sistema operativo: `Connection conn = DriverManager.getConnection("jdbc:odbc:miDSN")`. Este adaptador permitió que el código Java funcionara sin cambios con sistemas legacy.
+
+**APIs de terceros**: Cuando integramos múltiples pasarelas de pago (PayPal, Stripe, MercadoPago), podemos crear adaptadores para unificar su uso:
+```java
+public interface PasarelaPago {
+    boolean procesar(double monto, DatosTarjeta tarjeta);
+}
+
+public class AdaptadorPayPal implements PasarelaPago {
+    private PayPalAPI paypal = new PayPalAPI();
+    
+    @Override
+    public boolean procesar(double monto, DatosTarjeta tarjeta) {
+        // Convierte nuestro formato a lo que espera PayPal
+        PayPalCreditCard ppTarjeta = new PayPalCreditCard(
+            tarjeta.getNumero(), tarjeta.getTitular(), 
+            tarjeta.getExpiracion(), tarjeta.getCvv());
+        return paypal.makePayment(monto, ppTarjeta);
+    }
+}
+```
+
+**Wrappers de librerías gráficas**: JavaFX proporciona adaptadores para componentes Swing con SwingNode, permitiendo incrustar componentes Swing en aplicaciones JavaFX modernas:
+```java
+SwingNode swingNode = new SwingNode();
+swingNode.setContent(antiguoComponenteSwing);
+panelJavaFX.getChildren().add(swingNode);
+```
+Esto facilita la migración gradual de aplicaciones antiguas a frameworks modernos.
+
+**Adaptadores de formato**: Un adaptador XML-JSON permite que sistemas que trabajan con diferentes formatos puedan comunicarse:
+```java
+public class XMLToJSONAdapter implements JSONProcessor {
+    private XMLProcessor xmlProcessor;
+    
+    @Override
+    public JSONObject process(JSONObject json) {
+        // Convierte JSON a XML, procesa, y vuelve a convertir
+        String xml = JSONToXMLConverter.convert(json);
+        String processedXML = xmlProcessor.process(xml);
+        return XMLToJSONConverter.convert(processedXML);
+    }
+}
+```
+
+**Conectores entre sistemas**: En migraciones empresariales, los adaptadores permiten que sistemas nuevos se comuniquen con legacy hasta completar la transición:
+```java
+public class SistemaLegacyAdapter implements NuevaInterfazCliente {
+    private SistemaAntiguo legacySystem;
+    
+    @Override
+    public ClienteDTO obtenerCliente(String id) {
+        // Convierte el formato antiguo al nuevo
+        RegistroCliente registro = legacySystem.buscarRegistro("CLI", id);
+        return new ClienteDTO(
+            registro.getCampo("ID"),
+            registro.getCampo("NOMBRE"),
+            registro.getCampo("DIRECCION")
+        );
+    }
+}
+```
+Este enfoque permite modernizar gradualmente sin interrumpir operaciones.
+{{% /note %}} 
 
 {{% /section %}}
 

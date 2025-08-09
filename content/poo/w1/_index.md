@@ -405,7 +405,8 @@ public class InformacionEstudiante {
         double promedio = 8.5;
         boolean activo = true;
         char inicial = 'L';
-        
+```
+```java
         // Impresión de la información
         System.out.println("Nombre: " + nombre);
         System.out.println("Edad: " + edad);
@@ -870,28 +871,35 @@ Los parámetros de línea de comandos son útiles para configurar la ejecución:
 Solución:
 ```java
 import java.util.Scanner;
-
+```
+```java 
 public class CalculadoraIMC {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        
+```
+```java 
         // Solicitar datos
         System.out.print("Ingrese su nombre: ");
         String nombre = scanner.nextLine();
-        
+```
+```java 
         System.out.print("Ingrese su peso en kg: ");
         double peso = scanner.nextDouble();
-        
+```
+```java 
         System.out.print("Ingrese su altura en metros: ");
         double altura = scanner.nextDouble();
-        
+```
+```java 
         // Calcular IMC
         double imc = peso / (altura * altura);
-        
+```
+```java 
         // Mostrar resultado
         System.out.println("\nResultados para " + nombre + ":");
         System.out.printf("Su IMC es: %.2f\n", imc);
-        
+```
+```java 
         scanner.close();
     }
 }
@@ -1057,21 +1065,26 @@ La estructura switch:
 Solución:
 ```java
 import java.util.Scanner;
-
+```
+```java 
 public class TipoTriangulo {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        
+```
+```java 
         System.out.println("Ingrese las longitudes de los tres lados del triángulo:");
         System.out.print("Lado 1: ");
         double lado1 = scanner.nextDouble();
-        
+```
+```java 
         System.out.print("Lado 2: ");
         double lado2 = scanner.nextDouble();
-        
+```
+```java 
         System.out.print("Lado 3: ");
         double lado3 = scanner.nextDouble();
-        
+```
+```java 
         // Verificar si puede formar un triángulo
         if (lado1 + lado2 > lado3 && lado1 + lado3 > lado2 && lado2 + lado3 > lado1) {
             // Determinar tipo de triángulo
@@ -1085,7 +1098,8 @@ public class TipoTriangulo {
         } else {
             System.out.println("¡Error! Estos lados no pueden formar un triángulo");
         }
-        
+```
+```java 
         scanner.close();
     }
 }
@@ -1255,20 +1269,25 @@ Las instrucciones break y continue:
 Solución:
 ```java
 import java.util.Scanner;
-
+```
+```java 
 public class TablaMultiplicar {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        
+```
+```java 
         System.out.print("Ingrese un número para ver su tabla de multiplicar: ");
         int numero = scanner.nextInt();
-        
+```
+```java 
         System.out.println("\nTabla de multiplicar del " + numero + ":");
-        
+```
+```java 
         for (int i = 1; i <= 10; i++) {
             System.out.println(numero + " × " + i + " = " + (numero * i));
         }
-        
+```
+```java 
         scanner.close();
     }
 }

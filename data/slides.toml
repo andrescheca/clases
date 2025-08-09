@@ -1,16 +1,16 @@
 welcome = """## <span class="as-code">kali@kali:~$ whoami</span>
-### [Jorge Morán Salazar](https://0xjams.com)
-{{% fragment class="bullet-point" %}}Ingeniero en Sistemas con MSc. en Cybersecurity.{{% /fragment %}}
+### Andrés Checa
+{{% fragment class="bullet-point" %}}Ingeniero en Sistemas con maestría en Seguridad Informática.{{% /fragment %}}
 {{% fragment class="bullet-point" %}}Era feliz programando hasta que fui víctima de un ataque.{{% /fragment %}}
 {{% fragment class="bullet-point" %}}En aquella época no había mucho contenido de defensa, así que aprendí a atacar para luego entender cómo defender.{{% /fragment %}}
 
 ---
 
-### <span class="as-code">kali@kali:~$ groups 0xjams</span>
+### <span class="as-code">kali@kali:~$ groups hk</span>
 #### Experiencia en:
 
-{{% fragment class="bullet-point" %}}Autoservicio y omnicanalidad de empresas de Telecomunicaciones.{{% /fragment %}}
-{{% fragment class="bullet-point" %}}Seguridad en entornos bancarios (Penetration Testing, Phishing, Code Reviews).{{% /fragment %}}
+{{% fragment class="bullet-point" %}}Freelance en desarrollo de software.{{% /fragment %}}
+{{% fragment class="bullet-point" %}}Seguridad en entornos financieros (Penetration Testing, Phishing, Code Reviews).{{% /fragment %}}
 {{% fragment class="bullet-point" %}}Desarrollo seguro de software.{{% /fragment %}}
 
 {{% note %}}

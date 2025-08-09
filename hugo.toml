@@ -1,10 +1,10 @@
-baseURL = 'https://clases.0xjams.com'
+baseURL = 'https://andrescheca.github.io/clases/'
 languageCode = 'en-us'
 title = 'Diapositivas para clases'
 theme = ["github.com/dzello/reveal-hugo"]
 
 [params.reveal_hugo]
-custom_theme = "css/catppuccin.css"
+custom_theme = "css/uees.css"
 highlight_theme = "catppuccin-frappe"
 
 [markup.goldmark.renderer]
@@ -16,13 +16,13 @@ mediaType = "text/html"
 isHTML = true
 
 [author]
-name = "Jorge Morán (0xjams)"
+name = "Andrés Checa"
 
 [params.author]
-name = "Jorge Morán (0xjams)"
-email = "hi@0xjams.com"
+name = "Andrés Checa"
+email = "achecapalacios@uees.edu.ec"
 
 [markup.highlight]
 codeFences = false  # use highlight.js
 # codeFences = true  # use hugo highlighting at compile time
-style = "catppuccin-frappe"  # set a style for hugo highlighting
+style = "catppuccin-frappe"

@@ -1,4 +1,4 @@
-module github.com/0xjams/clases
+module github.com/andrescheca/clases
 
 go 1.22.2
 

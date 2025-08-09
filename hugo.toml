@@ -15,8 +15,8 @@ baseName = "index"
 mediaType = "text/html"
 isHTML = true
 
-[author]
-name = "Andrés Checa"
+# [author]
+# name = "Andrés Checa"
 
 [params.author]
 name = "Andrés Checa"

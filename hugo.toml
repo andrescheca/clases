@@ -6,6 +6,7 @@ theme = ["github.com/dzello/reveal-hugo"]
 [params.reveal_hugo]
 custom_theme = "css/uees.css"
 highlight_theme = "catppuccin-frappe"
+pdf_separate_fragments = false
 
 [markup.goldmark.renderer]
 unsafe = true

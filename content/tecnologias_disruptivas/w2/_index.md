@@ -1,301 +1,329 @@
 +++
-title = "Tecnologías Disruptivas - Semana 2"
+title = "Tecnologías Disruptivas - Innovación"
 outputs = ["Reveal"]
 +++
-## Semana 2
-En esta segunda semana vamos a conocer cinco tecnologías disruptivas que están generando nuevas formas de desarrollos tanto para los consumidores como para las organizaciones.
 
----
 
-### Contenidos de la Unidad
-{{% fragment class="bullet-point" %}}Sistemas embebidos{{% /fragment %}}
-{{% fragment class="bullet-point" %}}Internet de las cosas{{% /fragment %}}
-{{% fragment class="bullet-point" %}}Cloud computing{{% /fragment %}}
-{{% fragment class="bullet-point" %}}Blockchain{{% /fragment %}}
-{{% fragment class="bullet-point" %}}Criptomonedas{{% /fragment %}}
-
---- 
-
-### Algo de Historia
-{{% fragment class="bullet-point" %}}Autonetics D-17 Guidance Computer para el misil Minuteman (1961){{% /fragment %}}
-{{% fragment class="bullet-point" %}}Apollo Guidance Computer (1965){{% /fragment %}}
-{{% fragment class="bullet-point" %}}Intel 4004 diseñado para una familia de calculadoras (1971){{% /fragment %}}
+## Semana 2  
+### Prompting e Inteligencia Artificial Generativa
 
 {{% note %}}
-<ul>
-              <li>
-                Autonetics D-17 Guidance Computer (1961): El Autonetics D-17 fue
-                un componente clave del sistema de navegación del misil
-                balístico intercontinental Minuteman. Desarrollado a principios
-                de la década de 1960 este ordenador fue uno de los primeros
-                sistemas embebidos en utilizar circuitos integrados marcando un
-                avance significativo en la miniaturización y fiabilidad de la
-                electrónica.
-              </li>
-              <li>
-                Apollo Guidance Computer (1965): Desarrollado por el MIT
-                Instrumentation Laboratory para la NASA, el Apollo Guidance
-                Computer (AGC) fue un elemento crucial en las misiones Apollo a
-                la Luna. Introducido en 1965, este computador fue diseñado para
-                ser ligero y compacto, desempeñando un papel fundamental en la
-                navegación y control de la nave espacial Apollo.
-                <ul>
-                  <li>
-                    Capacidad de RAM: El AGC tenía aproximadamente 2 kilobytes
-                    (2048 palabras) de memoria de núcleo magnético, que se
-                    utilizaba para almacenar datos temporales y variables
-                    durante la operación.
-                  </li>
-                  <li>
-                    Capacidad de ROM: El AGC tenía alrededor de 36 kilobytes
-                    (36,864 palabras) de memoria de núcleo de cuerda, que
-                    contenía el software necesario para las misiones Apollo.
-                    Este software incluía los programas de navegación, control
-                    de actitud y otras funciones críticas.
-                  </li>
-                </ul>
-              </li>
-              <li>
-                Intel 4004 (1971): El Intel 4004, lanzado en 1971, es reconocido
-                como el primer microprocesador comercial en un solo chip y marcó
-                el inicio de la era de la microcomputación.
-              </li>
-</ul>
+Esta semana el objetivo es que los estudiantes entiendan qué es un prompt, cómo estructurarlo y cómo influye en la respuesta de un modelo de lenguaje. También discutiremos cómo funcionan los LLMs y sus aplicaciones reales.
 {{% /note %}}
 
 ---
 
-### Computación Ubicua
-{{% fragment %}}Un sistema embebido es un sistema basado en un microprocesador que es construido para controlar una o varias funciones y que no es diseñado para que sea programado por el usuario final en la misma manera que, por ejemplo, lo es una computadora personal.{{% /fragment %}}
+## Objetivos de la semana
+
+{{% fragment class="bullet-point" %}} Comprender qué es un prompt y cómo se estructura {{% /fragment %}}
+{{% fragment class="bullet-point" %}} Entender cómo interactuar con modelos de lenguaje como ChatGPT{{% /fragment %}}
+{{% fragment class="bullet-point" %}} Explorar el funcionamiento general de los LLMs{{% /fragment %}}
+{{% fragment class="bullet-point" %}} Reflexionar sobre el impacto de la IA generativa en la producción de texto, imagen, audio y video{{% /fragment %}}
+
+---
+
+## ¿Qué es un Prompt?
+
+{{% fragment class="bullet-point" %}} Es una **instrucción o conjunto de instrucciones** que se le da a un modelo de IA para obtener una respuesta específica.{{% /fragment %}}
+<div>
+{{% fragment %}} Ejemplo básico: 
+> “Resume el siguiente texto en 3 puntos clave...”
+</div>
+{{% /fragment %}}
+{{% fragment class="bullet-point" %}} Un buen prompt puede marcar la diferencia entre una respuesta útil o ambigua.{{% /fragment %}}
 
 {{% note %}}
-<p>
-              El usuario puede cambiar la configuración de las funciones del
-              sistema integrado pero no puede cambiar el programa que el mismo
-              posee. Es responsabilidad del diseñador/programador elegir qué
-              opciones de configuración estarán disponibles para el usuario.
-            </p>
+Los prompts son el puente entre la intención humana y la salida generada por la IA. Cuanto más claro el prompt, más predecible y útil la respuesta.
 {{% /note %}}
 
---- 
+----
 
-### Electrónica de Consumo
-{{% fragment %}}El Autonetics D-17 fue un componente clave del sistema de navegación del misil balístico intercontinental Minuteman. Desarrollado a principios de la década de 1960, este ordenador fue uno de los primeros sistemas embebidos en utilizar circuitos integrados, marcando un avance significativo en la miniaturización y fiabilidad de la electrónica.{{% /fragment %}}
+## Principios de un buen Prompt
+
+{{% fragment class="bullet-point" %}} **Claro**: sin ambigüedades{{% /fragment %}}
+{{% fragment class="bullet-point" %}} **Contextual**: aporta detalles importantes{{% /fragment %}}
+{{% fragment class="bullet-point" %}} **Específico**: delimita lo que se espera{{% /fragment %}}
+{{% fragment class="bullet-point" %}} **Iterativo**: puede ajustarse con retroalimentación{{% /fragment %}}
+<div>
+{{% fragment %}}
+> Fuente: [BabelTeam](https://blog-es.babelteam.com/principios-basicos-para-crear-prompts-efectivos/)
+{{% /fragment %}}
+</div>
 
 {{% note %}}
-<p>
-              El D-17 utilizaba un sistema de navegación inercial y estaba
-              diseñado para ser sumamente resistente y fiable, capaz de operar
-              en las condiciones extremas del lanzamiento y vuelo de un misil.
-            </p>
+Un prompt básico puede volverse mucho más claro y potente si añadimos contexto, tono y estructura.  
+Cuando indicamos quién es el público o el formato que queremos, la IA comprende mejor nuestra intención.  
+Por eso vale la pena experimentar, ajustar y comparar resultados hasta lograr la respuesta más útil.
 {{% /note %}}
 
 ---
 
-### Comparado con un Sistema de Escritorio
-{{% fragment %}}Microprocesador: Es el núcleo de un sistema de computación. Está diseñado principalmente para ejecutar operaciones de cálculo y procesamiento de datos. No incluye memoria RAM, ROM o dispositivos de entrada/salida (E/S) en el chip. Estos componentes deben conectarse externamente.{{% /fragment %}}
-{{% fragment %}}Microcontrolador: Es una computadora completa en un solo chip. Incluye un microprocesador, pero también integra memoria RAM, ROM y otros periféricos de E/S en el mismo chip. Está diseñado para controlar dispositivos y procesos específicos, siendo más un sistema embebido.{{% /fragment %}}
-
---- 
-
-### Internet de las Cosas (IoT)
-{{% fragment %}}Se trata de una red de dispositivos físicos automatizados y conectados que recopilan y comparten datos. Estos dispositivos se comunican entre sí utilizando diversos protocolos de Internet para permitir la interacción entre ellos.{{% /fragment %}}
-
-{{% note %}}
-<p>
-              El término "Internet de las cosas" fue utilizado inicialmente por
-              Kevin Ashton en 1999 pero la idea de la computación ubicua se
-              remonta a fines de la década de 1980.
-            </p>
-{{% /note %}}
-
---- 
-
-### Cloud Computing
-{{% fragment %}}La computación en la nube (del inglés cloud computing) es el uso de una red de servidores remotos conectados a internet para almacenar, administrar y procesar datos, servidores, bases de datos, redes y software.{{% /fragment %}}
-
---- 
-
-### Principales Características de Cloud Computing
-{{% fragment class="bullet-point" %}}Autoservicio a la demanda{{% /fragment %}}
-{{% fragment class="bullet-point" %}}Amplio acceso a la red{{% /fragment %}}
-{{% fragment class="bullet-point" %}}Gran fuente de recursos{{% /fragment %}}
-{{% fragment class="bullet-point" %}}Elasticidad{{% /fragment %}}
-{{% fragment class="bullet-point" %}}Posibilidad de medición del uso del servicio{{% /fragment %}}
-
---- 
-
-### Tipos de Computación en la Nube
-{{% fragment class="bullet-point" %}}Nubes Públicas{{% /fragment %}}
-{{% fragment class="bullet-point" %}}Nubes Privadas{{% /fragment %}}
-{{% fragment class="bullet-point" %}}Nubes Híbridas{{% /fragment %}}
+## Ejemplo: Prompt Simple vs. Mejorado
+<div>
+{{% fragment %}}**Prompt simple:**
+> ¿Qué es el cambio climático?
+{{% /fragment %}}
+</div>
+<div>
+{{% fragment %}}**Prompt mejorado:**
+> Explica el cambio climático en lenguaje sencillo para estudiantes de secundaria, usando ejemplos de América Latina.
+{{% /fragment %}}
 
 {{% note %}}
- <p>
-              Las nubes públicas se utilizan a nivel general por empresas para
-              almacenamiento y recursos como CPU, RAM o disco de forma digital.
-              Las nubes privadas usan recursos independientes para empresas
-              privadas. Las nubes híbridas hacen uso de características de la
-              nube pública y privada.
-            </p>
-{{% /note %}}
-
---- 
-
-### Modelos de Computación en la Nube
-{{% fragment class="bullet-point" %}}Modelo Bajo Demanda (On-Demand){{% /fragment %}}
-{{% fragment class="bullet-point" %}}Modelo de Suscripción{{% /fragment %}}
-{{% fragment class="bullet-point" %}}Modelo de Plataforma (PaaS){{% /fragment %}}
-
-{{% note %}}
-<ul>
-              <li>
-                Modelo Bajo Demanda (On-Demand): En este modelo los recursos de
-                computación en la nube como el poder de procesamiento,
-                almacenamiento y aplicaciones están disponibles para los
-                usuarios según sea necesario. La facturación se basa en el uso
-                real, similar a cómo se factura la electricidad o el agua.
-              </li>
-              <li>
-                Modelo de Suscripción: En el modelo de suscripción los usuarios
-                pagan una tarifa regular (generalmente mensual o anual) para
-                acceder a una cantidad fija o un rango de recursos de nube. Este
-                modelo ofrece previsibilidad tanto para el proveedor como para
-                el usuario en términos de costos y recursos disponibles.
-              </li>
-              <li>
-                Modelo de Plataforma (PaaS): PaaS es un tipo específico de
-                servicio de nube que proporciona a los usuarios una plataforma
-                para desarrollar, ejecutar y gestionar aplicaciones sin la
-                complejidad de construir y mantener la infraestructura
-                típicamente asociada con el desarrollo y lanzamiento de una
-                aplicación.
-              </li>
-            </ul>
-{{% /note %}}
-
---- 
-
-### Blockchain
-{{% fragment %}}Permite registrar transacciones en múltiples computadoras de manera que el registro no puede ser alterado retroactivamente sin la alteración de todos los bloques subsiguientes. Esta característica la convierte en una forma segura y descentralizada de registrar transacciones o cualquier tipo de información.{{% /fragment %}}
-
-{{% note %}}
-<p>
-              Blockchain es una tecnología que permite registrar transacciones
-              en múltiples computadoras de manera que el registro no puede ser
-              alterado retroactivamente sin la alteración de todos los bloques
-              subsiguientes.
-            </p>
-{{% /note %}}
-
---- 
-
-### Blockchain
-{{% fragment class="bullet-point" %}}Descentralización{{% /fragment %}}
-{{% fragment class="bullet-point" %}}Transparencia y Seguridad{{% /fragment %}}
-{{% fragment class="bullet-point" %}}Tecnología de Cadenas de Bloques{{% /fragment %}}
-{{% fragment class="bullet-point" %}}Consenso en la Red{{% /fragment %}}
-{{% fragment class="bullet-point" %}}Aplicaciones Diversas{{% /fragment %}}
-{{% fragment class="bullet-point" %}}Contratos Inteligentes{{% /fragment %}}
-
-{{% note %}}
-<ul>
-              <li>
-                Descentralización: A diferencia de las bases de datos
-                tradicionales gestionadas por una entidad central, la blockchain
-                es descentralizada. Cada 'bloque' de datos se guarda en una red
-                de computadoras, lo que hace que la información sea más
-                resistente a la manipulación o censura.
-              </li>
-              <li>
-                Transparencia y Seguridad: Cada transacción en la blockchain es
-                verificable y permanente. Una vez que se añade un bloque de
-                información a la cadena es muy difícil alterarlo.
-              </li>
-              <li>
-                Tecnología de Cadenas de Bloques: La blockchain consta de una
-                serie de bloques enlazados donde cada bloque contiene un número
-                de transacciones. Cada nuevo bloque se une al bloque anterior
-                creando una cadena literal de bloques.
-              </li>
-              <li>
-                Consenso en la Red: Para que un bloque sea añadido a la cadena,
-                los nodos de la red deben alcanzar un consenso. Esto se hace a
-                través de varios mecanismos, siendo el más conocido el 'prueba
-                de trabajo' (Proof of Work) utilizado en Bitcoin.
-              </li>
-              <li>
-                Aplicaciones Diversas: Aunque la blockchain se hizo famosa por
-                su uso en criptomonedas, sus aplicaciones van más allá. Se
-                utiliza en la gestión de la cadena de suministros, votaciones en
-                línea, registros de propiedad intelectual, contratos
-                inteligentes y mucho más.
-              </li>
-              <li>
-                Contratos Inteligentes: Los contratos inteligentes son programas
-                autoejecutables que se activan cuando se cumplen ciertas
-                condiciones preestablecidas en la blockchain. Esto permite la
-                automatización de procesos y acuerdos sin necesidad de
-                intermediarios.
-              </li>
-            </ul>
+El segundo prompt funciona mejor porque define un tono, un público y un contexto concretos.  
+Esto demuestra que la precisión del lenguaje guía la calidad de la respuesta.  
+Vale la pena comparar ambos para notar cómo pequeños cambios producen resultados muy distintos.
 {{% /note %}}
 
 ---
 
-### Criptomonedas
-{{% fragment %}}Tipo de moneda digital o virtual que utiliza criptografía para la seguridad, haciendo que sea extremadamente difícil de falsificar o duplicar. Son descentralizadas por naturaleza y por lo general basan su tecnología en la blockchain.{{% /fragment %}}
+## ¿Qué son los LLMs?
+
+{{% fragment class="bullet-point" %}} “Large Language Models” o **Modelos de Lenguaje de Gran Escala**{{% /fragment %}}
+{{% fragment class="bullet-point" %}} Entrenados con miles de millones de palabras{{% /fragment %}}
+<div>
+{{% fragment%}} Capaces de:
+ - Generar texto
+ - Traducir idiomas
+ - Resumir contenido
+ - Contestar preguntas
+ - Escribir código
+{{% /fragment %}}
+</div>
+{{% note %}}
+los LLMs no son chatbots simples. Son modelos complejos con múltiples capacidades, útiles en muchos sectores.
+{{% /note %}}
 
 ---
 
-### Criptomonedas
-{{% fragment class="bullet-point" %}}Descentralización{{% /fragment %}}
-{{% fragment class="bullet-point" %}}Seguridad a través de la Criptografía{{% /fragment %}}
-{{% fragment class="bullet-point" %}}Transacciones Anónimas y Transparentes{{% /fragment %}}
-{{% fragment class="bullet-point" %}}Bitcoin{{% /fragment %}}
-{{% fragment class="bullet-point" %}}Usos de las Criptomonedas{{% /fragment %}}
-{{% fragment class="bullet-point" %}}Volatilidad de Precios{{% /fragment %}}
-{{% fragment class="bullet-point" %}}Regulación y Legalidad{{% /fragment %}}
+## ¿Cómo funciona un LLM (Large Language Model)?
+
+{{% fragment class="bullet-point" %}} Aprenden patrones estadísticos en el lenguaje{{% /fragment %}}
+{{% fragment class="bullet-point" %}} No “entienden” como los humanos, pero **predicen tokens**{{% /fragment %}}
+{{% fragment class="bullet-point" %}} Se entrenan con **transformers** y GPUs en grandes infraestructuras{{% /fragment %}}
+
+<div>
+{{% fragment %}}
+> Fuente: [IBM](https://www.ibm.com/es-es/think/topics/large-language-models)
+{{% /fragment %}}
 
 {{% note %}}
-<ul>
-              <li>
-                Descentralización: A diferencia de las monedas tradicionales
-                emitidas por gobiernos, las criptomonedas operan en una red
-                descentralizada de computadoras. No están controladas por
-                ninguna autoridad central como un banco central o gobierno.
-              </li>
-              <li>
-                Seguridad a través de la Criptografía: Las criptomonedas
-                utilizan técnicas criptográficas avanzadas para asegurar las
-                transacciones y controlar la creación de nuevas unidades.
-              </li>
-              <li>
-                Transacciones Anónimas y Transparentes: Las transacciones con
-                criptomonedas pueden ofrecer un mayor nivel de anonimato en
-                comparación con las transacciones bancarias tradicionales.
-              </li>
-              <li>
-                Bitcoin: Creada por una persona o grupo bajo el seudónimo
-                Satoshi Nakamoto en 2009, es la primera y más conocida
-                criptomoneda.
-              </li>
-              <li>
-                Usos de las Criptomonedas: Pueden ser utilizadas para una
-                variedad de propósitos, incluyendo inversión especulativa,
-                remesas y como parte de sistemas de "contratos inteligentes".
-              </li>
-              <li>
-                Volatilidad de Precios: Las criptomonedas son conocidas por su
-                alta volatilidad de precios.
-              </li>
-              <li>
-                Regulación y Legalidad: El estatus legal y la regulación de las
-                criptomonedas varían significativamente de un país a otro.
-              </li>
-            </ul>
+Los LLM no tienen comprensión semántica. Lo que hacen es aprender probabilidades de ocurrencia de secuencias de tokens.  
+Su "inteligencia" está en la escala y los patrones que pueden capturar.
 {{% /note %}}
 
---- 
+---
 
-### ¿Preguntas?
+### Representación de palabras mediante vectores
+
+{{% fragment class="bullet-point" %}} Las palabras no se tratan como cadenas de letras (“gato”, “cat”) sino como **vectores de decenas o miles de dimensiones**.{{% /fragment %}}
+{{% fragment class="bullet-point" %}} Ejemplo: “cat” podría estar representado como [0.0074, 0.0030, -0.0105, …] en un espacio vectorial.{{% /fragment %}}
+{{% fragment class="bullet-point" %}} Esto permite razonar sobre similitud: “dog” está cerca de “cat”, “kitten” está cerca de “cat”.{{% /fragment %}}
+
+{{% note %}}
+Analogía visual: imagina un espacio 3D donde cada palabra tiene una coordenada. Si “gato” y “perro” están cerca, el modelo los relaciona.  
+Esto es lo que permite que la IA entienda sinónimos o relaciones semánticas.
+{{% /note %}}
+
+---
+
+### El contexto importa: polisemia y homónimos
+
+{{% fragment class="bullet-point" %}} Una palabra como *“banco”* puede referirse a institución financiera o asiento junto al río.{{% /fragment %}}
+{{% fragment class="bullet-point" %}} Los LLM pueden representar la misma palabra con **vectores distintos dependiendo del contexto**.{{% /fragment %}}
+{{% fragment class="bullet-point" %}} Esto es lo que permite que los modelos distingan significados en función de la frase.{{% /fragment %}}
+
+{{% note %}}
+Esto muestra por qué los LLM superan a los modelos anteriores: ahora pueden adaptar el significado de una palabra al contexto en el que aparece.
+{{% /note %}}
+
+---
+
+### Arquitectura básica: Transformers
+
+{{% fragment class="bullet-point" %}} Los LLM usan la arquitectura de **transformer** (introducida en 2017) como componente principal.{{% /fragment %}}
+{{% fragment class="bullet-point" %}} Cada capa del modelo toma los vectores de entrada y produce nuevos vectores de “estado oculto” que capturan información de contexto.{{% /fragment %}}
+<div>
+{{% fragment %}} Dentro de cada capa hay dos fases clave:
+ 1. **Attention** (cabezas de atención): palabras “buscan” otras palabras relevantes en el contexto.
+ 2. **Feed‑forward network**: cada palabra, ya con contexto, “piensa” de forma independiente y se prepara para la predicción de la siguiente palabra.
+{{% /fragment %}}
+</div>
+
+{{% note %}}
+Atención es el componente más revolucionario: permite que cada token decida cuáles otros son importantes para su predicción.
+{{% /note %}}
+
+---
+
+### Escala y entrenamiento
+
+{{% fragment class="bullet-point" %}} Por ejemplo: GPT‑3 tenía 96 capas, vectores de ~12 288 dimensiones, ~175 000 millones de parámetros.{{% /fragment %}}
+{{% fragment class="bullet-point" %}} El entrenamiento: no requieren etiquetas humanas explícitas; se entrenan con el objetivo de **predecir la siguiente palabra/token** en el texto.{{% /fragment %}}
+{{% fragment class="bullet-point" %}} Con esto aprenden patrones de lenguaje que luego permiten generar contenido coherente.{{% /fragment %}}
+
+{{% note %}}
+No se les enseña directamente, sino que aprenden observando texto y prediciendo lo que viene.
+Ese entrenamiento es lo que les permite responder con "conocimiento" aprendido.
+{{% /note %}}
+
+---
+
+### División del trabajo interno
+
+{{% fragment class="bullet-point" %}} Las capas de atención recuperan información del “prompt” o contexto dado.{{% /fragment %}}
+{{% fragment class="bullet-point" %}} Las capas feed‑forward “recuerdan” información aprendida durante el entrenamiento (datos externos al prompt) y la aplican.{{% /fragment %}}
+{{% fragment class="bullet-point" %}} Ejemplo: un modelo puede predecir “Varsovia” como capital de Polonia aunque no aparezca explícitamente en el prompt, porque “Aprendió” esa relación durante el entrenamiento.{{% /fragment %}}
+
+{{% note %}}
+Este concepto es clave para entender por qué a veces los modelos "saben" cosas que no están en el texto que les damos.
+Distinguir entre memoria de entrenamiento y contexto inmediato es esencial.
+{{% /note %}}
+
+---
+
+## Aplicaciones de la IA Generativa
+
+{{% fragment class="bullet-point" %}} **Texto**: redacción, resúmenes, correos, artículos{{% /fragment %}}
+{{% fragment class="bullet-point" %}} **Imagen**: generación de arte, diseño, simulación{{% /fragment %}}
+{{% fragment class="bullet-point" %}} **Audio**: síntesis de voz, música, doblaje{{% /fragment %}}
+{{% fragment class="bullet-point" %}} **Video**: edición automatizada, generación por IA{{% /fragment %}}
+
+{{% note %}}
+Muestra herramientas reales si tienes tiempo: ChatGPT para texto, DALL·E o Midjourney para imágenes, Suno para música, Veo 3 o Runway para video.  
+La clave es que el estudiante entienda que el “prompting” no es solo para texto: es un paradigma transversal.
+{{% /note %}}
+
+---
+
+## Riesgos y consideraciones
+
+{{% fragment class="bullet-point" %}} **Desinformación**{{% /fragment %}}
+{{% fragment class="bullet-point" %}} **Alucinaciones (respuestas falsas)**{{% /fragment %}}
+{{% fragment class="bullet-point" %}} **Privacidad y sesgos**{{% /fragment %}}
+{{% fragment class="bullet-point" %}} **Dependencia tecnológica**{{% /fragment %}}
+
+{{% note %}}
+"Alucinación" no es error técnico, sino una predicción que suena plausible pero no es verdadera.  
+Ejemplos: inventar autores, artículos, leyes, o explicaciones falsas con confianza total.  
+Invita a los estudiantes a usar la IA con escepticismo razonado y validación crítica.
+{{% /note %}}
+
+---
+
+## Aplicaciones de la IA Generativa: Herramientas y ejemplos
+
+{{% note %}}
+La IA generativa no es solo teoría, sino un ecosistema de herramientas aplicables en distintas áreas: texto, imagen, audio y video.  
+¿Qué herramientas conocen o han utilizado?
+{{% /note %}}
+
+---
+
+### Texto: generación, resumen, código
+
+{{% fragment class="bullet-point" %}} Herramientas como ChatGPT o Claude generan ensayos, respuestas y diálogos.{{% /fragment %}}
+{{% fragment class="bullet-point" %}} También pueden escribir bloques de código, generar pruebas o traducir entre lenguajes.{{% /fragment %}}
+
+{{% note %}}
+Demo de ChatGPT: Escriba un pequeño script y luego que lo documente o lo resuma.  
+Refuerza la idea de que el valor está en saber guiar el modelo con prompts bien estructurados.
+{{% /note %}}
+
+---
+
+### Imagen y diseño gráfico
+
+{{% fragment class="bullet-point" %}} Gen AI para texto‑a‑imagen: por ejemplo, Adobe Firefly permite generar imágenes a partir de prompts. {{% /fragment %}}
+{{% fragment class="bullet-point" %}} También hay herramientas que permiten edición inteligente, “relleno generativo” y variaciones estilísticas.{{% /fragment %}}
+
+{{% note %}}
+Ejemplos visuales generados con Midjourney, Firefly o DALL·E.  
+Comenta cómo el prompting visual comparte principios con el textual: contexto, estilo, formato y tono.
+{{% /note %}}
+
+---
+
+### Audio y video
+
+{{% fragment class="bullet-point" %}} **Audio:** modelos que generan música, voz o efectos de sonido a partir de texto o prompts.{{% /fragment %}}
+{{% fragment class="bullet-point" %}} **Video:** herramientas emergentes de texto‑a‑video o imagen‑a‑video como Veo 3 de Google DeepMind.{{% /fragment %}}
+
+{{% note %}}
+https://builtin.com/artificial-intelligence/generative-ai-tools
+Audio: Suno
+Video: Veo3
+La IA generativa audiovisual está avanzando rápidamente: en pocos años veremos integración en cine, publicidad y educación.  
+Ejemplo: generación automática de videos explicativos o comerciales a partir de texto.
+{{% /note %}}
+
+---
+
+### Sectores y casos de uso
+
+{{% fragment class="bullet-point" %}} **Marketing:** creación automática de imágenes, textos y contenido para campañas.{{% /fragment %}}
+{{% fragment class="bullet-point" %}} **Finanzas:** redacción de reportes, análisis de regulaciones, atención al cliente personalizada.{{% /fragment %}}
+{{% fragment class="bullet-point" %}} **Desarrollo de software:** autogeneración de código, casos de prueba, revisión automatizada.{{% /fragment %}}
+{{% fragment class="bullet-point" %}} **Entretenimiento/medios:** efectos especiales, compilados deportivos, narrativas interactivas.{{% /fragment %}}
+
+{{% note %}}
+Puedes abrir debate rápido: ¿en qué sector creen que la IA tendrá más impacto positivo y en cuál más riesgo?  
+Apunta ejemplos de sus carreras para hacerlo relevante.
+{{% /note %}}
+
+---
+
+### Buenas prácticas y limitaciones
+
+{{% fragment class="bullet-point" %}} Aunque muy potentes, estos modelos no “entienden” como humanos, sino que **predicen** lo que estadísticamente sigue.{{% /fragment %}}
+{{% fragment class="bullet-point" %}} Riesgos: sesgos en datos, “alucinaciones”, propiedad intelectual, privacidad, uso malicioso.{{% /fragment %}}
+{{% fragment class="bullet-point" %}} Es esencial la **supervisión humana**, validación y ética en su aplicación.{{% /fragment %}}
+
+{{% note %}}
+El criterio humano sigue siendo indispensable.  
+La inteligencia artificial no reemplaza la inteligencia: la amplifica.  
+Su verdadero valor aparece cuando sabemos preguntar bien, validar resultados y aplicarlos con responsabilidad.
+{{% /note %}}
+
+---
+
+## En resumen
+
+{{% fragment class="bullet-point" %}} Un LLM transforma texto en vectores, usa capas de atención + feed‑forward, entrena a gran escala para predecir tokens.{{% /fragment %}}
+{{% fragment class="bullet-point" %}} Las aplicaciones van más allá del texto: imagen, audio, video, diseño, software.{{% /fragment %}}
+{{% fragment class="bullet-point" %}} No es magia: hay límites, y el prompt sigue siendo esencial para guiar el modelo.{{% /fragment %}}
+
+{{% note %}}
+¿cuál de estas ideas les parece más útil para aplicar?
+{{% /note %}}
+
+---
+
+## Recursos recomendados
+
+- [Guía básica de prompting – Nucleoo](https://www.nucleoo.com/es/introduccion-al-prompting-y-su-importancia-en-la-ia/)
+- [YouTube: Prompt Engineering explicado](https://www.youtube.com/watch?v=Rbws9lbVNAM)
+- [BabelTeam: Cómo crear prompts efectivos](https://blog-es.babelteam.com/principios-basicos-para-crear-prompts-efectivos/)
+- [IBM: Qué es un LLM](https://www.ibm.com/es-es/think/topics/large-language-models)
+- [Understanding AI: ¿Qué hacen los LLM?](https://www.understandingai.org/p/grandes-modelos-de-lenguaje-llm-una)
+- [Prompt writing – Substack](https://extensioneinnovacion.substack.com/p/guia-basica-para-escribir-un-prompt)
+
+{{% note %}}
+Si hay tiempo, abrir uno de estos recursos en vivo.
+{{% /note %}}
+
+---
+
+## Preguntas para reflexionar
+
+{{% fragment class="bullet-point" %}} ¿Qué hace que un prompt sea efectivo?{{% /fragment %}}
+{{% fragment class="bullet-point" %}} ¿Hasta qué punto confías en lo que produce una IA generativa?{{% /fragment %}}
+{{% fragment class="bullet-point" %}} ¿Qué aplicaciones de esta tecnología imaginas en tu carrera?{{% /fragment %}}
+
+{{% note %}}
+Lluvia de ideas o mini debate.
+{{% /note %}}
+
+---
+
+## ¿Preguntas?

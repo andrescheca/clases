@@ -1,5 +1,5 @@
 +++
-title = "Tecnologías Disruptivas - Innovación"
+title = "Tecnologías Disruptivas - Prompting e Inteligencia Artificial Generativa"
 outputs = ["Reveal"]
 +++
 

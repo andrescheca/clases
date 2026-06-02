@@ -1,502 +1,496 @@
 +++
-title = "Excepciones y Patrones de Diseño en Java"
-subtitle = "Manejo de Errores y Fundamentos de Patrones"
+title = "Programación Orientada a Objetos - Semana 6"
+subtitle = "Excepciones y fundamentos de patrones"
 outputs = ["Reveal"]
 +++
 
-## Programación Orientada a Objetos
-### Semana 6: Excepciones y Patrones de Diseño
-
----
-
-### El plan para hoy
-
-{{% fragment class="bullet-point" %}} Comprender el sistema de excepciones en Java {{% /fragment %}}
-{{% fragment class="bullet-point" %}} Practicar con excepciones verificadas y no verificadas {{% /fragment %}}
-{{% fragment class="bullet-point" %}} Crear excepciones personalizadas {{% /fragment %}}
-{{% fragment class="bullet-point" %}} Introducción a los patrones de diseño {{% /fragment %}}
-{{% fragment class="bullet-point" %}} Categorización y ejemplos de patrones {{% /fragment %}}
-
----
-
-{{% section %}}
-
-### Jerarquía de Excepciones en Java
-
-```java
-Throwable
-├── Error
-│   ├── OutOfMemoryError
-│   ├── StackOverflowError
-│   └── ...
-└── Exception
-    ├── IOException (checked)
-    │   ├── FileNotFoundException
-    │   └── EOFException
-    ├── SQLException (checked)
-    └── RuntimeException (unchecked)
-        ├── NullPointerException
-        ├── ArrayIndexOutOfBoundsException
-        └── ArithmeticException
-```
+<div class="deck-cover">
+  <div class="eyebrow">Semana 6</div>
+  <h1 class="deck-cover__title">Los errores también son parte del diseño.</h1>
+  <p class="deck-cover__subtitle">Una excepción bien usada comunica una condición excepcional. Un patrón bien usado comunica una solución de diseño que otros desarrolladores reconocen.</p>
+  <div class="deck-cover__meta">
+    <span class="deck-cover__chip">Excepciones</span>
+    <span class="deck-cover__chip">Factory</span>
+    <span class="deck-cover__chip">Observer</span>
+  </div>
+</div>
 
 {{% note %}}
-Puntos clave de la jerarquía:
-- Throwable es la raíz de todas las excepciones
-- Error representa problemas serios que la aplicación no debería intentar manejar
-- Exception es la clase base para excepciones que podemos manejar
-- RuntimeException y sus subclases son unchecked (no requieren try-catch)
-- Las demás excepciones son checked (requieren try-catch o throws)
+Objetivos:
+- Entender la jerarquía de excepciones.
+- Distinguir checked y unchecked.
+- Crear excepciones del dominio.
+- Introducir patrones como vocabulario de diseño.
+- Usar Factory y Observer como ejemplos iniciales.
 {{% /note %}}
 
 ---
 
-### Excepciones Verificadas (Checked)
+### La ruta de hoy
 
-```java
-public class FileProcessor {
-    public void readFile(String path) throws IOException {
-        File file = new File(path);
-        if (!file.exists()) {
-            throw new FileNotFoundException("Archivo no encontrado: " + path);
-        }
-        
-        BufferedReader reader = new BufferedReader(new FileReader(file));
-        String line = reader.readLine(); // Puede lanzar IOException
-        
-        if (line == null) {
-            throw new IOException("El archivo está vacío");
-        }
-    }
-}
-```
+<div class="concept-map">
+  <div class="concept-map__row">
+    <div class="concept-node">
+      <strong>Excepciones</strong>
+      <span>Checked, unchecked y personalizadas.</span>
+    </div>
+    <div class="concept-arrow">→</div>
+    <div class="concept-node">
+      <strong>Diseño de error</strong>
+      <span>Cuándo lanzar, capturar o propagar.</span>
+    </div>
+  </div>
+  <div class="concept-map__row">
+    <div class="concept-node">
+      <strong>Patrones</strong>
+      <span>Soluciones recurrentes con nombre.</span>
+    </div>
+    <div class="concept-arrow">→</div>
+    <div class="concept-node">
+      <strong>Aplicación</strong>
+      <span>Factory y Observer en ejemplos pequeños.</span>
+    </div>
+  </div>
+</div>
 
 {{% note %}}
-Características de excepciones verificadas:
-- El compilador obliga a manejarlas
-- Representan condiciones recuperables
-- Comunes en operaciones I/O, base de datos, red
-- Deben declararse en la firma del método con throws
-- Se usan para condiciones externas al programa
-- Ejemplos: FileNotFoundException, SQLException, IOException
+Conectar errores y patrones:
+ambos son decisiones de diseño.
+Una excepción define cómo comunicamos fallas.
+Un patrón define cómo comunicamos una solución reconocible.
+
+El riesgo de esta semana es explicar demasiada teoría.
+Usar transferencias bancarias como hilo conductor: errores reales, creación de notificadores y auditoría de movimientos.
 {{% /note %}}
 
 ---
 
-### Excepciones No Verificadas (Unchecked)
+### Jerarquía mínima de excepciones
 
-```java
-public class VariousTasks {
-    public double divide(int a, int b) {
-        // ArithmeticException si b es 0
-        return a / b;
-    }
-    
-    public String processText(String text) {
-        // NullPointerException si text es null
-        return text.toUpperCase();
-    }
-    
-    public int getElement(int[] array, int index) {
-        // ArrayIndexOutOfBoundsException si index >= array.length
-        return array[index];
-    }
-}
-```
-
-{{% note %}}
-Características de excepciones no verificadas:
-- Heredan de RuntimeException
-- No requieren ser declaradas o manejadas
-- Representan errores de programación
-- Se pueden prevenir con buenas prácticas
-- Ejemplos comunes:
-  * NullPointerException: Acceso a objeto null
-  * ArrayIndexOutOfBoundsException: Índice inválido
-  * ArithmeticException: División por cero
-  * IllegalArgumentException: Argumentos inválidos
-{{% /note %}}
-
-{{% /section %}}
-
----
-
-{{% section %}}
-
-### Creando Excepciones Personalizadas
-
-```java
-// Excepción verificada personalizada
-public class InsufficientFundsException extends Exception {
-    private final double amount;
-    private final double balance;
-    
-    public InsufficientFundsException(String message, double amount, double balance) {
-        super(message);
-        this.amount = amount;
-        this.balance = balance;
-    }
-    
-    public double getAmount() { return amount; }
-    public double getBalance() { return balance; }
-}
-
-// Excepción no verificada personalizada
-public class InvalidProductCodeException extends RuntimeException {
-    private final String productCode;
-    
-    public InvalidProductCodeException(String message, String productCode) {
-        super(message);
-        this.productCode = productCode;
-    }
-    
-    public String getProductCode() { return productCode; }
-}
-```
+<div class="visual-split">
+  <div class="visual-copy">
+    <div class="eyebrow">Java</div>
+    <h2>No todas las fallas significan lo mismo.</h2>
+    <p class="lead">La jerarquía separa errores graves, condiciones recuperables y errores de programación.</p>
+  </div>
+  <div class="visual-panel">
+    <div class="concept-map">
+      <div class="concept-node">
+        <strong>Throwable</strong>
+        <span>Raíz de todo lo que se puede lanzar.</span>
+      </div>
+      <div class="concept-arrow">↓</div>
+      <div class="concept-node">
+        <strong>Error</strong>
+        <span>Problemas del entorno. Normalmente no se manejan.</span>
+      </div>
+      <div class="concept-arrow">↓</div>
+      <div class="concept-node">
+        <strong>Exception</strong>
+        <span>Condiciones que el programa puede decidir manejar.</span>
+      </div>
+    </div>
+  </div>
+</div>
 
 {{% note %}}
-Buenas prácticas para excepciones personalizadas:
-- Heredar de Exception para checked, RuntimeException para unchecked
-- Incluir campos relevantes al error
-- Proporcionar constructores con mensaje descriptivo
-- Agregar métodos getter para acceder a detalles del error
-- Usar nombres descriptivos que terminen en "Exception"
-- Documentar bien la excepción y sus casos de uso
+Puntos clave:
+- Throwable es la raíz.
+- Error representa fallas graves del entorno que normalmente no manejamos.
+- Exception representa condiciones que el programa puede manejar.
+- RuntimeException suele indicar errores de programación o validaciones fallidas.
 {{% /note %}}
 
 ---
 
-### Uso de Excepciones Personalizadas
+### Checked vs unchecked
+
+<div class="comparison-grid">
+  <div class="panel">
+    <span class="panel-title">Checked</span>
+    <p>El compilador obliga a manejar o declarar.</p>
+    <p>Ejemplos: archivos, red, base de datos.</p>
+  </div>
+  <div class="panel">
+    <span class="panel-title">Unchecked</span>
+    <p>Heredan de <code>RuntimeException</code>.</p>
+    <p>Ejemplos: argumentos inválidos, nulos, índices incorrectos.</p>
+  </div>
+</div>
 
 ```java
-public class BankAccount {
-    private double balance;
-    
-    public void withdraw(double amount) throws InsufficientFundsException {
-        if (amount > balance) {
-            throw new InsufficientFundsException(
-                "No hay suficiente saldo para retirar " + amount,
-                amount,
-                balance
-            );
-        }
-        balance -= amount;
-    }
-}
-
-public class ProductService {
-    public Product findByCode(String code) {
-        if (!code.matches("[A-Z]{2}\\d{4}")) {
-            throw new InvalidProductCodeException(
-                "Código de producto inválido: debe ser 2 letras y 4 números",
-                code
-            );
-        }
-        // Buscar producto...
-        return product;
-    }
+public String leer(Path path) throws IOException {
+    return Files.readString(path);
 }
 ```
 
 {{% note %}}
-Cuándo usar excepciones personalizadas:
-- Para errores específicos del dominio de negocio
-- Cuando necesitas incluir información adicional del error
-- Para distinguir entre diferentes tipos de errores
-- Para mejorar la legibilidad y mantenibilidad
-- Cuando las excepciones estándar no son suficientes
-{{% /note %}}
-
-{{% /section %}}
-
----
-
-{{% section %}}
-
-### Introducción a Patrones de Diseño
-
-Los patrones de diseño son soluciones probadas a problemas comunes en el desarrollo de software.
-
-{{% note %}}
-Características de los patrones:
-- Son soluciones reutilizables
-- No son diseños completos
-- No son código terminado
-- Son plantillas para resolver problemas
-- Facilitan la comunicación entre desarrolladores
-- Proveen un vocabulario común
+Checked:
+- El compilador obliga a manejar o declarar.
+- Se usa para condiciones externas: archivos, red, base de datos.
+Unchecked:
+- No obliga a try-catch.
+- Suele representar error de programación o argumento inválido.
 {{% /note %}}
 
 ---
 
-### Categorías de Patrones
-
-1. **Patrones Creacionales**
-   - Controlan la creación de objetos
-   - Singleton, Factory Method, Abstract Factory, Builder, Prototype
-
-2. **Patrones Estructurales**
-   - Composición de clases y objetos
-   - Adapter, Bridge, Composite, Decorator, Facade, Flyweight, Proxy
-
-3. **Patrones de Comportamiento**
-   - Comunicación entre objetos
-   - Observer, Strategy, Command, State, Template Method, Iterator, Visitor
-
-{{% note %}}
-Definición detallada de cada patrón:
-
-Patrones Creacionales:
-- Singleton: Garantiza una única instancia de una clase en toda la aplicación
-- Factory Method: Define una interfaz para crear objetos, pero permite a las subclases decidir qué clase instanciar
-- Abstract Factory: Proporciona una interfaz para crear familias de objetos relacionados sin especificar sus clases concretas
-- Builder: Separa la construcción de un objeto complejo de su representación
-- Prototype: Crea nuevos objetos clonando un objeto prototipo
-
-Patrones Estructurales:
-- Adapter: Convierte la interfaz de una clase en otra interfaz que los clientes esperan
-- Bridge: Separa una abstracción de su implementación para que ambas puedan variar independientemente
-- Composite: Compone objetos en estructuras de árbol para representar jerarquías parte-todo
-- Decorator: Añade responsabilidades adicionales a un objeto dinámicamente
-- Facade: Proporciona una interfaz unificada para un conjunto de interfaces en un subsistema
-- Flyweight: Usa compartición para soportar grandes cantidades de objetos de granularidad fina
-- Proxy: Proporciona un sustituto o marcador de posición para otro objeto
-
-Patrones de Comportamiento:
-- Observer: Define una dependencia uno-a-muchos entre objetos
-- Strategy: Define una familia de algoritmos y los hace intercambiables
-- Command: Encapsula una petición como un objeto
-- State: Permite que un objeto altere su comportamiento cuando su estado interno cambia
-- Template Method: Define el esqueleto de un algoritmo, delegando algunos pasos a las subclases
-- Iterator: Proporciona una forma de acceder secuencialmente a los elementos de una colección
-- Visitor: Representa una operación a realizar sobre los elementos de una estructura de objetos
-{{% /note %}}
-
----
-
-### Simple Factory Pattern
+### Capturar donde puedes decidir algo
 
 ```java
-// Producto base
-interface Furniture {
-    void assemble();
-    void deliver();
+try {
+    String contenido = servicio.leerArchivo(path);
+    vista.mostrar(contenido);
+} catch (IOException ex) {
+    vista.mostrarError("No se pudo leer el archivo");
 }
+```
 
-// Productos concretos
-class Chair implements Furniture {
-    public void assemble() { 
-        System.out.println("Ensamblando silla..."); 
-    }
-    public void deliver() {
-        System.out.println("Entregando silla...");
-    }
-}
+<div class="takeaway">
+  <strong>Regla</strong>
+  No captures una excepción si solo vas a esconderla. Captúrala donde puedas recuperar, informar o transformar el error.
+</div>
 
-class Table implements Furniture {
-    public void assemble() { 
-        System.out.println("Ensamblando mesa..."); 
-    }
-    public void deliver() {
-        System.out.println("Entregando mesa...");
-    }
-}
+{{% note %}}
+Antipatrones:
+- catch vacío.
+- imprimir stack trace y seguir como si nada.
+- capturar Exception genérico sin necesidad.
+Una buena captura hace algo concreto: recupera, informa, registra o convierte.
+{{% /note %}}
 
-// Simple Factory
-public class FurnitureSimpleFactory {
-    public static Furniture createFurniture(String type) {
-        if (type == null) {
-            throw new IllegalArgumentException("El tipo no puede ser null");
-        }
-        
-        switch (type.toLowerCase()) {
-            case "chair":
-                return new Chair();
-            case "table":
-                return new Table();
-            default:
-                throw new IllegalArgumentException(
-                    "Tipo de mueble no soportado: " + type
-                );
-        }
+---
+
+### Excepción personalizada
+
+```java
+public class FondosInsuficientesException extends Exception {
+    public FondosInsuficientesException(double saldo, double monto) {
+        super("Saldo " + saldo + " no cubre retiro " + monto);
     }
 }
 
-// Uso
-public class Client {
-    public static void main(String[] args) {
-        Furniture chair = FurnitureSimpleFactory.createFurniture("chair");
-        chair.assemble();
-        chair.deliver();
+public void retirar(double monto) throws FondosInsuficientesException {
+    if (monto > saldo) {
+        throw new FondosInsuficientesException(saldo, monto);
+    }
+    saldo -= monto;
+}
+```
+
+<div class="takeaway">
+  <strong>Cuándo vale la pena</strong>
+  Cuando el error pertenece al dominio y quien llama puede tomar una decisión distinta.
+</div>
+
+{{% note %}}
+Explicar por qué no usar siempre Exception:
+FondosInsuficientesException comunica una regla del negocio.
+Eso permite que la capa de UI muestre un mensaje específico o que una transacción se cancele limpiamente.
+{{% /note %}}
+
+---
+
+### Anti-patrones de excepciones
+
+<div class="big-word-grid">
+  <div class="big-word">
+    <strong>catch vacío</strong>
+    <span>El error desaparece y el sistema queda en estado incierto.</span>
+  </div>
+  <div class="big-word">
+    <strong>throws Exception</strong>
+    <span>Oculta el contrato real del método.</span>
+  </div>
+  <div class="big-word">
+    <strong>Control normal</strong>
+    <span>Usar excepciones para flujo esperado vuelve caro el código.</span>
+  </div>
+</div>
+
+{{% note %}}
+Usar esta diapositiva para discusión:
+- Qué pasa si escondo el error?
+- Qué contrato pierde un método con throws Exception?
+- Por qué no conviene usar excepciones para un caso esperado como "usuario no encontró resultados"?
+{{% /note %}}
+
+---
+
+### Qué es un patrón de diseño
+
+<div class="statement-slide">
+  <div class="eyebrow">Diseño reutilizable</div>
+  <div class="statement">Un patrón es vocabulario compartido para una solución recurrente.</div>
+  <p class="statement-note">No se aplica para sonar avanzado. Se aplica cuando reduce acoplamiento, duplicación o decisiones repetidas.</p>
+</div>
+
+{{% note %}}
+Enfatizar:
+Los patrones no son código copiado.
+Son nombres compartidos para resolver problemas recurrentes.
+Si el problema no existe, el patrón solo agrega complejidad.
+{{% /note %}}
+
+---
+
+### Categorías de patrones
+
+<div class="big-word-grid">
+  <div class="big-word">
+    <strong>Creacionales</strong>
+    <span>Cómo crear objetos sin acoplarse a clases concretas.</span>
+  </div>
+  <div class="big-word">
+    <strong>Estructurales</strong>
+    <span>Cómo componer objetos y adaptar interfaces.</span>
+  </div>
+  <div class="big-word">
+    <strong>Comportamiento</strong>
+    <span>Cómo distribuir responsabilidades y comunicación.</span>
+  </div>
+</div>
+
+{{% note %}}
+Categorías:
+- Creacionales: encapsulan creación.
+- Estructurales: componen o adaptan objetos.
+- Comportamiento: distribuyen responsabilidades entre objetos.
+No memorizar listas; asociar cada categoría con un tipo de problema.
+{{% /note %}}
+
+---
+
+### Caso aplicado: transferencia bancaria
+
+<div class="concept-map">
+  <div class="concept-map__row">
+    <div class="concept-node">
+      <strong>Excepción</strong>
+      <span>Fondos insuficientes no es un <code>if</code> perdido.</span>
+    </div>
+    <div class="concept-arrow">→</div>
+    <div class="concept-node">
+      <strong>Factory</strong>
+      <span>Elegir email, SMS o push sin acoplar el dominio.</span>
+    </div>
+  </div>
+  <div class="concept-map__row">
+    <div class="concept-node">
+      <strong>Observer</strong>
+      <span>Auditoría, métricas y notificaciones reaccionan al evento.</span>
+    </div>
+    <div class="concept-arrow">→</div>
+    <div class="concept-node">
+      <strong>Diseño</strong>
+      <span>Transferir no debería saber todo lo que ocurre después.</span>
+    </div>
+  </div>
+</div>
+
+{{% note %}}
+Usar este caso como hilo conductor para los patrones:
+- La excepción comunica una falla del dominio.
+- Factory evita repetir decisiones de creación.
+- Observer separa la transferencia de sus efectos secundarios.
+{{% /note %}}
+
+---
+
+### Simple Factory
+
+```java
+public class NotificadorFactory {
+    public static Notificador crear(String canal) {
+        return switch (canal) {
+            case "email" -> new EmailNotificador();
+            case "sms" -> new SmsNotificador();
+            default -> throw new IllegalArgumentException("Canal inválido");
+        };
     }
 }
 ```
 
-{{% note %}}
-Simple Factory:
-- Es un método estático que crea objetos
-- No es un patrón GoF oficial, pero es muy utilizado
-- Muy común en Java: Integer.valueOf(), LocalDate.of()
-- Ventajas:
-  * Encapsula la lógica de creación
-  * Centraliza la creación de objetos
-  * Fácil de usar y entender
-  * No requiere crear instancias de fábrica
-- Desventajas:
-  * No es extensible por herencia
-  * Viola Open/Closed Principle al agregar nuevos tipos
-  * Toda la lógica en una sola clase
+<div class="takeaway">
+  <strong>Uso</strong>
+  Centraliza una decisión de creación. El resto del sistema trabaja contra la interfaz <code>Notificador</code>.
+</div>
 
-Ejemplos en Java Standard Library:
-```java
-// Ejemplos de Simple Factory en Java
-Integer number = Integer.valueOf("123");
-LocalDate date = LocalDate.of(2024, 3, 25);
-List<String> list = Collections.unmodifiableList(originalList);
-Path path = Paths.get("file.txt");
-```
+{{% note %}}
+Simple Factory no siempre aparece como patrón GoF formal, pero es muy útil para iniciar.
+Sirve cuando hay una decisión de creación repetida.
+Advertir que si crece demasiado puede evolucionar a Factory Method o configuración externa.
 {{% /note %}}
 
 ---
 
-### Ejemplo Conceptual: Patrón Factory Method
+### Factory aplicada al caso real
 
 ```java
-// Producto
-interface Furniture { void assemble(); }
-
-// Productos concretos
-class Chair implements Furniture {
-    public void assemble() { 
-        System.out.println("Ensamblando silla: patas + asiento + respaldo"); 
-    }
-}
-class Table implements Furniture {
-    public void assemble() { 
-        System.out.println("Ensamblando mesa: patas + superficie"); 
-    }
-}
-
-// Creador
-abstract class FurnitureFactory {
-    abstract Furniture createFurniture();
-    
-    // Método que utiliza el factory
-    public void deliverFurniture() {
-        Furniture furniture = createFurniture();
-        furniture.assemble();
-        System.out.println("Empaquetando para envío...");
-        System.out.println("Enviando al cliente...");
-    }
-}
-
-// Creadores concretos
-class ChairFactory extends FurnitureFactory {
-    Furniture createFurniture() { return new Chair(); }
-}
-class TableFactory extends FurnitureFactory {
-    Furniture createFurniture() { return new Table(); }
-}
-
-// Uso
-public class Client {
-    public static void main(String[] args) {
-        FurnitureFactory factory = new ChairFactory();
-        factory.deliverFurniture();  // Crea y entrega una silla
-    }
-}
+Notificador notificador = NotificadorFactory.crear(preferenciaCliente);
+notificador.enviar("Transferencia aprobada");
 ```
+
+<div class="comparison-grid">
+  <div class="panel">
+    <span class="panel-title">Sin Factory</span>
+    <p>El servicio de transferencia decide entre <code>Email</code>, <code>SMS</code> y <code>Push</code>.</p>
+  </div>
+  <div class="panel">
+    <span class="panel-title">Con Factory</span>
+    <p>El servicio pide un <code>Notificador</code>. La creación queda aislada.</p>
+  </div>
+</div>
 
 {{% note %}}
-Factory Method vs Abstract Factory:
-
-Factory Method:
-- Crea un único tipo de objeto
-- Usa herencia y subclases para decidir qué objeto crear
-- En nuestro ejemplo, cada fábrica crea un solo tipo de mueble
-
-Abstract Factory:
-- Crea familias de objetos relacionados
-- Usa composición para delegar la creación
-- Ejemplo extendido para muebles:
-
-```java
-// Abstract Factory para familia de muebles
-interface FurnitureFactory {
-    Chair createChair();
-    Table createTable();
-}
-
-// Fábrica de muebles modernos
-class ModernFurnitureFactory implements FurnitureFactory {
-    public Chair createChair() { return new ModernChair(); }
-    public Table createTable() { return new ModernTable(); }
-}
-
-// Fábrica de muebles clásicos
-class ClassicFurnitureFactory implements FurnitureFactory {
-    public Chair createChair() { return new ClassicChair(); }
-    public Table createTable() { return new ClassicTable(); }
-}
-```
-
-Diferencias clave:
-1. Factory Method crea un objeto, Abstract Factory crea familias
-2. Factory Method usa herencia, Abstract Factory usa composición
-3. Factory Method es más simple, Abstract Factory maneja relaciones complejas
-4. Factory Method es extensible por subclases, Abstract Factory por nuevas interfaces
-5. Factory Method se enfoca en un tipo, Abstract Factory en una familia de tipos
+Pregunta para la clase:
+si mañana agregamos WhatsApp, qué clase debería cambiar?
+Si cambia TransferenciaService, el diseño está demasiado acoplado.
 {{% /note %}}
 
 ---
 
-### Ejemplo Conceptual: Patrón Observer
+### Factory Method: cuando la subclase decide
+
+<div class="comparison-grid">
+  <div class="panel">
+    <span class="panel-title">Simple Factory</span>
+    <p>Una clase central decide qué implementación crear.</p>
+    <p>Útil para empezar, pero puede crecer como un <code>switch</code> gigante.</p>
+  </div>
+  <div class="panel">
+    <span class="panel-title">Factory Method</span>
+    <p>La clase base define el flujo y delega la creación a subclases.</p>
+    <p>Útil cuando cada variante necesita su propia configuración.</p>
+  </div>
+</div>
 
 ```java
-// Observable
-interface Subject {
-    void attach(Observer observer);
-    void detach(Observer observer);
-    void notifyObservers();
-}
+abstract class NotificadorCreator {
+    public void enviar(String mensaje) {
+        crearNotificador().enviar(mensaje);
+    }
 
-// Observer
-interface Observer {
-    void update(String message);
-}
-
-// Implementación concreta
-class NewsAgency implements Subject {
-    private List<Observer> observers = new ArrayList<>();
-    
-    public void attach(Observer observer) {
-        observers.add(observer);
-    }
-    
-    public void detach(Observer observer) {
-        observers.remove(observer);
-    }
-    
-    public void notifyObservers(String news) {
-        for(Observer observer : observers) {
-            observer.update(news);
-        }
-    }
+    protected abstract Notificador crearNotificador();
 }
 ```
 
 {{% note %}}
-Observer Pattern:
-- Define dependencia uno a muchos
-- Cuando cambia el estado de un objeto, se notifica a todos sus dependientes
-- Utilizado en eventos UI (como vimos en Swing)
-- Promueve el bajo acoplamiento
-- Base para programación reactiva
-- Común en arquitecturas basadas en eventos
+Este tema estaba más desarrollado en la versión anterior.
+Aquí se recupera la diferencia conceptual sin ocupar muchas slides.
+La pregunta clave: la decisión de creación está centralizada o cada variante debe construir a su manera?
 {{% /note %}}
-
-{{% /section %}}
 
 ---
 
-### ¿Preguntas?
+### Observer en una frase
+
+<div class="concept-map">
+  <div class="concept-node">
+    <strong>Subject</strong>
+    <span>El objeto que cambia de estado.</span>
+  </div>
+  <div class="concept-arrow">↓ notifica</div>
+  <div class="concept-node">
+    <strong>Observers</strong>
+    <span>Objetos interesados en reaccionar al cambio.</span>
+  </div>
+  <div class="concept-arrow">↓ desacopla</div>
+  <div class="concept-node">
+    <strong>Resultado</strong>
+    <span>El subject no necesita saber qué hace cada observer.</span>
+  </div>
+</div>
+
+{{% note %}}
+Observer:
+- Un subject mantiene una lista de observadores.
+- Cuando cambia, notifica.
+- El subject no conoce qué hará cada observer.
+Conectar con eventos de Swing: botón y listeners son una forma de observación.
+{{% /note %}}
+
+---
+
+### Observer aplicado al caso real
+
+```java
+transferencia.registrar(new AuditoriaListener());
+transferencia.registrar(new NotificacionListener());
+transferencia.registrar(new MetricasListener());
+
+transferencia.ejecutar(origen, destino, monto);
+```
+
+<div class="takeaway">
+  <strong>Diseño</strong>
+  La transferencia emite un evento. Los listeners deciden qué hacer sin ensuciar la regla principal.
+</div>
+
+{{% note %}}
+Contrastar dos diseños:
+- Malo: transferir también guarda auditoría, envía email, actualiza dashboard y escribe logs.
+- Mejor: transferir cambia saldos y emite un evento de dominio.
+Luego cada observer reacciona.
+{{% /note %}}
+
+---
+
+### Ejercicio: transferencias bancarias
+
+<ol class="step-list">
+  <li><div><strong>Dominio</strong><br>Crear <code>Cuenta</code> con retiro, depósito y transferencia.</div></li>
+  <li><div><strong>Excepción</strong><br>Lanzar <code>FondosInsuficientesException</code> cuando corresponda.</div></li>
+  <li><div><strong>Factory</strong><br>Crear notificadores de operación por canal.</div></li>
+  <li><div><strong>Observer</strong><br>Registrar listeners para auditar movimientos.</div></li>
+</ol>
+
+{{% note %}}
+Dinámica:
+- Empezar con Cuenta y transferir.
+- Agregar excepción específica.
+- Luego agregar NotificadorFactory.
+- Finalmente registrar observadores para auditoría.
+El objetivo es mostrar cómo errores y patrones aparecen juntos en un caso real.
+{{% /note %}}
+
+---
+
+### Cierre
+
+<div class="statement-slide">
+  <div class="eyebrow">Para recordar</div>
+  <div class="statement">Una excepción explica una falla. Un patrón explica una decisión.</div>
+  <p class="statement-note">Ambos son comunicación entre desarrolladores, no solo mecanismos del lenguaje.</p>
+</div>
+
+{{% note %}}
+Cierre:
+- Las excepciones deben contar qué salió mal y quién puede decidir.
+- Los patrones deben reducir cambios dispersos.
+- Preparar semana 7: veremos más patrones, pero siempre partiendo del problema.
+{{% /note %}}
+
+---
+
+### Material de respaldo: catálogo mínimo de patrones
+
+<div class="big-word-grid">
+  <div class="big-word">
+    <strong>Creacionales</strong>
+    <span>Singleton, Factory Method, Abstract Factory, Builder.</span>
+  </div>
+  <div class="big-word">
+    <strong>Estructurales</strong>
+    <span>Adapter, Decorator, Facade, Proxy.</span>
+  </div>
+  <div class="big-word">
+    <strong>Comportamiento</strong>
+    <span>Observer, Strategy, Command, State, Iterator.</span>
+  </div>
+</div>
+
+{{% note %}}
+Material de respaldo: esta diapositiva fue reemplazada por "Categorías de patrones" y el caso de transferencia bancaria.
+Usarla si el grupo necesita ubicar más nombres de patrones antes de profundizar en semana 7.
+{{% /note %}}

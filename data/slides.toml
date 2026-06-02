@@ -1,53 +1,45 @@
-welcome = """## <span class="as-code">kali@kali:~$ whoami</span>
-### Andrés Checa
-{{% fragment class="bullet-point" %}}Ingeniero en Sistemas con maestría en Seguridad Informática.{{% /fragment %}}
-{{% fragment class="bullet-point" %}}Era feliz programando hasta que fui víctima de un ataque.{{% /fragment %}}
-{{% fragment class="bullet-point" %}}En aquella época no había mucho contenido de defensa, así que aprendí a atacar para luego entender cómo defender.{{% /fragment %}}
+welcome = """
+<div class="deck-cover">
+  <div class="eyebrow">whoami</div>
+  <h2 class="deck-cover__title">Andrés Checa</h2>
+  <p class="deck-cover__subtitle">Ingeniero en Sistemas y magíster en Seguridad Informática. Empecé feliz programando; después de vivir un ataque, aprendí seguridad ofensiva para entender mejor cómo defender y construir software con criterio.</p>
+  <div class="deck-cover__meta">
+    <span class="deck-cover__chip">Desarrollo de software</span>
+    <span class="deck-cover__chip">Seguridad</span>
+  </div>
+</div>
 
 ---
 
-### <span class="as-code">kali@kali:~$ groups hk</span>
-#### Experiencia en:
+### Cómo vamos a trabajar
 
-{{% fragment class="bullet-point" %}}Freelance en desarrollo de software.{{% /fragment %}}
-{{% fragment class="bullet-point" %}}Seguridad en entornos financieros (Penetration Testing, Phishing, Code Reviews).{{% /fragment %}}
-{{% fragment class="bullet-point" %}}Desarrollo seguro de software.{{% /fragment %}}
-
-{{% note %}}
-- Hello from the other side
-{{% /note %}}
-
----
-
-### <span class="as-code code-long">kali@kali:~$ cat ~/students.txt</span>
-
-{{% fragment class="bullet-point" %}}Presentación individual{{% /fragment %}}
-{{% fragment class="bullet-point" %}}¿Experiencia previa?{{% /fragment %}}
-{{% fragment class="bullet-point" %}}Lenguajes de programación{{% /fragment %}}
- 
----
-
-{{% section %}}
-
-### <span class="as-code code-long">kali@kali:~$ cat /etc/class/policies.conf</span>
-
-{{% fragment class="long-text"%}}Traten de no faltar a las sesiones.{{% /fragment %}}
-{{% fragment class="long-text" %}}Las tareas no serán extensas, por eso les pido puntualidad en las entregas. Serán definidas de lunes a lunes. Solamente se hará excepciones en casos de fuerza mayor. “Tenía mucho trabajo” o “Jugaba el ídolo” no es fuerza mayor. Esta semana no tendremos tarea.{{% /fragment %}}
+<div class="panel-grid">
+  <div class="panel">
+    <span class="panel-title">Clase con intención</span>
+    <p>No quiero diapositivas que repitan un libro. Quiero que cada sesión ayude a entender, comparar, decidir y practicar.</p>
+  </div>
+  <div class="panel">
+    <span class="panel-title">Participación activa</span>
+    <p>Preguntas, objeciones y ejemplos del mundo real suman. La clase mejora cuando ustedes también la empujan.</p>
+  </div>
+  <div class="panel">
+    <span class="panel-title">Uso responsable de IA</span>
+    <p>Pueden usar herramientas, pero nunca para delegar su criterio. Si una respuesta no la pueden defender, no les pertenece.</p>
+  </div>
+  <div class="panel">
+    <span class="panel-title">Retroalimentación continua</span>
+    <p>Si el ritmo está mal, lo corregimos. Prefiero ajustar la sesión a tiempo antes que descubrir tarde que la clase no conectó.</p>
+  </div>
+</div>
 
 ---
 
-### <span class="as-code code-long">kali@kali:~$ cat /etc/class/policies.conf</span>
+### Lo que espero de ustedes
 
-{{% fragment class="long-text"%}}Las semanas empiezan los lunes{{% /fragment %}}
-{{% fragment class="long-text"%}}Sobre foros interactivos{{% /fragment %}}
-{{% fragment class="long-text" %}}Sobre los examenes (Proctorizer y Mesa de Ayuda){{% /fragment %}}
-{{% fragment class="long-text" %}}Sobre las copias y ChatGPT ó similares en tareas{{% /fragment %}}
-
----
-
-{{% fragment class="long-text"%}}Por favor, si voy muy rápido o no entienden, no tengan vergüenza en avisarme.{{% /fragment %}}
-{{% fragment class="long-text"%}}Lo contrario también aplica, si se están aburriendo con contenido muy básico, avísenme.{{% /fragment %}}
-{{% fragment class="long-text"%}}Mi meta es que se diviertan aprendiendo.{{% /fragment %}}
-
-{{% /section %}}
+<ul class="checklist">
+  <li>Constancia: llegar, participar y sostener el ritmo semanal vale más que estudiar todo al final.</li>
+  <li>Puntualidad: las tareas no serán eternas, así que las fechas sí importan.</li>
+  <li>Integridad académica: usar IA para pensar mejor es válido; usarla para entregar trabajo ajeno no lo es.</li>
+  <li>Comunicación: si algo no se entiende, si voy muy rápido o si el contenido se queda corto, díganmelo en clase.</li>
+</ul>
 """

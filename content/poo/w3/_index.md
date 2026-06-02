@@ -1,403 +1,409 @@
 +++
 title = "Programación Orientada a Objetos - Semana 3"
-subtitle = "Abstracción, Encapsulamiento y Composición"
+subtitle = "Abstracción, encapsulamiento y composición"
 outputs = ["Reveal"]
 +++
 
-## Programación Orientada a Objetos
-### Semana 3: Abstracción, Encapsulamiento y Composición
+<div class="deck-cover">
+  <div class="eyebrow">Semana 3</div>
+  <h1 class="deck-cover__title">Diseñar límites antes de escribir métodos.</h1>
+  <p class="deck-cover__subtitle">Abstracción, encapsulamiento y composición sirven para que una clase tenga una responsabilidad clara y no exponga más de lo necesario.</p>
+  <div class="deck-cover__meta">
+    <span class="deck-cover__chip">Abstracción</span>
+    <span class="deck-cover__chip">Encapsulamiento</span>
+    <span class="deck-cover__chip">Composición</span>
+  </div>
+</div>
+
+{{% note %}}
+Objetivo de la semana:
+- Distinguir abstracción de encapsulamiento.
+- Mostrar composición como herramienta central para distribuir responsabilidades.
+- Evitar que los estudiantes diseñen clases que solo almacenan datos sin comportamiento.
+{{% /note %}}
 
 ---
 
-### El plan para hoy
+<div class="statement-slide">
+  <div class="eyebrow">Cambio mental</div>
+  <div class="statement">Una buena clase no muestra todo lo que sabe.</div>
+  <p class="statement-note">Muestra operaciones útiles, protege su estado y colabora con otras clases pequeñas.</p>
+</div>
 
-{{% fragment class="bullet-point" %}} Comprender la diferencia entre abstracción y encapsulamiento{{% /fragment %}}
-{{% fragment class="bullet-point" %}} Dominar los modificadores de acceso en Java{{% /fragment %}}
-{{% fragment class="bullet-point" %}} Entender el rol de la composición en el diseño OO{{% /fragment %}}
-{{% fragment class="bullet-point" %}} Aplicar estos conceptos en diseños prácticos{{% /fragment %}}
-
----
-
-### Recapitulando: Los 4 Pilares de POO
-
-1. **Abstracción**: Ocultar complejidad, mostrar solo lo necesario
-2. **Encapsulamiento**: Proteger datos, controlar acceso
-3. **Herencia**: Reutilización y jerarquía de clases
-4. **Polimorfismo**: Múltiples formas de comportamiento
+{{% note %}}
+Abrir con una pregunta: qué información debería ocultar una clase y por qué?
+Conectar con ejemplos cotidianos: cajero, control remoto, pedido de restaurante.
+La idea es que el usuario de una clase no tenga que conocer todos sus detalles internos.
+{{% /note %}}
 
 ---
 
-### Abstracción vs Encapsulamiento
+### La ruta de hoy
 
-| Aspecto | Abstracción | Encapsulamiento |
-|---------|-------------|-----------------|
-| Enfoque | QUÉ hace algo | CÓMO proteger datos |
-| Propósito | Manejar complejidad | Proteger integridad |
-| Mecanismo | Métodos públicos simples | Modificadores de acceso |
-| Resultado | Simplicidad | Seguridad |
+<div class="concept-map">
+  <div class="concept-map__row">
+    <div class="concept-node">
+      <strong>Abstraer</strong>
+      <span>Diseñar una interfaz simple para usar algo complejo.</span>
+    </div>
+    <div class="concept-arrow">→</div>
+    <div class="concept-node">
+      <strong>Encapsular</strong>
+      <span>Controlar cómo cambia el estado interno.</span>
+    </div>
+  </div>
+  <div class="concept-map__row">
+    <div class="concept-node">
+      <strong>Componer</strong>
+      <span>Construir objetos colaborando con otros objetos.</span>
+    </div>
+    <div class="concept-arrow">→</div>
+    <div class="concept-node">
+      <strong>Diseñar</strong>
+      <span>Aplicarlo a restaurante, banco o sistema de audio.</span>
+    </div>
+  </div>
+</div>
+
+{{% note %}}
+Presentar la secuencia como flujo de diseño:
+1. Primero decido qué quiero exponer.
+2. Luego protejo el estado interno.
+3. Después separo responsabilidades con composición.
+4. Finalmente pruebo el diseño con un caso práctico.
+La clase de 2 horas necesita alternar explicación y diseño en grupos.
+No dejar el restaurante para los últimos 10 minutos: debe ocupar el último tercio de la sesión.
+{{% /note %}}
 
 ---
 
-### Abstracción: En Detalle
+### Abstracción vs encapsulamiento
 
-- Se centra en **ocultar complejidad**
-- Muestra solo lo que el usuario necesita ver
-- Define una interfaz clara y simple
-- Se implementa mediante métodos públicos significativos
+<div class="comparison-grid">
+  <div class="panel">
+    <span class="panel-title">Abstracción</span>
+    <p>Decide qué operaciones entiende quien usa la clase.</p>
+    <p><strong>Pregunta:</strong> qué necesito saber para usarla?</p>
+  </div>
+  <div class="panel">
+    <span class="panel-title">Encapsulamiento</span>
+    <p>Decide qué datos y reglas quedan protegidos dentro.</p>
+    <p><strong>Pregunta:</strong> quién puede cambiar este estado?</p>
+  </div>
+</div>
+
+<div class="takeaway">
+  <strong>No son lo mismo</strong>
+  Abstraer simplifica el uso. Encapsular protege la integridad.
+</div>
+
+{{% note %}}
+Insistir en la diferencia:
+- Abstracción mira desde afuera: qué necesito para usarlo?
+- Encapsulamiento mira desde adentro: cómo evito estados inválidos?
+Un buen diseño normalmente usa ambos al mismo tiempo.
+{{% /note %}}
+
+---
+
+### Abstracción: una operación clara
 
 ```java
-// Ejemplo de abstracción
 public class ControlRemoto {
-    private int canal;
-    private int volumen;
-    private boolean encendido;
-    
-    // Métodos públicos simples que ocultan la complejidad
-    public void encender() {
-        // Oculta toda la complejidad de encender el TV
-        inicializarSistema();
-        cargarConfiguracion();
-        encendido = true;
+    private Televisor televisor;
+
+    public void subirVolumen() {
+        televisor.cambiarVolumen(+1);
     }
-    
-    public void cambiarCanal(int nuevoCanal) {
-        if (encendido && nuevoCanal > 0) {
-            this.canal = nuevoCanal;
-            sintonizarSenal();
-            ajustarAntena();
+
+    public void cambiarCanal(int canal) {
+        if (canal > 0) {
+            televisor.sintonizar(canal);
         }
     }
-    
-    // Métodos privados que contienen la complejidad
-    private void inicializarSistema() { /* ... */ }
-    private void cargarConfiguracion() { /* ... */ }
-    private void sintonizarSenal() { /* ... */ }
-    private void ajustarAntena() { /* ... */ }
 }
 ```
 
+<div class="takeaway">
+  <strong>Lectura</strong>
+  Quien usa el control no necesita saber cómo se sintoniza una señal. Solo necesita una operación confiable.
+</div>
+
+{{% note %}}
+Usar el ejemplo para discutir nombres de métodos.
+Un método público debería sonar como acción del dominio, no como detalle técnico.
+Preguntar: qué métodos privados podrían existir detrás de cambiarCanal?
+{{% /note %}}
+
 ---
 
-{{% section %}}
-
-### Encapsulamiento: En Detalle
-
-- Se centra en **proteger datos**
-- Controla el acceso a los componentes
-- Implementado mediante:
-  - Modificadores de acceso
-  - Getters y setters
-  - Validación de datos
-
---- 
+### Encapsulamiento: reglas cerca del dato
 
 ```java
 public class CuentaBancaria {
-    private double saldo;     // Dato protegido
-    private String pin;       // Dato protegido
-    
-    public CuentaBancaria(String pin, double saldoInicial) {
-        if (saldoInicial < 0) {
-            throw new IllegalArgumentException("Saldo inicial no puede ser negativo");
-        }
-        this.pin = pin;
-        this.saldo = saldoInicial;
-    }
-    
-    public boolean retirar(double monto, String pinIngresado) {
-        if (!validarPin(pinIngresado)) return false;
-        if (monto <= saldo && monto > 0) {
-            saldo -= monto;
-            return true;
-        }
-        return false;
-    }
-    
-    private boolean validarPin(String pinIngresado) {
-        return this.pin.equals(pinIngresado);
-    }
-    
-    public double consultarSaldo(String pinIngresado) {
-        if (validarPin(pinIngresado)) {
-            return saldo;
-        }
-        throw new SecurityException("PIN inválido");
-    }
-}
-```
-{{% /section %}}
-
----
-
-{{% section %}}
-
-### Modificadores de Acceso en Java
-
-| Modificador | Clase | Paquete | Subclase (mismo paquete) | Subclase (otro paquete) | Mundo |
-|-------------|-------|---------|-------------------------|----------------------|-------|
-| `private`   | ✓     | ✗       | ✗                       | ✗                    | ✗     |
-| `default`   | ✓     | ✓       | ✓                       | ✗                    | ✗     |
-| `protected` | ✓     | ✓       | ✓                       | ✓                    | ✗     |
-| `public`    | ✓     | ✓       | ✓                       | ✓                    | ✓     |
-
---- 
-
-**Notas**:
-- `default`: Es el modificador que se aplica cuando no se especifica ninguno
-- `protected`: Da acceso a subclases sin importar el paquete, y a todas las clases en el mismo paquete
-- Las subclases en el mismo paquete tienen acceso a miembros `default`
-
-{{% /section %}}
-
----
-
-{{% section %}}
-
-### Composición: Concepto y Relación
-
-La composición es útil para modularidad y reusabilidad, y facilita la **abstracción** al construir objetos complejos:
-- Construye objetos complejos usando otros objetos
-- Implementa relaciones "tiene-un" (has-a)
-- Oculta detalles de implementación
-
----
-
-```java
-// Ejemplo de composición
-public class Automovil {
-    // Composición de partes
-    private Motor motor;
-    private Transmision transmision;
-    private SistemaElectrico sistemaElectrico;
-    
-    public Automovil() {
-        this.motor = new Motor();
-        this.transmision = new Transmision();
-        this.sistemaElectrico = new SistemaElectrico();
-    }
-    
-    // Métodos públicos simples que usan la composición
-    public void arrancar() {
-        motor.encender();
-        transmision.ponerEnNeutral();
-        sistemaElectrico.activar();
-    }
-    
-    public void acelerar() {
-        if (motor.estaEncendido()) {
-            motor.aumentarRPM();
-            transmision.ajustarVelocidad();
-        }
-    }
-}
-```
-{{% /section %}}
-
----
-
-### Ejercicio 1: Sistema de Audio
-**Objetivo**: Crear un sistema que demuestre abstracción y encapsulamiento
-
-```java
-public class ReproductorMusica {
-    private int volumenActual;
-    private boolean encendido;
-    private String cancionActual;
-    
-    // Composición
-    private Amplificador amplificador;
-    private Parlantes parlantes;
-    
-    public ReproductorMusica() {
-        this.amplificador = new Amplificador();
-        this.parlantes = new Parlantes();
-        this.volumenActual = 0;
-        this.encendido = false;
-    }
-    
-    public void encender() {
-        encendido = true;
-        amplificador.inicializar();
-        parlantes.activar();
-    }
-    
-    public void reproducir(String cancion) {
-        if (encendido) {
-            this.cancionActual = cancion;
-            amplificador.procesarAudio(cancion);
-            parlantes.emitirSonido();
-        }
-    }
-    
-    public void ajustarVolumen(int nivel) {
-        if (nivel >= 0 && nivel <= 100) {
-            this.volumenActual = nivel;
-            amplificador.ajustarGanancia(nivel);
-            parlantes.ajustarVolumen(nivel);
-        }
-    }
-}
-```
-
----
-
-### Ejercicio 2: Sistema Bancario
-**Objetivo**: Implementar un sistema seguro usando los conceptos aprendidos
-
-```java
-public class CuentaBancaria {
-    // Encapsulamiento de datos
     private double saldo;
-    private List<String> historialTransacciones;
-    
-    // Composición
-    private SistemaSeguridad seguridad;
-    private RegistradorTransacciones registrador;
-    
-    public CuentaBancaria(double saldoInicial) {
-        this.saldo = saldoInicial;
-        this.historialTransacciones = new ArrayList<>();
-        this.seguridad = new SistemaSeguridad();
-        this.registrador = new RegistradorTransacciones();
-    }
-    
-    public boolean realizarTransaccion(double monto, String pin) {
-        if (!seguridad.validarPin(pin)) {
-            return false;
+
+    public void retirar(double monto) {
+        if (monto <= 0 || monto > saldo) {
+            throw new IllegalArgumentException("Retiro inválido");
         }
-        
-        if (monto <= saldo && monto > 0) {
-            saldo -= monto;
-            registrador.registrarMovimiento(monto);
-            return true;
-        }
-        return false;
+        saldo -= monto;
     }
 }
 ```
 
+<div class="case-strip">
+  <div class="case-tile">
+    <strong>private</strong>
+    <span>Estado interno.</span>
+  </div>
+  <div class="case-tile">
+    <strong>public</strong>
+    <span>Operación disponible.</span>
+  </div>
+  <div class="case-tile">
+    <strong>protected</strong>
+    <span>Para herencia controlada.</span>
+  </div>
+  <div class="case-tile">
+    <strong>package</strong>
+    <span>Colaboración dentro del paquete.</span>
+  </div>
+</div>
+
+{{% note %}}
+Recalcar que private no basta por sí solo.
+La protección ocurre cuando las operaciones públicas validan reglas.
+Ejemplos de reglas: saldo no negativo, cantidad mayor a cero, estado permitido.
+{{% /note %}}
+
 ---
 
-### Ejercicio Final Integrador: Sistema de Restaurante
+### Composición: construir con piezas
 
-**Objetivo**: Crear un sistema que demuestre los tres conceptos principales:
-1. Abstracción de operaciones del restaurante
-2. Encapsulamiento de datos sensibles
-3. Composición de diferentes subsistemas
+<div class="visual-split">
+  <div class="visual-copy">
+    <div class="eyebrow">Diseño OO</div>
+    <h2>Un objeto grande suele esconder varios objetos pequeños.</h2>
+    <p class="lead">La composición evita clases que hacen demasiado. Cada pieza conserva una responsabilidad concreta.</p>
+  </div>
+  <div class="visual-panel">
+    <div class="concept-map">
+      <div class="concept-node">
+        <strong>Pedido</strong>
+        <span>Coordina la venta.</span>
+      </div>
+      <div class="concept-arrow">↓ contiene</div>
+      <div class="concept-node">
+        <strong>Items</strong>
+        <span>Producto + cantidad + subtotal.</span>
+      </div>
+      <div class="concept-arrow">↓ usa</div>
+      <div class="concept-node">
+        <strong>Cliente</strong>
+        <span>Datos de contacto y reglas de entrega.</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+{{% note %}}
+La composición responde a la pregunta: de qué está hecho este objeto?
+Contrastar con herencia: no todo lo relacionado necesita una superclase.
+Usar Pedido e ItemPedido para mostrar una relación contiene.
+{{% /note %}}
 
 ---
 
-### Código Base del Sistema de Restaurante
+### Composición en código
 
 ```java
 public class Pedido {
-    // Encapsulamiento
-    private int numeroOrden;
-    private List<Plato> platos;
-    private double total;
-    private String estado;
-    
-    // Composición
-    private Cocina cocina;
-    private Facturacion facturacion;
-    
-    public Pedido(int numeroOrden) {
-        this.numeroOrden = numeroOrden;
-        this.platos = new ArrayList<>();
-        this.estado = "NUEVO";
-        this.cocina = new Cocina();
-        this.facturacion = new Facturacion();
+    private Cliente cliente;
+    private List<ItemPedido> items = new ArrayList<>();
+
+    public void agregar(Producto producto, int cantidad) {
+        items.add(new ItemPedido(producto, cantidad));
     }
-    
-    public void agregarPlato(Plato plato) {
-        if (cocina.verificarDisponibilidad(plato)) {
-            platos.add(plato);
-            total += plato.getPrecio();
-            cocina.prepararPlato(plato);
+
+    public double total() {
+        return items.stream()
+            .mapToDouble(ItemPedido::subtotal)
+            .sum();
+    }
+}
+```
+
+<div class="takeaway">
+  <strong>Regla práctica</strong>
+  Si una clase necesita muchos atributos de otro concepto, probablemente ese concepto merece su propia clase.
+</div>
+
+{{% note %}}
+Explicar que Pedido no calcula cada detalle manualmente si ItemPedido sabe calcular su subtotal.
+Eso reduce duplicación y hace que cada clase tenga una razón más clara para cambiar.
+{{% /note %}}
+
+---
+
+### Señales de mal diseño
+
+<div class="big-word-grid">
+  <div class="big-word">
+    <strong>Datos públicos</strong>
+    <span>Cualquier parte del sistema puede romper invariantes.</span>
+  </div>
+  <div class="big-word">
+    <strong>Clase dios</strong>
+    <span>Una clase valida, calcula, guarda, imprime y decide.</span>
+  </div>
+  <div class="big-word">
+    <strong>Getters sin reglas</strong>
+    <span>La clase entrega datos pero no ofrece comportamiento.</span>
+  </div>
+</div>
+
+{{% note %}}
+Usar esta slide como revisión crítica:
+- Datos públicos rompen invariantes.
+- Clase dios acumula demasiadas razones para cambiar.
+- Getters sin comportamiento suelen indicar modelo anémico.
+Pedir ejemplos de proyectos anteriores donde hayan visto estos problemas.
+{{% /note %}}
+
+---
+
+### Prácticas: audio y banco
+
+<div class="comparison-grid">
+  <div class="panel">
+    <span class="panel-title">Sistema de audio</span>
+    <p><strong>Objetivo:</strong> separar interfaz simple y detalle interno.</p>
+    <p><code>Reproductor</code>, <code>Volumen</code>, <code>ListaReproduccion</code>.</p>
+  </div>
+  <div class="panel">
+    <span class="panel-title">Cuenta bancaria</span>
+    <p><strong>Objetivo:</strong> proteger invariantes del saldo.</p>
+    <p><code>depositar()</code>, <code>retirar()</code>, <code>transferir()</code>.</p>
+  </div>
+</div>
+
+<div class="takeaway">
+  <strong>Actividad</strong>
+  Cada grupo resuelve uno, luego compara qué reglas quedaron dentro de la clase y cuáles quedaron afuera.
+</div>
+
+{{% note %}}
+Estos dos ejercicios venían de la versión anterior.
+Ahora funcionan como calentamiento antes del sistema de restaurante.
+Pedir una implementación mínima y una justificación de diseño, no una solución completa.
+{{% /note %}}
+
+---
+
+### Ejercicio guiado: sistema de restaurante
+
+<ol class="step-list">
+  <li><div><strong>Identificar entidades</strong><br><code>Mesa</code>, <code>Pedido</code>, <code>Producto</code>, <code>ItemPedido</code>, <code>Cuenta</code>.</div></li>
+  <li><div><strong>Definir responsabilidades</strong><br>Escribe una frase por clase: "esta clase se encarga de...".</div></li>
+  <li><div><strong>Proteger estado</strong><br>Ninguna lista interna debe modificarse directamente desde afuera.</div></li>
+  <li><div><strong>Componer</strong><br>Un pedido contiene items; un item conoce producto y cantidad.</div></li>
+</ol>
+
+{{% note %}}
+Dinámica:
+- Dividir en grupos pequeños.
+- Primero pedir responsabilidades, no código.
+- Luego pedir relaciones: contiene, usa, crea.
+- Finalmente implementar solo un flujo: agregar producto y calcular total.
+{{% /note %}}
+
+---
+
+### Checklist de revisión
+
+<ul class="checklist">
+  <li>La clase tiene una responsabilidad que cabe en una frase.</li>
+  <li>Los atributos importantes son privados.</li>
+  <li>Los métodos públicos expresan acciones del dominio.</li>
+  <li>Las reglas viven cerca de los datos que protegen.</li>
+  <li>La colaboración entre objetos se entiende sin leer todo el sistema.</li>
+</ul>
+
+{{% note %}}
+Usar esta lista como rúbrica rápida.
+Si una clase falla en dos o más puntos, pedir rediseño antes de seguir programando.
+{{% /note %}}
+
+---
+
+### Cierre
+
+<div class="statement-slide">
+  <div class="eyebrow">Idea central</div>
+  <div class="statement">Composición primero. Herencia solo cuando el modelo la pide.</div>
+  <p class="statement-note">Antes de extender una clase, preguntamos si el objeto debería colaborar con otra pieza más pequeña.</p>
+</div>
+
+{{% note %}}
+Cierre:
+- La composición es el mecanismo más frecuente para construir sistemas mantenibles.
+- La herencia se reserva para relaciones de especialización reales.
+- Preparar el puente hacia semana 4: cuándo sí conviene heredar o definir interfaces?
+{{% /note %}}
+
+---
+
+### Material de respaldo: modificadores de acceso
+
+<div class="comparison-grid">
+  <div class="panel">
+    <span class="panel-title"><code>private</code></span>
+    <p>Solo la misma clase puede acceder. Es la opción normal para atributos.</p>
+  </div>
+  <div class="panel">
+    <span class="panel-title"><code>public</code></span>
+    <p>Forma parte de la interfaz visible del objeto. Debe expresar operaciones útiles.</p>
+  </div>
+  <div class="panel">
+    <span class="panel-title"><code>protected</code></span>
+    <p>Visible para subclases. Usarlo con cuidado porque acopla la jerarquía.</p>
+  </div>
+  <div class="panel">
+    <span class="panel-title">package-private</span>
+    <p>Sin palabra clave. Visible dentro del mismo paquete.</p>
+  </div>
+</div>
+
+{{% note %}}
+Material de respaldo: esta diapositiva fue reemplazada por "Encapsulamiento: reglas cerca del dato".
+Usarla si el grupo necesita una explicación explícita de los modificadores de acceso antes de implementar.
+{{% /note %}}
+
+---
+
+### Material de respaldo: restaurante mínimo
+
+```java
+public class Pedido {
+    private List<ItemPedido> items = new ArrayList<>();
+
+    public void agregar(Producto producto, int cantidad) {
+        if (cantidad <= 0) {
+            throw new IllegalArgumentException("Cantidad inválida");
         }
+        items.add(new ItemPedido(producto, cantidad));
     }
-    
-    public double generarCuenta() {
-        return facturacion.calcularTotal(platos);
-    }
-}
 
-public class Plato {
-    private String nombre;
-    private double precio;
-    private List<Ingrediente> ingredientes;
-    
-    // Composición
-    private RecetaPreparacion receta;
-    
-    public Plato(String nombre, double precio) {
-        this.nombre = nombre;
-        this.precio = precio;
-        this.ingredientes = new ArrayList<>();
-        this.receta = new RecetaPreparacion();
-    }
-    
-    public void agregarIngrediente(Ingrediente ingrediente) {
-        ingredientes.add(ingrediente);
-    }
-    
-    public double getPrecio() {
-        return precio;
+    public double total() {
+        return items.stream()
+            .mapToDouble(ItemPedido::subtotal)
+            .sum();
     }
 }
 ```
 
----
-
-{{% section %}}
-
-### Estructura del Sistema de Restaurante
-
-1. **Gestión de Pedidos**
-
-```java
-   public class GestorPedidos {
-       private List<Pedido> pedidosPendientes;
-       private Cocina cocina;
-       
-       public void tomarPedido(Pedido pedido) {
-           pedidosPendientes.add(pedido);
-           cocina.notificarNuevoPedido(pedido);
-       }
-       
-       public List<Pedido> obtenerPedidosPendientes() {
-           return new ArrayList<>(pedidosPendientes);
-       }
-   }
-```
----
-
-2. **Gestión de Inventario**
-
-```java
-   public class Inventario {
-       private Map<String, Integer> stockIngredientes;
-       
-       public boolean verificarStock(String ingrediente, int cantidad) {
-           return stockIngredientes.getOrDefault(ingrediente, 0) >= cantidad;
-       }
-       
-       public void actualizarStock(String ingrediente, int cantidad) {
-           stockIngredientes.put(ingrediente, 
-               stockIngredientes.getOrDefault(ingrediente, 0) - cantidad);
-       }
-   }
-```
-{{% /section %}}
-
----
-
-### Conclusiones
-
-1. **Abstracción**: Maneja la complejidad mostrando solo lo necesario
-2. **Encapsulamiento**: Protege y controla el acceso a los datos
-3. **Composición**: Construye objetos complejos usando otros objetos más simples
-
----
-
-### ¿Preguntas?
+{{% note %}}
+Material de respaldo: esta diapositiva fue reemplazada por "Ejercicio guiado: sistema de restaurante".
+Usarla si conviene iniciar el ejercicio con una base de código común para todos los grupos.
+{{% /note %}}

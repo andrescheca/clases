@@ -1,1297 +1,546 @@
 +++
-title = "Más allá de POO"
-subtitle = "Aplicaciones prácticas y conectividad"
+title = "Programación Orientada a Objetos - Semana 8"
+subtitle = "Maven, red, HTTP y APIs"
 outputs = ["Reveal"]
 +++
 
-## Programación Orientada a Objetos
-### Semana 8: Aplicaciones Prácticas y Conectividad
+<div class="deck-cover">
+  <div class="eyebrow">Semana 8</div>
+  <h1 class="deck-cover__title">POO fuera del aula: dependencias, red y datos reales.</h1>
+  <p class="deck-cover__subtitle">La última semana conecta objetos Java con herramientas y sistemas externos: Maven, sockets, HTTP, JSON y una aplicación Swing que consume una API real.</p>
+  <div class="deck-cover__meta">
+    <span class="deck-cover__chip">Maven</span>
+    <span class="deck-cover__chip">HTTP</span>
+    <span class="deck-cover__chip">PokeAPI</span>
+  </div>
+</div>
+
+{{% note %}}
+Objetivos:
+- Entender Maven como herramienta de gestión de proyecto y dependencias.
+- Conocer la idea básica de comunicación cliente-servidor.
+- Diferenciar sockets de HTTP.
+- Consumir una API externa y transformar JSON en objetos Java.
+- Integrar el curso en una app Swing pequeña.
+{{% /note %}}
 
 ---
 
-### El plan para hoy
+### La ruta de hoy
 
-{{% fragment class="bullet-point" %}} Gestión de dependencias con Maven {{% /fragment %}}
-{{% fragment class="bullet-point" %}} Comunicación cliente-servidor con Sockets {{% /fragment %}}
-{{% fragment class="bullet-point" %}} Servidor HTTP simple {{% /fragment %}}
-{{% fragment class="bullet-point" %}} Consumo de APIs con HttpClient {{% /fragment %}}
-{{% fragment class="bullet-point" %}} Ejercicio de Despedida: App Swing + PokeAPI {{% /fragment %}}
+<div class="concept-map">
+  <div class="concept-map__row">
+    <div class="concept-node">
+      <strong>Proyecto</strong>
+      <span>Maven organiza código y dependencias.</span>
+    </div>
+    <div class="concept-arrow">→</div>
+    <div class="concept-node">
+      <strong>Comunicación</strong>
+      <span>Sockets y HTTP conectan procesos.</span>
+    </div>
+  </div>
+  <div class="concept-map__row">
+    <div class="concept-node">
+      <strong>Datos</strong>
+      <span>JSON viaja entre sistemas.</span>
+    </div>
+    <div class="concept-arrow">→</div>
+    <div class="concept-node">
+      <strong>App final</strong>
+      <span>Swing + servicio + modelo + API externa.</span>
+    </div>
+  </div>
+</div>
+
+{{% note %}}
+Presentar la semana como salida al mundo real:
+hasta ahora diseñamos objetos dentro de una aplicación.
+Hoy esos objetos conversan con librerías, red, APIs y usuarios.
+La semana 8 perdió mucho código visible de la app final.
+La solución es usar una fase de laboratorio más explícita, no llenar la explicación inicial con todos los archivos.
+{{% /note %}}
 
 ---
 
-{{% section %}}
+<div class="statement-slide">
+  <div class="eyebrow">Cierre del curso</div>
+  <div class="statement">Un objeto útil casi siempre colabora con algo externo.</div>
+  <p class="statement-note">Archivos, librerías, servidores, APIs y usuarios obligan a diseñar límites claros.</p>
+</div>
 
-### Maven: Gestión de Dependencias
+{{% note %}}
+Explicar que los límites importan más cuando hay dependencias externas.
+Si la API cambia o falla, no queremos que toda la interfaz gráfica dependa de esos detalles.
+{{% /note %}}
 
-Maven es una herramienta de gestión de proyectos basada en el concepto de POM (Project Object Model).
+---
+
+### Maven: el contrato del proyecto
 
 ```xml
-<!-- Estructura básica de un archivo pom.xml -->
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
+<project>
+  <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.ejemplo</groupId>
-    <artifactId>mi-proyecto</artifactId>
-    <version>1.0-SNAPSHOT</version>
+  <groupId>edu.uees</groupId>
+  <artifactId>pokemon-app</artifactId>
+  <version>1.0.0</version>
 
-    <dependencies>
-        <!-- Dependencias del proyecto -->
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-lang3</artifactId>
-            <version>3.12.0</version>
-        </dependency>
-    </dependencies>
-
-    <properties>
-        <maven.compiler.source>11</maven.compiler.source>
-        <maven.compiler.target>11</maven.compiler.target>
-    </properties>
+  <dependencies>
+    <dependency>
+      <groupId>com.google.code.gson</groupId>
+      <artifactId>gson</artifactId>
+      <version>2.10.1</version>
+    </dependency>
+  </dependencies>
 </project>
 ```
 
 {{% note %}}
-Maven es una herramienta esencial en el desarrollo Java moderno que ofrece:
-
-1. Gestión automática de dependencias: Descarga automáticamente las bibliotecas necesarias y sus dependencias transitivas.
-
-2. Ciclo de vida de construcción estandarizado: Compile, test, package, install, deploy.
-
-3. Estructura de proyecto consistente: src/main/java, src/test/java, etc.
-
-4. Repositories centrales: Maven Central contiene la mayoría de librerías populares.
-
-El archivo POM (Project Object Model) es el corazón de un proyecto Maven:
-- groupId: Identificador de grupo, normalmente el dominio invertido de la organización
-- artifactId: Nombre del proyecto
-- version: Versión del proyecto
-- dependencies: Listado de dependencias
-- properties: Configuraciones como versión de Java
-
-Para añadir una dependencia solo necesitas conocer tres elementos:
-- groupId de la biblioteca
-- artifactId de la biblioteca
-- version de la biblioteca
-
-Maven también ofrece plugins que extienden su funcionalidad para tareas como:
-- Generación de documentación Javadoc
-- Compilación de recursos específicos
-- Empaquetado en diferentes formatos (JAR, WAR, EAR)
-- Ejecución de aplicaciones
+Maven ofrece:
+- Gestión automática de dependencias y transitivas.
+- Ciclo de vida estandarizado: compile, test, package, install, deploy.
+- Estructura de proyecto consistente.
+- Acceso a repositorios como Maven Central.
+El POM define identidad del proyecto y dependencias.
 {{% /note %}}
 
 ---
 
-### Ejemplo: Añadir Dependencias con Maven
+### Qué resuelve Maven
 
-```xml
-<dependencies>
-    <!-- Para trabajar con JSON -->
-    <dependency>
-        <groupId>com.google.code.gson</groupId>
-        <artifactId>gson</artifactId>
-        <version>2.10.1</version>
-    </dependency>
-    
-    <!-- Para realizar peticiones HTTP -->
-    <dependency>
-        <groupId>org.apache.httpcomponents</groupId>
-        <artifactId>httpclient</artifactId>
-        <version>4.5.14</version>
-    </dependency>
-    
-    <!-- Para pruebas unitarias -->
-    <dependency>
-        <groupId>org.junit.jupiter</groupId>
-        <artifactId>junit-jupiter</artifactId>
-        <version>5.9.3</version>
-        <scope>test</scope>
-    </dependency>
-</dependencies>
-```
+<div class="big-word-grid">
+  <div class="big-word">
+    <strong>Dependencias</strong>
+    <span>Descarga librerías y sus dependencias transitivas.</span>
+  </div>
+  <div class="big-word">
+    <strong>Estructura</strong>
+    <span>Ordena código en <code>src/main/java</code> y <code>src/test/java</code>.</span>
+  </div>
+  <div class="big-word">
+    <strong>Ciclo de vida</strong>
+    <span><code>compile</code>, <code>test</code>, <code>package</code>, <code>install</code>.</span>
+  </div>
+</div>
+
+{{% note %}}
+Comparar con descargar jars manualmente:
+Maven evita copiar archivos a mano, documenta versiones y permite reconstruir el proyecto en otra máquina.
+Resaltar groupId, artifactId y version como coordenadas de una dependencia.
+{{% /note %}}
 
 ---
 
-### Ejemplo de Uso de una Dependencia
+### Sockets: hablar con otro proceso
+
+<div class="concept-map">
+  <div class="concept-node">
+    <strong>Cliente</strong>
+    <span>Abre conexión a host y puerto.</span>
+  </div>
+  <div class="concept-arrow">↓ bytes</div>
+  <div class="concept-node">
+    <strong>Socket</strong>
+    <span>Canal de entrada y salida.</span>
+  </div>
+  <div class="concept-arrow">↓ respuesta</div>
+  <div class="concept-node">
+    <strong>Servidor</strong>
+    <span>Escucha, procesa y responde.</span>
+  </div>
+</div>
+
+{{% note %}}
+Sockets:
+- ServerSocket escucha en un puerto.
+- Socket representa una conexión entre cliente y servidor.
+- getInputStream y getOutputStream permiten leer y escribir.
+- TCP es confiable y ordenado; UDP sacrifica garantías por velocidad.
+{{% /note %}}
+
+---
+
+### Servidor mínimo
 
 ```java
-// Ejemplo de uso de la librería Gson para trabajar con JSON
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+try (ServerSocket server = new ServerSocket(8080)) {
+    Socket cliente = server.accept();
 
-public class EjemploGson {
-    public static void main(String[] args) {
-        // Crear un objeto para serializar
-        Persona persona = new Persona("Juan", "Pérez", 30);
-        
-        // Convertir objeto a JSON
-        Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        String json = gson.toJson(persona);
-        System.out.println("Objeto a JSON:");
-        System.out.println(json);
-        
-        // Convertir JSON a objeto
-        String jsonInput = "{\"nombre\":\"María\",\"apellido\":\"López\",\"edad\":25}";
-        Persona personaDeJson = gson.fromJson(jsonInput, Persona.class);
-        System.out.println("\nJSON a Objeto:");
-        System.out.println("Nombre: " + personaDeJson.getNombre());
-        System.out.println("Apellido: " + personaDeJson.getApellido());
-        System.out.println("Edad: " + personaDeJson.getEdad());
-    }
-}
+    BufferedReader in = new BufferedReader(
+        new InputStreamReader(cliente.getInputStream())
+    );
 
-class Persona {
-    private String nombre;
-    private String apellido;
-    private int edad;
-    
-    public Persona(String nombre, String apellido, int edad) {
-        this.nombre = nombre;
-        this.apellido = apellido;
-        this.edad = edad;
-    }
-    
-    // Getters y setters
-    public String getNombre() { return nombre; }
-    public String getApellido() { return apellido; }
-    public int getEdad() { return edad; }
+    PrintWriter out = new PrintWriter(cliente.getOutputStream(), true);
+    out.println("Hola " + in.readLine());
 }
 ```
 
-{{% /section %}}
+<div class="takeaway">
+  <strong>Lectura</strong>
+  Socket es bajo nivel. Enseña el mecanismo, pero en aplicaciones modernas normalmente usamos HTTP.
+</div>
+
+{{% note %}}
+Este ejemplo es intencionalmente simple.
+Mencionar que un servidor real debe manejar múltiples clientes, timeouts, errores y cierre de recursos.
+La utilidad de verlo es entender qué hay debajo de protocolos más altos.
+{{% /note %}}
 
 ---
 
-{{% section %}}
+### HTTP: protocolo sobre la red
 
-### Sockets en Java: Comunicación Cliente-Servidor
+<div class="case-strip">
+  <div class="case-tile">
+    <strong>GET</strong>
+    <span>Consultar recurso.</span>
+  </div>
+  <div class="case-tile">
+    <strong>POST</strong>
+    <span>Crear o enviar datos.</span>
+  </div>
+  <div class="case-tile">
+    <strong>Status</strong>
+    <span>200, 404, 500 comunican resultado.</span>
+  </div>
+  <div class="case-tile">
+    <strong>JSON</strong>
+    <span>Formato común para intercambiar datos.</span>
+  </div>
+</div>
 
-Los sockets proporcionan un mecanismo para la comunicación entre procesos a través de la red.
+{{% note %}}
+HTTP:
+- Es texto estructurado de solicitud-respuesta.
+- Tiene método, ruta, cabeceras y cuerpo.
+- El status code comunica resultado.
+- JSON suele viajar como cuerpo en APIs modernas.
+Conectar con servidores reales como Tomcat, Jetty o Spring Boot.
+{{% /note %}}
 
 ---
 
-### Definición de la Interfaz Común
+### HttpClient en Java
 
 ```java
-// Esta interfaz define los servicios que ofrecerá nuestro servidor
-public interface ServicioRemoto {
-    String saludar(String nombre);
-    int sumar(int a, int b);
-    void enviarMensaje(String remitente, String mensaje);
-}
-```
+HttpClient client = HttpClient.newHttpClient();
 
----
+HttpRequest request = HttpRequest.newBuilder()
+    .uri(URI.create("https://pokeapi.co/api/v2/pokemon/pikachu"))
+    .GET()
+    .build();
 
-### Implementación del Servidor
+HttpResponse<String> response =
+    client.send(request, HttpResponse.BodyHandlers.ofString());
 
-```java
-import java.io.*;
-import java.net.*;
-
-public class Servidor implements ServicioRemoto {
-    private static final int PUERTO = 5000;
-    
-    public static void main(String[] args) {
-        new Servidor().iniciar();
-    }
-    
-    public void iniciar() {
-        try (ServerSocket serverSocket = new ServerSocket(PUERTO)) {
-            System.out.println("Servidor iniciado en puerto " + PUERTO);
-            
-            while (true) {
-                Socket clienteSocket = serverSocket.accept();
-                System.out.println("Cliente conectado: " + clienteSocket.getInetAddress());
-                
-                // Crear hilo para manejar cliente
-                Thread clienteHandler = new Thread(new ManejadorCliente(clienteSocket, this));
-                clienteHandler.start();
-            }
-        } catch (IOException e) {
-            System.out.println("Error en el servidor: " + e.getMessage());
-        }
-    }
-    
-    @Override
-    public String saludar(String nombre) {
-        return "¡Hola, " + nombre + "!";
-    }
-    
-    @Override
-    public int sumar(int a, int b) {
-        return a + b;
-    }
-    
-    @Override
-    public void enviarMensaje(String remitente, String mensaje) {
-        System.out.println("[" + remitente + "]: " + mensaje);
-    }
-}
-
-class ManejadorCliente implements Runnable {
-    private Socket clienteSocket;
-    private ServicioRemoto servicio;
-    
-    public ManejadorCliente(Socket socket, ServicioRemoto servicio) {
-        this.clienteSocket = socket;
-        this.servicio = servicio;
-    }
-    
-    @Override
-    public void run() {
-        try (
-            BufferedReader entrada = new BufferedReader(
-                new InputStreamReader(clienteSocket.getInputStream()));
-            PrintWriter salida = new PrintWriter(
-                clienteSocket.getOutputStream(), true)
-        ) {
-            String lineaEntrada;
-            while ((lineaEntrada = entrada.readLine()) != null) {
-                // Procesar comandos del cliente
-                if (lineaEntrada.startsWith("SALUDAR:")) {
-                    String nombre = lineaEntrada.substring(8);
-                    salida.println(servicio.saludar(nombre));
-                } else if (lineaEntrada.startsWith("SUMAR:")) {
-                    String[] numeros = lineaEntrada.substring(6).split(",");
-                    int a = Integer.parseInt(numeros[0]);
-                    int b = Integer.parseInt(numeros[1]);
-                    salida.println(servicio.sumar(a, b));
-                } else if (lineaEntrada.startsWith("MENSAJE:")) {
-                    String[] partes = lineaEntrada.substring(8).split(":");
-                    servicio.enviarMensaje(partes[0], partes[1]);
-                    salida.println("Mensaje recibido");
-                } else if (lineaEntrada.equals("SALIR")) {
-                    break;
-                }
-            }
-        } catch (IOException e) {
-            System.out.println("Error con cliente: " + e.getMessage());
-        } finally {
-            try {
-                clienteSocket.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-}
+String json = response.body();
 ```
 
 {{% note %}}
-Los sockets son una interfaz de programación para comunicaciones en red:
-
-1. TCP vs UDP:
-   - TCP (Socket): Conexión orientada, confiable, ordenada
-   - UDP (DatagramSocket): Sin conexión, no confiable, más rápido
-
-2. Funcionamiento básico:
-   - ServerSocket: Escucha conexiones entrantes en un puerto específico
-   - Socket: Representa una conexión entre cliente y servidor
-   - accept(): Bloquea hasta que llega una conexión
-   - getInputStream()/getOutputStream(): Obtiene los flujos de comunicación
-
-3. Manejo de conexiones múltiples:
-   - Cada conexión se maneja en un hilo separado
-   - Permite servir a múltiples clientes simultáneamente
-
-4. Protocolos de comunicación:
-   - Es importante definir un protocolo claro (comandos y formatos)
-   - En nuestro ejemplo usamos comandos de texto simples:
-     * SALUDAR:nombre
-     * SUMAR:a,b
-     * MENSAJE:remitente:contenido
-
-5. Consideraciones de rendimiento:
-   - Para aplicaciones de alto rendimiento, considerar NIO (Non-blocking I/O)
-   - ThreadPools para limitar el número de hilos
-   - Timeout para conexiones inactivas
-
-La interfaz ServicioRemoto actúa como un contrato entre cliente y servidor, similar a RMI (Remote Method Invocation) pero implementado manualmente. Esta capa de abstracción hace que sea más fácil entender qué operaciones están disponibles.
+Explicar el flujo:
+1. Crear cliente.
+2. Construir request.
+3. Enviar request.
+4. Recibir response.
+5. Revisar status y body.
+Mencionar que en producción hay que manejar errores, timeouts y rate limiting.
 {{% /note %}}
 
 ---
 
-### Implementación del Cliente
+### Modelo: convertir JSON en objeto
 
 ```java
-import java.io.*;
-import java.net.*;
-import java.util.Scanner;
-
-public class Cliente {
-    private static final String HOST = "localhost";
-    private static final int PUERTO = 5000;
-    
-    private Socket socket;
-    private PrintWriter salida;
-    private BufferedReader entrada;
-    private String nombreUsuario;
-    
-    public static void main(String[] args) {
-        new Cliente().iniciar();
-    }
-    
-    public void iniciar() {
-        try {
-            // Conectar al servidor
-            socket = new Socket(HOST, PUERTO);
-            salida = new PrintWriter(socket.getOutputStream(), true);
-            entrada = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-            
-            Scanner scanner = new Scanner(System.in);
-            
-            // Solicitar nombre de usuario
-            System.out.print("Ingrese su nombre de usuario: ");
-            nombreUsuario = scanner.nextLine();
-            
-            // Iniciar hilo para recibir mensajes del servidor
-            Thread hiloLectura = new Thread(this::leerMensajes);
-            hiloLectura.start();
-            
-            // Procesar comandos del usuario
-            boolean ejecutando = true;
-            while (ejecutando) {
-                System.out.println("\nComandos disponibles:");
-                System.out.println("1. Saludar");
-                System.out.println("2. Sumar dos números");
-                System.out.println("3. Enviar mensaje");
-                System.out.println("4. Salir");
-                System.out.print("Ingrese una opción: ");
-                
-                int opcion = Integer.parseInt(scanner.nextLine());
-                
-                switch (opcion) {
-                    case 1:
-                        System.out.print("Ingrese nombre para saludar: ");
-                        String nombre = scanner.nextLine();
-                        salida.println("SALUDAR:" + nombre);
-                        break;
-                    case 2:
-                        System.out.print("Ingrese primer número: ");
-                        int a = Integer.parseInt(scanner.nextLine());
-                        System.out.print("Ingrese segundo número: ");
-                        int b = Integer.parseInt(scanner.nextLine());
-                        salida.println("SUMAR:" + a + "," + b);
-                        break;
-                    case 3:
-                        System.out.print("Mensaje: ");
-                        String mensaje = scanner.nextLine();
-                        salida.println("MENSAJE:" + nombreUsuario + ":" + mensaje);
-                        break;
-                    case 4:
-                        ejecutando = false;
-                        salida.println("SALIR");
-                        break;
-                    default:
-                        System.out.println("Opción no válida");
-                }
-            }
-            
-            // Cerrar recursos
-            socket.close();
-            scanner.close();
-            
-        } catch (IOException e) {
-            System.out.println("Error en el cliente: " + e.getMessage());
-        }
-    }
-    
-    private void leerMensajes() {
-        try {
-            String mensajeServidor;
-            while ((mensajeServidor = entrada.readLine()) != null) {
-                System.out.println("\nRespuesta del servidor: " + mensajeServidor);
-                System.out.print("Ingrese una opción: ");
-            }
-        } catch (IOException e) {
-            if (!socket.isClosed()) {
-                System.out.println("Error leyendo del servidor: " + e.getMessage());
-            }
-        }
-    }
-}
-```
-
-{{% /section %}}
-
----
-
-{{% section %}}
-
-### Servidor HTTP Simple
-
-Un servidor que responde peticiones HTTP básicas visible desde un navegador.
-
-```java
-import java.io.*;
-import java.net.*;
-
-public class ServidorHTTP {
-    private static final int PUERTO = 8080;
-    
-    public static void main(String[] args) {
-        try (ServerSocket serverSocket = new ServerSocket(PUERTO)) {
-            System.out.println("Servidor HTTP iniciado en puerto " + PUERTO);
-            System.out.println("Abra su navegador y vaya a http://localhost:" + PUERTO);
-            
-            while (true) {
-                Socket clienteSocket = serverSocket.accept();
-                Thread hiloCliente = new Thread(() -> manejarConexion(clienteSocket));
-                hiloCliente.start();
-            }
-        } catch (IOException e) {
-            System.out.println("Error en el servidor: " + e.getMessage());
-        }
-    }
-    
-    private static void manejarConexion(Socket clienteSocket) {
-        try (
-            BufferedReader entrada = new BufferedReader(
-                new InputStreamReader(clienteSocket.getInputStream()));
-            PrintWriter salida = new PrintWriter(
-                clienteSocket.getOutputStream(), true)
-        ) {
-            // Leer la solicitud
-            String lineaEntrada;
-            while ((lineaEntrada = entrada.readLine()) != null) {
-                if (lineaEntrada.isEmpty()) {
-                    break;  // La solicitud HTTP termina con una línea vacía
-                }
-                System.out.println(lineaEntrada);
-            }
-            
-            // Enviar respuesta
-            String html = "<!DOCTYPE html>" +
-                          "<html>" +
-                          "<head>" +
-                          "    <title>Servidor HTTP Simple</title>" +
-                          "    <style>" +
-                          "        body { font-family: Arial, sans-serif; margin: 40px; }" +
-                          "        h1 { color: #2c3e50; }" +
-                          "        .container { background-color: #ecf0f1; padding: 20px; " +
-                          "                      border-radius: 5px; max-width: 600px; }" +
-                          "        .highlight { color: #e74c3c; font-weight: bold; }" +
-                          "    </style>" +
-                          "</head>" +
-                          "<body>" +
-                          "    <div class='container'>" +
-                          "        <h1>¡Hola desde mi Servidor HTTP!</h1>" +
-                          "        <p>Este es un servidor HTTP simple implementado en Java.</p>" +
-                          "        <p>Hora actual: <span class='highlight'>" + 
-                                    java.time.LocalDateTime.now() + "</span></p>" +
-                          "    </div>" +
-                          "</body>" +
-                          "</html>";
-            
-            // Cabeceras HTTP
-            salida.println("HTTP/1.1 200 OK");
-            salida.println("Content-Type: text/html; charset=UTF-8");
-            salida.println("Content-Length: " + html.length());
-            salida.println();  // Línea vacía entre cabeceras y cuerpo
-            salida.println(html);
-            
-        } catch (IOException e) {
-            System.out.println("Error con cliente: " + e.getMessage());
-        } finally {
-            try {
-                clienteSocket.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-}
-```
-
-{{% note %}}
-Un servidor HTTP básico es sorprendentemente simple de implementar en Java:
-
-1. Protocolo HTTP:
-   - Es un protocolo basado en texto de solicitud-respuesta
-   - Las solicitudes contienen método, ruta, versión y cabeceras
-   - Las respuestas contienen código de estado, cabeceras y cuerpo
-
-2. Componentes básicos:
-   - ServerSocket para escuchar en un puerto (normalmente 80 o 8080)
-   - Cada conexión se maneja en un hilo separado
-   - Leer la solicitud entrante línea por línea
-   - Enviar respuesta con el formato HTTP adecuado
-
-3. Estructura de una respuesta HTTP:
-   - Línea de estado: "HTTP/1.1 200 OK"
-   - Cabeceras: Content-Type, Content-Length, etc.
-   - Línea en blanco que separa cabeceras y cuerpo
-   - Cuerpo de la respuesta (HTML, JSON, etc.)
-
-4. Consideraciones de seguridad:
-   - Validación de entradas para evitar inyecciones
-   - Límites en el tamaño de solicitudes
-   - Control de acceso y autenticación
-   - Escape de caracteres especiales en respuestas
-
-5. Servidores HTTP reales:
-   - Implementan muchas más funcionalidades: cookies, sesiones, compresión, caché, etc.
-   - Soporte para métodos HTTP (GET, POST, PUT, DELETE, etc.)
-   - Mapeo de rutas a controladores o manejadores
-   - Soporte para contenido estático y dinámico
-
-Este ejemplo es útil para entender los fundamentos, pero para aplicaciones reales se recomienda usar servidores como Tomcat, Jetty o frameworks como Spring Boot.
-{{% /note %}}
-
-{{% /section %}}
-
----
-
-{{% section %}}
-
-### Consumo de APIs con HttpClient
-
-Usando Apache HttpClient para hacer peticiones a APIs externas.
-
-```java
-import org.apache.http.HttpEntity;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClients;
-import org.apache.http.util.EntityUtils;
-
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-
-public class ConsumirAPI {
-    
-    public static void main(String[] args) {
-        // Crear el cliente HTTP
-        try (CloseableHttpClient httpClient = HttpClients.createDefault()) {
-            // Definir la URL de la API
-            String url = "https://pokeapi.co/api/v2/pokemon/pikachu";
-            
-            // Crear la solicitud GET
-            HttpGet request = new HttpGet(url);
-            
-            // Ejecutar la solicitud
-            try (CloseableHttpResponse response = httpClient.execute(request)) {
-                // Obtener el código de estado
-                int statusCode = response.getStatusLine().getStatusCode();
-                System.out.println("Código de estado: " + statusCode);
-                
-                // Obtener el cuerpo de la respuesta
-                HttpEntity entity = response.getEntity();
-                if (entity != null) {
-                    String result = EntityUtils.toString(entity);
-                    
-                    // Parsear el JSON con Gson
-                    Gson gson = new Gson();
-                    JsonObject jsonObject = gson.fromJson(result, JsonObject.class);
-                    
-                    // Extraer información relevante
-                    String nombre = jsonObject.get("name").getAsString();
-                    int altura = jsonObject.get("height").getAsInt();
-                    int peso = jsonObject.get("weight").getAsInt();
-                    int id = jsonObject.get("id").getAsInt();
-                    
-                    // Mostrar la información
-                    System.out.println("Información del Pokémon:");
-                    System.out.println("ID: " + id);
-                    System.out.println("Nombre: " + nombre);
-                    System.out.println("Altura: " + altura/10.0 + " m");
-                    System.out.println("Peso: " + peso/10.0 + " kg");
-                    
-                    // Obtener tipos
-                    System.out.println("Tipos:");
-                    jsonObject.getAsJsonArray("types").forEach(element -> {
-                        String tipo = element.getAsJsonObject()
-                                            .getAsJsonObject("type")
-                                            .get("name").getAsString();
-                        System.out.println("- " + tipo);
-                    });
-                    
-                    // Obtener URL de la imagen frontal
-                    String urlImagen = jsonObject.getAsJsonObject("sprites")
-                                                .get("front_default").getAsString();
-                    System.out.println("URL de la imagen: " + urlImagen);
-                }
-            }
-        } catch (Exception e) {
-            System.out.println("Error al consumir la API: " + e.getMessage());
-            e.printStackTrace();
-        }
-    }
-}
-```
-
-{{% note %}}
-Apache HttpClient es una biblioteca robusta para realizar peticiones HTTP:
-
-1. Ventajas sobre HttpURLConnection (nativo de Java):
-   - API más intuitiva y completa
-   - Soporte para características avanzadas como pooling de conexiones
-   - Mejor manejo de cookies, redirecciones y autenticación
-   - Soporte para conexiones persistentes y operaciones asíncronas
-
-2. Componentes principales:
-   - CloseableHttpClient: Cliente HTTP que maneja las conexiones
-   - HttpGet, HttpPost, etc.: Clases para diferentes métodos HTTP
-   - CloseableHttpResponse: Contiene la respuesta del servidor
-   - HttpEntity: Representa el cuerpo de la solicitud o respuesta
-
-3. Trabajando con JSON:
-   - Gson convierte strings JSON a objetos Java y viceversa
-   - JsonObject permite acceso directo a propiedades sin crear clases POJO
-   - También se puede mapear a clases Java específicas para mayor tipado
-
-4. Consideraciones al consumir APIs:
-   - Rate limiting: Muchas APIs limitan el número de peticiones
-   - Autenticación: Tokens, API keys, OAuth, etc.
-   - Manejo de errores: Códigos HTTP, respuestas de error específicas
-   - Caché: Almacenar respuestas frecuentes para reducir peticiones
-
-5. PokeAPI:
-   - API gratuita con información sobre Pokémon
-   - No requiere autenticación
-   - Documentación completa: https://pokeapi.co/docs/v2
-   - Estructura JSON bien definida
-
-Se puede crear una clase Pokemon para mapear directamente la respuesta JSON, pero para mantener el ejemplo simple usamos JsonObject para acceso directo.
-{{% /note %}}
-
----
-
-### Ejemplo: Modelo Pokemon
-
-```java
-// Clase POJO para mapear los datos de un Pokémon
 public class Pokemon {
-    private int id;
     private String name;
     private int height;
     private int weight;
-    private List<PokemonType> types;
-    private Sprites sprites;
-    private List<Stat> stats;
-    
-    // Getters (se omiten setters si se usa solo para deserialización)
-    public int getId() { return id; }
-    public String getName() { return name; }
-    public int getHeight() { return height; }
-    public int getWeight() { return weight; }
-    public List<PokemonType> getTypes() { return types; }
-    public Sprites getSprites() { return sprites; }
-    public List<Stat> getStats() { return stats; }
-    
-    // Clases internas para la estructura anidada
-    public static class PokemonType {
-        private int slot;
-        private Type type;
-        
-        public int getSlot() { return slot; }
-        public Type getType() { return type; }
-    }
-    
-    public static class Type {
-        private String name;
-        private String url;
-        
-        public String getName() { return name; }
-        public String getUrl() { return url; }
-    }
-    
-    public static class Sprites {
-        private String front_default;
-        private String back_default;
-        
-        public String getFrontDefault() { return front_default; }
-        public String getBackDefault() { return back_default; }
-    }
-    
-    public static class Stat {
-        private int base_stat;
-        private int effort;
-        private StatInfo stat;
-        
-        public int getBaseStat() { return base_stat; }
-        public int getEffort() { return effort; }
-        public StatInfo getStat() { return stat; }
-    }
-    
-    public static class StatInfo {
-        private String name;
-        private String url;
-        
-        public String getName() { return name; }
-        public String getUrl() { return url; }
-    }
-    
-    @Override
-    public String toString() {
-        return "Pokemon{" +
-               "id=" + id +
-               ", name='" + name + '\'' +
-               ", height=" + height +
-               ", weight=" + weight +
-               '}';
+
+    public String getName() {
+        return name;
     }
 }
 ```
 
+```java
+Gson gson = new Gson();
+Pokemon pokemon = gson.fromJson(json, Pokemon.class);
+```
+
+<div class="takeaway">
+  <strong>Diseño</strong>
+  La API entrega texto. El modelo Java recupera significado para el resto del programa.
+</div>
+
+{{% note %}}
+Gson puede trabajar de dos formas:
+- JsonObject para explorar respuestas sin clases.
+- POJOs como Pokemon para tener tipado y mejor diseño.
+Para una app mantenible, preferimos modelo explícito.
+{{% /note %}}
+
 ---
 
-### Ejemplo: Servicio Pokemon
+### Servicio: aislar la API
 
 ```java
-import org.apache.http.HttpEntity;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClients;
-import org.apache.http.util.EntityUtils;
-
-import com.google.gson.Gson;
-
-import java.io.IOException;
-
 public class PokemonService {
-    private static final String API_BASE_URL = "https://pokeapi.co/api/v2/";
-    private final CloseableHttpClient httpClient;
-    private final Gson gson;
-    
-    public PokemonService() {
-        this.httpClient = HttpClients.createDefault();
-        this.gson = new Gson();
-    }
-    
-    public Pokemon getPokemonByName(String name) throws IOException {
-        String url = API_BASE_URL + "pokemon/" + name.toLowerCase();
-        return executeRequest(url, Pokemon.class);
-    }
-    
-    public Pokemon getPokemonById(int id) throws IOException {
-        String url = API_BASE_URL + "pokemon/" + id;
-        return executeRequest(url, Pokemon.class);
-    }
-    
-    private <T> T executeRequest(String url, Class<T> responseType) throws IOException {
-        HttpGet request = new HttpGet(url);
-        
-        try (CloseableHttpResponse response = httpClient.execute(request)) {
-            int statusCode = response.getStatusLine().getStatusCode();
-            
-            if (statusCode >= 200 && statusCode < 300) {
-                HttpEntity entity = response.getEntity();
-                if (entity != null) {
-                    String result = EntityUtils.toString(entity);
-                    return gson.fromJson(result, responseType);
-                }
-            }
-            
-            throw new IOException("Request failed with status code: " + statusCode);
-        }
-    }
-    
-    // Es importante cerrar el cliente HTTP cuando ya no se necesita
-    public void close() throws IOException {
-        if (httpClient != null) {
-            httpClient.close();
-        }
-    }
-    
-    // Ejemplo de uso
-    public static void main(String[] args) {
-        try (PokemonService service = new PokemonService()) {
-            Pokemon pokemon = service.getPokemonByName("charizard");
-            System.out.println(pokemon);
-            System.out.println("Altura: " + pokemon.getHeight()/10.0 + " m");
-            System.out.println("Peso: " + pokemon.getWeight()/10.0 + " kg");
-            System.out.println("Tipos:");
-            pokemon.getTypes().forEach(type -> {
-                System.out.println("- " + type.getType().getName());
-            });
-        } catch (Exception e) {
-            System.out.println("Error: " + e.getMessage());
-            e.printStackTrace();
-        }
+    private final HttpClient client = HttpClient.newHttpClient();
+    private final Gson gson = new Gson();
+
+    public Pokemon buscar(String nombre) throws IOException, InterruptedException {
+        HttpRequest request = HttpRequest.newBuilder()
+            .uri(URI.create("https://pokeapi.co/api/v2/pokemon/" + nombre))
+            .GET()
+            .build();
+
+        String json = client.send(request, BodyHandlers.ofString()).body();
+        return gson.fromJson(json, Pokemon.class);
     }
 }
 ```
 
-{{% /section %}}
+{{% note %}}
+PokemonService actúa como frontera:
+- La UI no sabe de URLs.
+- La UI no sabe de JSON.
+- La UI recibe objetos o errores claros.
+Esto facilita pruebas y cambios si la API cambia.
+{{% /note %}}
 
 ---
 
-{{% section %}}
+### Arquitectura de la app final
 
-### Ejercicio de Despedida: App Swing + PokeAPI
+<div class="concept-map">
+  <div class="concept-map__row">
+    <div class="concept-node">
+      <strong>Swing UI</strong>
+      <span>Lee nombre y muestra resultado.</span>
+    </div>
+    <div class="concept-arrow">→</div>
+    <div class="concept-node">
+      <strong>PokemonService</strong>
+      <span>Hace HTTP y transforma JSON.</span>
+    </div>
+  </div>
+  <div class="concept-map__row">
+    <div class="concept-node">
+      <strong>Pokemon</strong>
+      <span>Modelo del dominio que usa la app.</span>
+    </div>
+    <div class="concept-arrow">→</div>
+    <div class="concept-node">
+      <strong>Errores</strong>
+      <span>Red, 404 y parsing deben manejarse claramente.</span>
+    </div>
+  </div>
+</div>
 
-Vamos a desarrollar una aplicación de escritorio simple que nos permita buscar y mostrar información de Pokémon.
+{{% note %}}
+Reforzar separación:
+- Swing UI captura evento y muestra salida.
+- Servicio hace comunicación y parsing.
+- Modelo representa datos.
+- Errores se traducen a mensajes para usuario.
+Esta arquitectura resume varias semanas del curso.
+{{% /note %}}
 
 ---
 
-### Estructura del Proyecto
+### Errores reales que debe manejar
 
+<div class="big-word-grid">
+  <div class="big-word">
+    <strong>Nombre vacío</strong>
+    <span>Validación antes de llamar la API.</span>
+  </div>
+  <div class="big-word">
+    <strong>404</strong>
+    <span>Pokemon no encontrado.</span>
+  </div>
+  <div class="big-word">
+    <strong>Red</strong>
+    <span>Sin internet, timeout o API no disponible.</span>
+  </div>
+</div>
+
+{{% note %}}
+No permitir que la app falle con stack trace en pantalla.
+Casos mínimos:
+- Texto vacío.
+- Pokemon no existe.
+- No hay internet.
+- La API tarda o responde error.
+Esto conecta excepciones con UX.
+{{% /note %}}
+
+---
+
+### Estructura del proyecto final
+
+```text
+pokemon-app/
+  pom.xml
+  src/main/java/edu/uees/poo/
+    model/Pokemon.java
+    service/PokemonService.java
+    ui/PokemonApp.java
+    Main.java
 ```
-src/
-  ├── main/
-  │     ├── java/
-  │     │     ├── com/
-  │     │     │     └── ejemplo/
-  │     │     │           ├── pokeapp/
-  │     │     │           │     ├── model/
-  │     │     │           │     │     └── Pokemon.java (y clases relacionadas)
-  │     │     │           │     ├── service/
-  │     │     │           │     │     └── PokemonService.java
-  │     │     │           │     └── ui/
-  │     │     │           │           └── PokemonApp.java
-```
+
+<div class="comparison-grid">
+  <div class="panel">
+    <span class="panel-title">Regla de diseño</span>
+    <p>La UI no construye URLs ni parsea JSON. Solo pide datos al servicio.</p>
+  </div>
+  <div class="panel">
+    <span class="panel-title">Regla de entrega</span>
+    <p>Debe ejecutar con <code>mvn package</code> o desde IntelliJ sin pasos manuales ocultos.</p>
+  </div>
+</div>
+
+{{% note %}}
+Esto recupera la estructura detallada de la versión anterior.
+Si el grupo necesita más guía, crear los paquetes en vivo antes de implementar cada clase.
+La separación model/service/ui es la idea central de POO aplicada a una app real.
+{{% /note %}}
 
 ---
 
-### Configuración del pom.xml
+### UI: conectar Swing con el servicio
+
+```java
+public class PokemonApp extends JFrame {
+    private final PokemonService service = new PokemonService();
+    private final JTextField input = new JTextField(16);
+    private final JLabel resultado = new JLabel("Busca un Pokemon");
+
+    public PokemonApp() {
+        JButton buscar = new JButton("Buscar");
+        JPanel panel = new JPanel(new FlowLayout());
+
+        buscar.addActionListener(event -> {
+            try {
+                Pokemon pokemon = service.buscar(input.getText().trim());
+                resultado.setText(pokemon.getName());
+            } catch (Exception ex) {
+                resultado.setText("No se pudo consultar la API");
+            }
+        });
+
+        panel.add(input);
+        panel.add(buscar);
+        panel.add(resultado);
+        add(panel);
+        pack();
+    }
+}
+```
+
+<div class="takeaway">
+  <strong>Separación</strong>
+  La UI captura el evento. El servicio conoce HTTP. El modelo representa el resultado.
+</div>
+
+{{% note %}}
+Esta slide recupera parte del código visible de PokemonApp de la versión anterior, pero sin saturar la clase.
+Completar en vivo:
+- Agregar componentes a un JPanel.
+- Mostrar nombre, altura y peso.
+- Manejar texto vacío antes de llamar al servicio.
+- Mejorar el mensaje de error para 404 y red.
+{{% /note %}}
+
+---
+
+### Ejercicio de cierre
+
+<ol class="step-list">
+  <li><div><strong>Crear proyecto Maven</strong><br>Configurar <code>pom.xml</code> con Gson.</div></li>
+  <li><div><strong>Modelo</strong><br>Crear <code>Pokemon</code> con campos mínimos.</div></li>
+  <li><div><strong>Servicio</strong><br>Crear <code>PokemonService.buscar(nombre)</code>.</div></li>
+  <li><div><strong>Interfaz</strong><br>Crear Swing UI con campo, botón y área de resultado.</div></li>
+  <li><div><strong>Errores</strong><br>Mostrar mensajes claros, no stack traces al usuario.</div></li>
+</ol>
+
+{{% note %}}
+Dinámica sugerida:
+- Dar estructura Maven base.
+- Implementar primero PokemonService y probarlo en consola.
+- Luego conectar Swing.
+- Si hay tiempo, mostrar imagen o tipos del Pokemon.
+- Evaluar separación entre UI, servicio y modelo.
+{{% /note %}}
+
+---
+
+### Cierre del semestre
+
+<div class="statement-slide">
+  <div class="eyebrow">POO en práctica</div>
+  <div class="statement">Diseñar objetos es diseñar colaboración.</div>
+  <p class="statement-note">Cuando una app habla con usuarios, archivos, librerías y APIs, la calidad del diseño se nota en dónde quedan los límites.</p>
+</div>
+
+{{% note %}}
+Cierre del curso:
+- POO no termina en clases y objetos básicos.
+- Sirve para aislar cambios, errores y dependencias externas.
+- Preguntar: qué límite del diseño les parece más importante en la app final?
+{{% /note %}}
+
+---
+
+### Material de respaldo: `pom.xml` completo
 
 ```xml
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
+<project xmlns="http://maven.apache.org/POM/4.0.0">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>edu.uees</groupId>
+  <artifactId>pokemon-app</artifactId>
+  <version>1.0.0</version>
 
-    <groupId>com.ejemplo</groupId>
-    <artifactId>poke-app</artifactId>
-    <version>1.0-SNAPSHOT</version>
+  <properties>
+    <maven.compiler.source>17</maven.compiler.source>
+    <maven.compiler.target>17</maven.compiler.target>
+  </properties>
 
-    <dependencies>
-        <!-- Para realizar peticiones HTTP -->
-        <dependency>
-            <groupId>org.apache.httpcomponents</groupId>
-            <artifactId>httpclient</artifactId>
-            <version>4.5.14</version>
-        </dependency>
-        
-        <!-- Para trabajar con JSON -->
-        <dependency>
-            <groupId>com.google.code.gson</groupId>
-            <artifactId>gson</artifactId>
-            <version>2.10.1</version>
-        </dependency>
-    </dependencies>
-
-    <properties>
-        <maven.compiler.source>11</maven.compiler.source>
-        <maven.compiler.target>11</maven.compiler.target>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    </properties>
+  <dependencies>
+    <dependency>
+      <groupId>com.google.code.gson</groupId>
+      <artifactId>gson</artifactId>
+      <version>2.10.1</version>
+    </dependency>
+  </dependencies>
 </project>
 ```
 
+{{% note %}}
+Material de respaldo: esta diapositiva fue reemplazada por "Maven: el contrato del proyecto".
+Usarla si el grupo necesita copiar una base completa de Maven para el ejercicio final.
+{{% /note %}}
+
 ---
 
-### Modelo: Pokemon.java
+### Material de respaldo: modelo Pokemon ampliado
 
 ```java
-package com.ejemplo.pokeapp.model;
-
-import java.util.List;
-
 public class Pokemon {
     private int id;
     private String name;
     private int height;
     private int weight;
-    private List<PokemonType> types;
-    private Sprites sprites;
-    private List<Stat> stats;
-    
-    // Getters
+
     public int getId() { return id; }
     public String getName() { return name; }
     public int getHeight() { return height; }
     public int getWeight() { return weight; }
-    public List<PokemonType> getTypes() { return types; }
-    public Sprites getSprites() { return sprites; }
-    public List<Stat> getStats() { return stats; }
-    
-    // Clases internas para la estructura anidada
-    public static class PokemonType {
-        private int slot;
-        private Type type;
-        
-        public int getSlot() { return slot; }
-        public Type getType() { return type; }
-    }
-    
-    public static class Type {
-        private String name;
-        private String url;
-        
-        public String getName() { return name; }
-        public String getUrl() { return url; }
-    }
-    
-    public static class Sprites {
-        private String front_default;
-        private String back_default;
-        
-        public String getFrontDefault() { return front_default; }
-        public String getBackDefault() { return back_default; }
-    }
-    
-    public static class Stat {
-        private int base_stat;
-        private int effort;
-        private StatInfo stat;
-        
-        public int getBaseStat() { return base_stat; }
-        public int getEffort() { return effort; }
-        public StatInfo getStat() { return stat; }
-    }
-    
-    public static class StatInfo {
-        private String name;
-        private String url;
-        
-        public String getName() { return name; }
-        public String getUrl() { return url; }
-    }
 }
 ```
-
----
-
-### Servicio: PokemonService.java
-
-```java
-package com.ejemplo.pokeapp.service;
-
-import com.ejemplo.pokeapp.model.Pokemon;
-import com.google.gson.Gson;
-import org.apache.http.HttpEntity;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClients;
-import org.apache.http.util.EntityUtils;
-
-import java.io.IOException;
-
-public class PokemonService implements AutoCloseable {
-    private static final String API_BASE_URL = "https://pokeapi.co/api/v2/";
-    private final CloseableHttpClient httpClient;
-    private final Gson gson;
-    
-    public PokemonService() {
-        this.httpClient = HttpClients.createDefault();
-        this.gson = new Gson();
-    }
-    
-    public Pokemon getPokemonByName(String name) throws IOException {
-        if (name == null || name.trim().isEmpty()) {
-            throw new IllegalArgumentException("El nombre no puede estar vacío");
-        }
-        
-        String url = API_BASE_URL + "pokemon/" + name.toLowerCase().trim();
-        return executeRequest(url, Pokemon.class);
-    }
-    
-    public Pokemon getPokemonById(int id) throws IOException {
-        if (id <= 0) {
-            throw new IllegalArgumentException("El ID debe ser un número positivo");
-        }
-        
-        String url = API_BASE_URL + "pokemon/" + id;
-        return executeRequest(url, Pokemon.class);
-    }
-    
-    private <T> T executeRequest(String url, Class<T> responseType) throws IOException {
-        HttpGet request = new HttpGet(url);
-        
-        try (CloseableHttpResponse response = httpClient.execute(request)) {
-            int statusCode = response.getStatusLine().getStatusCode();
-            
-            if (statusCode >= 200 && statusCode < 300) {
-                HttpEntity entity = response.getEntity();
-                if (entity != null) {
-                    String result = EntityUtils.toString(entity);
-                    return gson.fromJson(result, responseType);
-                }
-            }
-            
-            throw new IOException("La petición falló con código: " + statusCode);
-        }
-    }
-    
-    @Override
-    public void close() throws Exception {
-        if (httpClient != null) {
-            httpClient.close();
-        }
-    }
-}
-```
-
----
-
-### UI: PokemonApp.java (Parte 1)
-
-```java
-package com.ejemplo.pokeapp.ui;
-
-import com.ejemplo.pokeapp.model.Pokemon;
-import com.ejemplo.pokeapp.service.PokemonService;
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.net.URL;
-import java.util.stream.Collectors;
-
-public class PokemonApp extends JFrame {
-    
-    private final PokemonService pokemonService;
-    
-    private JTextField searchField;
-    private JButton searchButton;
-    private JLabel nameLabel;
-    private JLabel idLabel;
-    private JLabel heightLabel;
-    private JLabel weightLabel;
-    private JLabel typesLabel;
-    private JLabel imageLabel;
-    private JPanel statsPanel;
-    
-    public PokemonApp() {
-        pokemonService = new PokemonService();
-        
-        setupUI();
-        
-        // Cerrar recursos al cerrar la ventana
-        addWindowListener(new WindowAdapter() {
-            @Override
-            public void windowClosing(WindowEvent e) {
-                try {
-                    pokemonService.close();
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                }
-            }
-        });
-    }
-    
-    private void setupUI() {
-        setTitle("PokeApp");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(600, 400);
-        setLocationRelativeTo(null);
-        
-        // Panel principal con BorderLayout
-        JPanel mainPanel = new JPanel(new BorderLayout(10, 10));
-        mainPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-        
-        // Panel de búsqueda en la parte superior
-        JPanel searchPanel = new JPanel(new BorderLayout(5, 0));
-        searchField = new JTextField();
-        searchButton = new JButton("Buscar");
-        searchPanel.add(new JLabel("Nombre o ID: "), BorderLayout.WEST);
-        searchPanel.add(searchField, BorderLayout.CENTER);
-        searchPanel.add(searchButton, BorderLayout.EAST);
-        
-        // Panel de información a la izquierda
-        JPanel infoPanel = new JPanel(new GridLayout(5, 1, 5, 5));
-        nameLabel = new JLabel("Nombre: ");
-        idLabel = new JLabel("ID: ");
-        heightLabel = new JLabel("Altura: ");
-        weightLabel = new JLabel("Peso: ");
-        typesLabel = new JLabel("Tipos: ");
-        infoPanel.add(nameLabel);
-        infoPanel.add(idLabel);
-        infoPanel.add(heightLabel);
-        infoPanel.add(weightLabel);
-        infoPanel.add(typesLabel);
-        
-        // Panel para la imagen a la derecha
-        JPanel imagePanel = new JPanel(new BorderLayout());
-        imageLabel = new JLabel("", SwingConstants.CENTER);
-        imagePanel.add(imageLabel, BorderLayout.CENTER);
-        
-        // Panel para las estadísticas abajo
-        statsPanel = new JPanel(new GridLayout(1, 6, 5, 0));
-        statsPanel.setBorder(BorderFactory.createTitledBorder("Estadísticas"));
-        
-        // Añadir componentes al panel principal
-        mainPanel.add(searchPanel, BorderLayout.NORTH);
-        mainPanel.add(infoPanel, BorderLayout.WEST);
-        mainPanel.add(imagePanel, BorderLayout.CENTER);
-        mainPanel.add(statsPanel, BorderLayout.SOUTH);
-        
-        // Configurar acción de búsqueda
-        searchButton.addActionListener(this::searchPokemon);
-        searchField.addActionListener(this::searchPokemon);  // Buscar al presionar Enter
-        
-        // Añadir panel principal al frame
-        add(mainPanel);
-    }
-```
-
----
-
-### UI: PokemonApp.java (Parte 2)
-
-```java    
-    private void searchPokemon(ActionEvent e) {
-        String query = searchField.getText().trim();
-        if (query.isEmpty()) {
-            JOptionPane.showMessageDialog(this, 
-                "Por favor ingrese un nombre o ID de Pokémon", 
-                "Campo vacío", JOptionPane.WARNING_MESSAGE);
-            return;
-        }
-        
-        try {
-            Pokemon pokemon;
-            // Determinar si la búsqueda es por ID o por nombre
-            if (query.matches("\\d+")) {
-                int id = Integer.parseInt(query);
-                pokemon = pokemonService.getPokemonById(id);
-            } else {
-                pokemon = pokemonService.getPokemonByName(query);
-            }
-            
-            displayPokemon(pokemon);
-        } catch (Exception ex) {
-            JOptionPane.showMessageDialog(this, 
-                "Error al buscar el Pokémon: " + ex.getMessage(), 
-                "Error", JOptionPane.ERROR_MESSAGE);
-            ex.printStackTrace();
-        }
-    }
-    
-    private void displayPokemon(Pokemon pokemon) {
-        // Actualizar etiquetas de información
-        nameLabel.setText("Nombre: " + capitalizarPrimeraLetra(pokemon.getName()));
-        idLabel.setText("ID: " + pokemon.getId());
-        heightLabel.setText("Altura: " + (pokemon.getHeight() / 10.0) + " m");
-        weightLabel.setText("Peso: " + (pokemon.getWeight() / 10.0) + " kg");
-        
-        // Mostrar tipos
-        String tipos = pokemon.getTypes().stream()
-                .map(type -> capitalizarPrimeraLetra(type.getType().getName()))
-                .collect(Collectors.joining(", "));
-        typesLabel.setText("Tipos: " + tipos);
-        
-        // Mostrar imagen
-        try {
-            String imageUrl = pokemon.getSprites().getFrontDefault();
-            if (imageUrl != null && !imageUrl.isEmpty()) {
-                ImageIcon icon = new ImageIcon(new URL(imageUrl));
-                imageLabel.setIcon(icon);
-            } else {
-                imageLabel.setIcon(null);
-                imageLabel.setText("Imagen no disponible");
-            }
-        } catch (Exception e) {
-            imageLabel.setIcon(null);
-            imageLabel.setText("Error al cargar imagen");
-            e.printStackTrace();
-        }
-        
-        // Actualizar panel de estadísticas
-        statsPanel.removeAll();
-        if (pokemon.getStats() != null) {
-            for (Pokemon.Stat stat : pokemon.getStats()) {
-                String statName = stat.getStat().getName();
-                int value = stat.getBaseStat();
-                
-                // Simplificar nombres de estadísticas
-                String displayName = switch (statName) {
-                    case "hp" -> "HP";
-                    case "attack" -> "ATK";
-                    case "defense" -> "DEF";
-                    case "special-attack" -> "SP.ATK";
-                    case "special-defense" -> "SP.DEF";
-                    case "speed" -> "SPD";
-                    default -> statName;
-                };
-                
-                JPanel statPanel = new JPanel(new BorderLayout(0, 5));
-                JLabel nameLabel = new JLabel(displayName, SwingConstants.CENTER);
-                JLabel valueLabel = new JLabel(String.valueOf(value), SwingConstants.CENTER);
-                JProgressBar bar = new JProgressBar(0, 255);
-                bar.setValue(value);
-                bar.setStringPainted(true);
-                bar.setString(String.valueOf(value));
-                
-                statPanel.add(nameLabel, BorderLayout.NORTH);
-                statPanel.add(bar, BorderLayout.CENTER);
-                statsPanel.add(statPanel);
-            }
-        }
-        
-        // Repintar
-        statsPanel.revalidate();
-        statsPanel.repaint();
-    }
-    
-    private String capitalizarPrimeraLetra(String str) {
-        if (str == null || str.isEmpty()) {
-            return str;
-        }
-        return str.substring(0, 1).toUpperCase() + str.substring(1);
-    }
-    
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> {
-            PokemonApp app = new PokemonApp();
-            app.setVisible(true);
-        });
-    }
-}
-```
-
----
-
-### Ejecutando la Aplicación
-
-La aplicación final permite:
-
-1. Buscar un Pokémon por nombre o ID
-2. Ver su información básica (nombre, altura, peso, tipos)
-3. Ver su imagen
-4. Ver sus estadísticas en gráficos de barras
 
 {{% note %}}
-Esta aplicación Swing combinada con PokeAPI ilustra varios conceptos importantes:
-
-1. Arquitectura en capas:
-   - Capa de modelo (Pokemon.java): Representa los datos
-   - Capa de servicio (PokemonService.java): Maneja la comunicación con la API
-   - Capa de presentación (PokemonApp.java): Interfaz de usuario
-
-2. Patrones de diseño:
-   - Observer: Los componentes Swing usan este patrón para manejar eventos
-   - MVC (Model-View-Controller): Separación de datos, presentación y lógica
-   - Strategy: La búsqueda puede ser por nombre o ID (diferentes estrategias)
-
-3. Buenas prácticas:
-   - Manejo adecuado de recursos (implementación de AutoCloseable)
-   - Tratamiento de errores y excepciones
-   - Validación de entradas
-   - Código organizado por responsabilidades
-
-4. Conocimientos aplicados:
-   - Maven para gestión de dependencias
-   - HTTP para comunicación con API
-   - JSON para procesamiento de datos
-   - Swing para interfaces gráficas
-   - Programación orientada a objetos
-
-Esta aplicación sirve como un excelente proyecto de cierre que integra muchos conceptos vistos a lo largo del curso, demostrando cómo se pueden combinar para crear una aplicación funcional.
+Material de respaldo: esta diapositiva fue reemplazada por "Modelo: convertir JSON en objeto".
+Usarla si se necesita recuperar más campos del modelo antes de conectar Swing con la API.
 {{% /note %}}
-
-{{% /section %}}
-
----
-
-### ¿Preguntas?

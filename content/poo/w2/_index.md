@@ -1,679 +1,444 @@
 +++
-title = "Programación Orientada a Objetos - Sintaxis básica en Java"
+title = "Programación Orientada a Objetos - Semana 2"
+subtitle = "De Python a Java: objetos, tipos y control"
 outputs = ["Reveal"]
 +++
 
-## Semana 2
+<div class="deck-cover">
+  <div class="eyebrow">Semana 2</div>
+  <h1 class="deck-cover__title">Java nos obliga a nombrar las decisiones.</h1>
+  <p class="deck-cover__subtitle">La clase conecta lo que ya conocen de Python con una forma más explícita de modelar: tipos, clases, objetos, colecciones y control de flujo.</p>
+  <div class="deck-cover__meta">
+    <span class="deck-cover__chip">POO</span>
+    <span class="deck-cover__chip">Java básico</span>
+    <span class="deck-cover__chip">De Python a Java</span>
+  </div>
+</div>
 
-- Introducción a la sintaxis de Java
-- Diferencias clave con Python
-- Conceptos básicos de orientación a objetos
+{{% note %}}
+Objetivo: que Java deje de sentirse como ceremonia y empiece a verse como un lenguaje que hace visibles decisiones de diseño.
+{{% /note %}}
+
+---
+
+### La ruta de hoy
+
+<div class="concept-map">
+  <div class="concept-map__row">
+    <div class="concept-node">
+      <strong>Idea OO</strong>
+      <span>Objeto, estado, comportamiento y responsabilidad.</span>
+    </div>
+    <div class="concept-arrow">→</div>
+    <div class="concept-node">
+      <strong>Java concreto</strong>
+      <span>Clases, tipos, métodos y colecciones.</span>
+    </div>
+  </div>
+  <div class="concept-map__row">
+    <div class="concept-node">
+      <strong>Errores típicos</strong>
+      <span><code>==</code>, nulos, mutabilidad y conversiones.</span>
+    </div>
+    <div class="concept-arrow">→</div>
+    <div class="concept-node">
+      <strong>Ejercicio</strong>
+      <span>Mini sistema de biblioteca con objetos reales.</span>
+    </div>
+  </div>
+</div>
 
 {{% note %}}
 Objetivos de la semana:
-- Entender las diferencias principales entre Java y Python
-- Conocer la sintaxis básica de Java
-- Introducir conceptos fundamentales de POO
+- Conectar lo que ya conocen de Python con la forma explícita de Java.
+- Introducir objetos como unión de datos y comportamiento.
+- Mostrar que tipos, clases y colecciones son decisiones de diseño, no solo sintaxis.
+La versión anterior tenía muchos temas de Java básico.
+Aquí quedan repartidos como práctica: explicar solo lo necesario para resolver el sistema de biblioteca.
 {{% /note %}}
 
 ---
 
-### Características de la Orientación a Objetos
+### Los cuatro pilares como decisiones de diseño
 
-{{% fragment class="bullet-point" %}}**1. Todo es parte de un objeto**: Los datos y comportamientos están unidos{{% /fragment %}}
-{{% fragment class="bullet-point" %}}**2. Organización del Código**: Cada objeto maneja sus propios datos{{% /fragment %}}
-{{% fragment class="bullet-point" %}}**3. Reutilización**: Podemos crear objetos similares fácilmente{{% /fragment %}}
-{{% fragment class="bullet-point" %}}**4. Claridad**: El código refleja el mundo real{{% /fragment %}}
+<div class="case-strip">
+  <div class="case-tile">
+    <strong>Encapsular</strong>
+    <span>Quién puede cambiar el estado y bajo qué reglas.</span>
+  </div>
+  <div class="case-tile">
+    <strong>Abstraer</strong>
+    <span>Qué operación expongo sin revelar todo el mecanismo.</span>
+  </div>
+  <div class="case-tile">
+    <strong>Heredar</strong>
+    <span>Cuándo una clase realmente es una especialización.</span>
+  </div>
+  <div class="case-tile">
+    <strong>Polimorfismo</strong>
+    <span>Cuándo puedo cambiar implementación sin cambiar uso.</span>
+  </div>
+</div>
+
+<div class="takeaway">
+  <strong>Lectura correcta</strong>
+  Los pilares no son definiciones para memorizar. Son herramientas para decidir dónde vive una responsabilidad.
+</div>
 
 {{% note %}}
 Conceptos fundamentales:
-- Un objeto combina datos y acciones (como en Python)
-- Los objetos son similares a cosas del mundo real
-- Los objetos pueden interactuar entre sí
-- El código se organiza en unidades lógicas (objetos)
+- Un objeto combina datos y acciones.
+- Los objetos interactúan entre sí para resolver una tarea.
+- La POO ayuda a organizar código en unidades con propósito.
+- Presentar los pilares como decisiones prácticas: proteger, simplificar, reutilizar y variar comportamiento.
 {{% /note %}}
 
 ---
 
-### Características Fundamentales de POO
-
-La Programación Orientada a Objetos se basa en cuatro características principales:
-
-1. **Encapsulación**: Ocultar los detalles internos
-2. **Abstracción**: Modelar objetos del mundo real
-3. **Herencia**: Reutilizar y extender código
-4. **Polimorfismo**: Múltiples formas de comportamiento
+<div class="visual-split">
+  <div class="visual-copy">
+    <div class="eyebrow">Modelo mental</div>
+    <h2>Clase es molde. Objeto es caso vivo.</h2>
+    <p class="lead">La clase declara datos y operaciones. El objeto tiene valores concretos y participa en el programa.</p>
+  </div>
+  <div class="visual-panel">
+    <div class="concept-map">
+      <div class="concept-node">
+        <strong>Clase</strong>
+        <span><code>Libro</code>: titulo, autor, disponible</span>
+      </div>
+      <div class="concept-arrow">↓ instancia</div>
+      <div class="concept-node">
+        <strong>Objeto</strong>
+        <span><code>cleanCode</code>: "Clean Code", Martin, true</span>
+      </div>
+      <div class="concept-arrow">↓ responde</div>
+      <div class="concept-node">
+        <strong>Comportamiento</strong>
+        <span><code>prestar()</code>, <code>devolver()</code>, <code>estaDisponible()</code></span>
+      </div>
+    </div>
+  </div>
+</div>
 
 {{% note %}}
-Estas son las cuatro características fundamentales que hacen a la POO tan poderosa:
-- Cada una resuelve un problema específico del desarrollo de software
-- Se complementan entre sí
-- Son la base para crear código mantenible y reutilizable
+Reforzar la diferencia:
+- Clase: definición, plantilla o molde.
+- Objeto: instancia concreta con estado real.
+- Método: comportamiento disponible.
+- Usar el ejemplo de Libro para que no parezca una definición abstracta.
 {{% /note %}}
 
 ---
 
-### Encapsulación
+### Python y Java no piensan igual los datos
 
-**¿Qué es?** 
-- Ocultar los detalles internos de un objeto para simplificar el uso
-- Proteger los datos del acceso directo y evitar inconsistencias
-- Agregar lógica de negocio transparente. `setEdad()` no debería aceptar negativos
-
-**En Java se implementa con:**
-- Modificadores de acceso: `public`, `private`, `protected`
-- Métodos getters y setters
+<div class="axis">
+  <div class="axis__line"></div>
+  <div class="axis__labels">
+    <div>
+      <strong>Python</strong>
+      <span>Flexibilidad rápida. El tipo se descubre en ejecución.</span>
+    </div>
+    <div>
+      <strong>Java</strong>
+      <span>Contrato explícito. El tipo se revisa antes de ejecutar.</span>
+    </div>
+  </div>
+</div>
 
 ```java
-class CuentaBancaria {
-    private double saldo;  // Solo accesible dentro de la clase
-    
+String titulo = "Clean Code";
+int paginas = 464;
+boolean disponible = true;
+```
+
+{{% note %}}
+No presentar Java como "más difícil", sino como "más explícito". Esa explicitud luego permite mejores herramientas, refactor y mantenimiento.
+{{% /note %}}
+
+---
+
+### Encapsular es proteger invariantes
+
+```java
+public class CuentaBancaria {
+    private double saldo;
+
     public void depositar(double monto) {
-        if (monto > 0) {
-            saldo += monto;
+        if (monto <= 0) {
+            throw new IllegalArgumentException("Monto inválido");
         }
+        saldo += monto;
+    }
+
+    public double consultarSaldo() {
+        return saldo;
     }
 }
 ```
+
+<div class="takeaway">
+  <strong>Regla</strong>
+  Un atributo privado no es decoración. Es una forma de impedir estados inválidos.
+</div>
 
 {{% note %}}
 La encapsulación:
-- Protege los datos de modificaciones no deseadas
-- Permite validar datos antes de modificarlos
-- Oculta la implementación interna
-- Veremos más detalles en próximas clases
+- Protege los datos de modificaciones no deseadas.
+- Permite validar datos antes de modificarlos.
+- Oculta implementación interna.
+- Insistir en que setter no es automáticamente buen encapsulamiento si no protege ninguna regla.
 {{% /note %}}
 
 ---
 
-### Abstracción
+### Primitivos y wrappers
 
-**¿Qué es?**
-- Modelar objetos complejos de forma simplificada
-- Enfocarse en lo importante, ignorar lo no esencial
-
-**En Java se implementa con:**
-- Clases abstractas (`abstract class`)
-- Interfaces (`interface`)
+<div class="comparison-grid">
+  <div class="panel">
+    <span class="panel-title">Primitivo</span>
+    <p><code>int</code>, <code>double</code>, <code>boolean</code></p>
+    <p>Valor directo. Rápido. No puede ser <code>null</code>.</p>
+  </div>
+  <div class="panel">
+    <span class="panel-title">Wrapper</span>
+    <p><code>Integer</code>, <code>Double</code>, <code>Boolean</code></p>
+    <p>Objeto. Puede usarse en colecciones y representar ausencia.</p>
+  </div>
+</div>
 
 ```java
-interface Vehiculo {
-    void mover();  // Qué hace, no cómo lo hace
-}
-
-class Coche implements Vehiculo {
-    public void mover() {
-        // Implementación específica
-    }
-}
+List<Integer> edades = new ArrayList<>();
+edades.add(21);
 ```
 
 {{% note %}}
-La abstracción:
-- Simplifica problemas complejos
-- Define qué hace un objeto, no cómo lo hace
-- Permite crear modelos más fáciles de entender
-- Estudiaremos interfaces y clases abstractas más adelante
+Explicar con cuidado:
+- Los primitivos guardan valores directos y no pueden ser null.
+- Los wrappers son objetos y por eso funcionan con genéricos y colecciones.
+- Autoboxing convierte entre primitivo y wrapper, pero no conviene esconder la diferencia conceptual.
 {{% /note %}}
 
 ---
 
-### Herencia
+### Colecciones: elegir por intención
 
-**¿Qué es?**
-- Crear nuevas clases basadas en existentes
-- Compartir código entre clases similares
-
-**En Java se implementa con:**
-- Palabra clave `extends`
-- Herencia simple (una sola clase padre)
+<div class="big-word-grid">
+  <div class="big-word">
+    <strong>List</strong>
+    <span>Orden importa. Se permiten repetidos.</span>
+  </div>
+  <div class="big-word">
+    <strong>Set</strong>
+    <span>No quiero duplicados. La identidad importa.</span>
+  </div>
+  <div class="big-word">
+    <strong>Map</strong>
+    <span>Busco valores por una clave.</span>
+  </div>
+</div>
 
 ```java
-class Animal {
-    void comer() {
-        // Implementación
-    }
-}
-
-class Perro extends Animal {
-    void ladrar() {
-        // Implementación específica
-    }
-}
+List<Libro> catalogo = new ArrayList<>();
+Set<String> codigos = new HashSet<>();
+Map<String, Libro> porIsbn = new HashMap<>();
 ```
 
 {{% note %}}
-La herencia:
-- Permite reutilizar código
-- Crea jerarquías de clases
-- En Java solo se puede heredar de una clase
-- Veremos más sobre herencia en próximas sesiones
+Comparación con Python:
+- List se parece a list.
+- Set se parece a set.
+- Map se parece a dict.
+La diferencia importante es el tipo explícito: Java obliga a declarar qué contiene la colección.
 {{% /note %}}
 
 ---
 
-{{% section %}}
+### Control de flujo: misma intención, más estructura
 
-### Polimorfismo
+<div class="split-grid">
+  <div>
 
-**¿Qué es?**
-- Diferentes comportamientos para una misma acción
-- Tratar objetos diferentes de manera uniforme
-
-**En Java se implementa con:**
-1. Sobrescritura (Override) - Polimorfismo de subtipo:
-   - Redefinir métodos de la clase padre
-   - Usar `@Override`
-   - Ocurre en tiempo de ejecución
-
-2. Sobrecarga (Overload) - Polimorfismo ad-hoc:
-   - Múltiples versiones del mismo método
-   - Diferentes parámetros
-   - Ocurre cuando creamos clases
-
---- 
-
-```java
-class Animal {
-    void hacerSonido() {
-        // Implementación base
-    }
-}
-
-class Perro extends Animal {
-    // Sobrescritura: mismo método, diferente implementación
-    @Override
-    void hacerSonido() {
-        System.out.println("Guau");
-    }
-    
-    // Sobrecarga: mismo nombre, diferentes parámetros
-    void hacerSonido(int veces) {
-        for(int i = 0; i < veces; i++) {
-            hacerSonido();
-        }
-    }
-    
-    void hacerSonido(String intensidad) {
-        if(intensidad.equals("fuerte")) {
-            System.out.println("GUAU!");
-        } else {
-            System.out.println("guau...");
-        }
-    }
-}
-```
-
-{{% note %}}
-El polimorfismo tiene dos formas principales:
-1. Polimorfismo de subtipo (Override):
-   - Permite que una clase hija redefina métodos de la clase padre
-   - Útil para especializar comportamiento
-   - Se decide en tiempo de ejecución
-
-2. Polimorfismo ad-hoc (Overload):
-   - Permite múltiples versiones del mismo método
-   - Se diferencia por número o tipo de parámetros
-   - Se decide en tiempo de compilación
-   - No requiere herencia
-
-Ambos tipos se estudiarán en detalle en próximas clases.
-{{% /note %}}
-
-{{% /section %}}
-
----
-
-{{% section %}}
-### Clase vs Objeto
-
-**Clase**:
-- Es el plano o plantilla (los planos en papel)
-- Define atributos y comportamientos
-- Es un concepto abstracto
-- Se define una vez
-
-**Objeto**:
-- Es una instancia de una clase (la casa)
-- Tiene valores específicos
-- Es concreto y existe en memoria
-- Se pueden crear muchos
-
----
-
-```java
-// Definición de una clase
-class Coche {
-    String marca;
-    String modelo;
-    
-    void arrancar() {
-        System.out.println("El coche arranca");
-    }
-}
-
-// Creación de objetos
-Coche coche1 = new Coche();  // Primer objeto
-coche1.marca = "Toyota";
-coche1.modelo = "Corolla";
-
-Coche coche2 = new Coche();  // Segundo objeto
-coche2.marca = "Honda";
-coche2.modelo = "Civic";
-```
-{{% /section %}}
-
----
-
-### Tipos de Datos en Java vs Python
-
-{{% fragment class="bullet-point" %}}**Python:** Tipado dinámico, todo es un objeto{{% /fragment %}}
-{{% fragment class="bullet-point" %}}**Java:** Tipado estático, diferencia entre primitivos y objetos{{% /fragment %}}
-
-Primitivos en Java:
-```java
-int numero = 42;        // Similar a Python pero debe declararse
-boolean verdad = true;  // En Python es True
-char caracter = 'a';    // En Python no existe char
-```
-
-{{% note %}}
-Diferencias clave:
-- Java requiere declarar el tipo de cada variable
-- Los tipos no pueden cambiar después de declarados
-- Java distingue entre tipos primitivos y objetos
-- Python trata todo como objetos
-{{% /note %}}
-
----
-
-### Tipos Primitivos vs Clases Envolturas
-
-{{% fragment class="bullet-point" %}}**Primitivos:** `byte`, `short`, `int`, `long`, `float`, `double`, `boolean`, `char`{{% /fragment %}}
-{{% fragment class="bullet-point" %}}**Clases Envolturas:** `Byte`, `Short`, `Integer`, `Long`, `Float`, `Double`, `Boolean`, `Character`{{% /fragment %}}
-{{% fragment class="bullet-point" %}}Son útiles cuando usamos colecciones{{% /fragment %}}
-
-```java
-// Primitivo
-int numero = 42;
-
-// Clase envoltura
-Integer numeroObjeto = Integer.valueOf(42);
-// Permite null
-Integer nulo = null; // Válido
-int primitivo = null; // ¡Error!
-```
-
-{{% note %}}
-Diferencias importantes:
-- Primitivos son más eficientes en memoria
-- Clases envolturas permiten null
-- Clases envolturas tienen métodos útiles
-- Las colecciones solo aceptan clases envolturas
-{{% /note %}}
-
----
-
-### Collections en Java
-
-**ArrayList**: Lista dinámica de elementos
-- Permite elementos duplicados
-- Mantiene el orden de inserción
-- Acceso rápido por índice (como arrays)
-- Puede crecer dinámicamente
-- Ideal para: listas ordenadas, acceso frecuente por posición
-- Limitación: búsquedas lentas (debe recorrer elementos)
-
-```java
-ArrayList<String> nombres = new ArrayList<>();
-nombres.add("Ana");     // ["Ana"]
-nombres.add("Ana");     // ["Ana", "Ana"] - permite duplicados
-nombres.get(0);         // "Ana" - acceso por índice
-```
-
-{{% note %}}
-ArrayList vs Arrays:
-- ArrayList crece automáticamente, los arrays tienen tamaño fijo
-- ArrayList solo acepta objetos, no primitivos
-- ArrayList tiene métodos útiles como add(), remove(), contains()
-- ArrayList ocupa más memoria que un array
-
-ArrayList vs List en Python:
-- Similar a las listas de Python en comportamiento
-- Debe especificar tipo de datos (<String>, <Integer>, etc.)
-- No permite mezclar tipos diferentes
-{{% /note %}}
-
----
-
-### HashSet en Java
-
-**HashSet**: Colección de elementos únicos
-- No permite duplicados
-- No mantiene orden de inserción
-- Búsqueda muy rápida
-- Ideal para: eliminar duplicados, verificar existencia de elementos
-- Limitación: no hay acceso por índice, no mantiene orden
-
-```java
-HashSet<String> nombres = new HashSet<>();
-nombres.add("Ana");     // ["Ana"]
-nombres.add("Ana");     // ["Ana"] - ignora duplicados
-nombres.contains("Ana"); // true - búsqueda rápida
-```
-
-{{% note %}}
-HashSet vs ArrayList:
-- HashSet no permite duplicados, ArrayList sí
-- HashSet es más rápido para buscar elementos
-- HashSet no mantiene orden, ArrayList sí
-- HashSet no permite acceso por índice
-
-HashSet vs Set en Python:
-- Comportamiento similar a set() de Python
-- Mismas operaciones básicas (add, remove, contains)
-- Java requiere especificar tipo de elementos
-- No permite operaciones matemáticas de conjuntos directamente como en Python
-{{% /note %}}
-
----
-
-### Estructuras de Control: Diferencias con Python
-
-#### For Loops
-
-En Python:
 ```python
-for i in range(5):
-    print(i)
-
-for nombre in nombres:
-    print(nombre)
+for libro in catalogo:
+    if libro.disponible:
+        print(libro.titulo)
 ```
 
-En Java:
-```java
-// Con índice
-for (int i = 0; i < 5; i++) {
-    System.out.println(i);
-}
-
-// For-each (como en Python)
-for (String nombre : nombres) {
-    System.out.println(nombre);
-}
-```
-
-{{% note %}}
-Tipos de for en Java:
-- For tradicional: control preciso de la iteración
-- For-each: más simple, similar a Python
-- No existe range() como en Python
-- Los índices deben manejarse manualmente
-{{% /note %}}
-
----
-
-### While y Do-While
-
-While (existe en ambos):
-```java
-while (condicion) {
-    // código
-}
-```
-
-Do-While (exclusivo de Java):
-```java
-do {
-    // Se ejecuta al menos una vez
-} while (condicion);
-```
-
-{{% note %}}
-Diferencias con Python:
-- While funciona igual en ambos lenguajes
-- Do-while no existe en Python
-- Do-while garantiza una ejecución
-- Útil cuando necesitamos ejecutar código al menos una vez
-{{% /note %}}
-
----
-
-### Switch en Java (No existe en Python)
+  </div>
+  <div>
 
 ```java
-String dia = "Lunes";
-switch (dia) {
-    case "Lunes":
-        System.out.println("Primer día");
-        break;
-    case "Martes":
-        System.out.println("Segundo día");
-        break;
-    default:
-        System.out.println("Otro día");
-}
-```
-
-{{% note %}}
-Características del switch:
-- Alternativa a múltiples if-else
-- Requiere break para evitar continuar a otros casos
-- Más eficiente que if-else en múltiples casos
-- En Python se usa if-elif o diccionarios
-{{% /note %}}
-
----
-
-### Enumeraciones (No existen en Python)
-
-```java
-enum DiaSemana {
-    LUNES, MARTES, MIERCOLES, JUEVES, VIERNES, SABADO, DOMINGO
-}
-
-DiaSemana hoy = DiaSemana.LUNES;
-```
-
-{{% note %}}
-Ventajas de enums:
-- Conjunto fijo de valores posibles
-- Previene errores de escritura
-- Más seguro que usar strings
-- Mejor rendimiento que strings
-- En Python se usan constantes o la clase Enum
-{{% /note %}}
-
----
-
-### Strings en Java
-
-Los Strings son **inmutables** - cada operación crea un nuevo String:
-
-```java
-String nombre = "Juan";
-String nombreMayusculas = nombre.toUpperCase(); // Nuevo String
-System.out.println(nombre);           // "Juan"
-System.out.println(nombreMayusculas); // "JUAN"
-
-// Concatenación crea nuevos objetos
-String completo = nombre + " Pérez";  // Nuevo String
-```
-
-{{% note %}}
-Inmutabilidad de Strings:
-- Un String nunca cambia su contenido
-- Cada operación crea un nuevo String
-- El String original permanece igual
-- Esto es similar a Python
-- Ventaja: seguridad y consistencia
-- Desventaja: puede ser ineficiente con muchas operaciones
-{{% /note %}}
-
----
-
-### Métodos de String
-
-Cada método retorna un **nuevo** String:
-
-```java
-String texto = "Hola Mundo";
-
-String mayusculas = texto.toUpperCase();    // "HOLA MUNDO"
-String subcadena = texto.substring(0, 4);   // "Hola"
-String[] palabras = texto.split(" ");       // ["Hola", "Mundo"]
-boolean contiene = texto.contains("Mundo"); // true
-int longitud = texto.length();             // 10
-
-// El String original no cambia
-System.out.println(texto); // "Hola Mundo"
-```
-
-{{% note %}}
-Métodos importantes de String:
-- toUpperCase()/toLowerCase(): convierte a mayúsculas/minúsculas
-- substring(): extrae una porción del String
-- split(): divide el String en un array
-- contains(): verifica si contiene una subcadena
-- length(): obtiene la longitud
-- trim(): elimina espacios al inicio y final
-- replace(): substituye caracteres o subcadenas
-
-Importante recordar:
-- Ninguno modifica el String original
-- Siempre guardar el resultado si se necesita
-- Similar a los métodos de strings en Python
-{{% /note %}}
-
----
-
-### Igualdad entre Objetos (Introducción)
-
-- Para objetos, el operador `==` evalúa igualdad en referencias en memoria, no contenido
-- En datos primitivos, el operador `==` sí funciona como intuitivamente pensaríamos que funciona
-
-```java
-String str1 = "Hola";
-String str2 = "Hola";
-String str3 = new String("Hola");
-
-// NO hacer esto - comportamiento no confiable
-System.out.println(str1 == str2);      // ¡No comparar Strings con ==!
-
-// Forma correcta de comparar Strings
-System.out.println(str1.equals(str2));  // true
-System.out.println(str1.equals(str3));  // true
-```
-
-{{% note %}}
-Comparación de Strings:
-- == compara referencias (direcciones de memoria)
-- equals() compara el contenido
-- Siempre usar equals() para comparar Strings
-- Nunca confiar en == para comparar Strings
-- equals() es similar a == en Python para strings
-
-Razones para usar equals():
-- Comportamiento consistente
-- Compara el contenido real
-- Funciona con cualquier String
-- Es la forma estándar en Java
-{{% /note %}}
-
----
-
-### Ejercicio Práctico: Sistema de Biblioteca
-
-Crear un sistema simple que demuestre los conceptos vistos:
-
-1. Usar enum para el estado del libro (DISPONIBLE, PRESTADO)
-2. Usar ArrayList para gestionar una colección de libros
-3. Mantener los datos organizados en una clase
-
-```java
-// Estados posibles de un libro
-enum EstadoLibro {
-    DISPONIBLE, PRESTADO
-}
-
-// Clase para representar un libro
-class Libro {
-    String titulo;
-    String autor;
-    EstadoLibro estado;
-
-    Libro(String titulo, String autor) {
-        this.titulo = titulo;
-        this.autor = autor;
-        this.estado = EstadoLibro.DISPONIBLE;
+for (Libro libro : catalogo) {
+    if (libro.estaDisponible()) {
+        System.out.println(libro.getTitulo());
     }
 }
+```
 
-// Clase para gestionar la biblioteca
-class Biblioteca {
-    ArrayList<Libro> libros;
+  </div>
+</div>
 
-    Biblioteca() {
-        libros = new ArrayList<>();
-    }
+<div class="takeaway">
+  <strong>Idea clave</strong>
+  Java no cambia la lógica. Cambia cuánto contrato escribimos alrededor de esa lógica.
+</div>
 
-    void agregarLibro(Libro libro) {
-        libros.add(libro);
-    }
+{{% note %}}
+Mostrar que la lógica es equivalente a Python:
+- Iterar una colección.
+- Preguntar una condición.
+- Ejecutar una acción.
+La diferencia visible está en tipos, llaves y métodos, no en la intención algorítmica.
+{{% /note %}}
 
-    void prestarLibro(Libro libro) {
-        libro.estado = EstadoLibro.PRESTADO;
+---
+
+### El error que más cuesta al inicio
+
+```java
+String a = new String("Java");
+String b = new String("Java");
+
+System.out.println(a == b);      // false
+System.out.println(a.equals(b)); // true
+```
+
+<div class="comparison-grid">
+  <div class="panel">
+    <span class="panel-title"><code>==</code></span>
+    <p>Compara si dos referencias apuntan al mismo objeto.</p>
+  </div>
+  <div class="panel">
+    <span class="panel-title"><code>equals()</code></span>
+    <p>Compara igualdad lógica definida por la clase.</p>
+  </div>
+</div>
+
+{{% note %}}
+Este punto suele generar errores:
+- En Python se usa == para igualdad de valor.
+- En Java, == con objetos compara referencias.
+- equals() compara igualdad lógica.
+Anticipar que más adelante habrá que implementar equals() y hashCode() correctamente.
+{{% /note %}}
+
+---
+
+### Práctica: Java dentro del caso
+
+<div class="big-word-grid">
+  <div class="big-word">
+    <strong><code>enum</code></strong>
+    <span>Estados finitos: <code>DISPONIBLE</code>, <code>PRESTADO</code>, <code>RESERVADO</code>.</span>
+  </div>
+  <div class="big-word">
+    <strong><code>HashSet</code></strong>
+    <span>Evita ISBN duplicados y obliga a hablar de igualdad lógica.</span>
+  </div>
+  <div class="big-word">
+    <strong><code>String</code></strong>
+    <span>Usar <code>equals()</code>, normalizar texto y evitar comparar referencias.</span>
+  </div>
+</div>
+
+<div class="takeaway">
+  <strong>Criterio</strong>
+  Si un concepto de Java no ayuda al modelo de biblioteca, queda como referencia y no como teoría central.
+</div>
+
+{{% note %}}
+Contenido recuperado de la versión anterior:
+- Enumeraciones.
+- HashSet.
+- Métodos de String.
+- Igualdad entre objetos.
+La diferencia es que ahora aparecen dentro del caso de biblioteca, no como slides aisladas.
+{{% /note %}}
+
+---
+
+### Ejercicio en clase
+
+<ol class="step-list">
+  <li><div><strong>Modelo</strong><br>Crea <code>Libro</code> con titulo, autor, isbn y disponibilidad.</div></li>
+  <li><div><strong>Reglas</strong><br><code>prestar()</code> solo funciona si el libro está disponible.</div></li>
+  <li><div><strong>Colección</strong><br>Guarda libros en una <code>List&lt;Libro&gt;</code>.</div></li>
+  <li><div><strong>Búsqueda</strong><br>Implementa búsqueda por ISBN usando <code>equals()</code>.</div></li>
+</ol>
+
+{{% note %}}
+Dinámica sugerida:
+- Primero pedir que diseñen atributos y métodos antes de abrir el IDE.
+- Luego implementar una versión mínima.
+- Revisar si Libro protege su estado o si solo es una bolsa de datos.
+- Cerrar conectando el ejercicio con encapsulación y colecciones.
+{{% /note %}}
+
+---
+
+### Cierre
+
+<div class="statement-slide">
+  <div class="eyebrow">Para recordar</div>
+  <div class="statement">El objeto no es un contenedor de datos. Es una unidad con reglas.</div>
+  <p class="statement-note">Si el estado puede quedar inválido desde afuera, todavía no hay buen diseño orientado a objetos.</p>
+</div>
+
+{{% note %}}
+Cierre:
+- Repetir que el objetivo no es escribir más código que en Python.
+- El objetivo es hacer explícitas responsabilidades y reglas.
+- Preguntar: qué regla protege cada clase que escribimos hoy?
+{{% /note %}}
+
+---
+
+### Material de respaldo: enum y estados
+
+```java
+public enum EstadoLibro {
+    DISPONIBLE,
+    PRESTADO,
+    RESERVADO
+}
+
+public class Libro {
+    private EstadoLibro estado = EstadoLibro.DISPONIBLE;
+
+    public void prestar() {
+        if (estado != EstadoLibro.DISPONIBLE) {
+            throw new IllegalStateException("No disponible");
+        }
+        estado = EstadoLibro.PRESTADO;
     }
 }
 ```
 
 {{% note %}}
-Conceptos utilizados:
-- Enums para estados fijos
-- ArrayList para colección de libros
-- Clases para organizar datos
-- Métodos para operaciones
-- Los estudiantes deben practicar:
-  1. Crear las clases
-  2. Instanciar objetos
-  3. Usar los métodos
-  4. Verificar estados
+Material de respaldo: esta diapositiva fue reemplazada por "Práctica: Java dentro del caso".
+Usarla si el grupo necesita ver enum y reglas de estado con código antes del ejercicio de biblioteca.
 {{% /note %}}
 
 ---
 
-### Uso del Sistema de Biblioteca
+### Material de respaldo: igualdad y colecciones
 
 ```java
-public class Main {
-    public static void main(String[] args) {
-        // Crear una biblioteca
-        Biblioteca biblioteca = new Biblioteca();
-        
-        // Crear algunos libros
-        Libro libro1 = new Libro("Don Quijote", "Cervantes");
-        Libro libro2 = new Libro("Cien años de soledad", "García Márquez");
-        
-        // Agregar libros a la biblioteca
-        biblioteca.agregarLibro(libro1);
-        biblioteca.agregarLibro(libro2);
-        
-        // Prestar un libro
-        biblioteca.prestarLibro(libro1);
-    }
-}
+Set<String> isbns = new HashSet<>();
+isbns.add("978-0134685991");
+isbns.add("978-0134685991");
+
+String a = new String("Java");
+String b = new String("Java");
+
+System.out.println(isbns.size()); // 1
+System.out.println(a == b);       // false
+System.out.println(a.equals(b));  // true
 ```
 
 {{% note %}}
-Puntos importantes:
-- Creación de objetos con new
-- Uso de métodos de clase
-- Gestión de estados
-- Interacción entre objetos
-- Este ejemplo integra:
-  - Enums
-  - ArrayList
-  - Clases y objetos
-  - Métodos
+Material de respaldo: esta diapositiva fue reemplazada por "El error que más cuesta al inicio" y la práctica de biblioteca.
+Usarla si hace falta reforzar HashSet, duplicados e igualdad lógica.
 {{% /note %}}

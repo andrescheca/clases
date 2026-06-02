@@ -3,131 +3,223 @@ title = "Tecnologías Disruptivas - Innovación"
 outputs = ["Reveal"]
 +++
 
-### Semana 1
-En esta unidad aborda el concepto de innovación proceso que se manifiesta cuando una empresa presenta un nuevo producto o un nuevo servicio o un nuevo modelo de negocio. Y es allí donde la tecnología puede ser utilizada como una herramienta para que este proceso innovador pueda ser desarrollado.
+<div class="deck-cover">
+  <div class="eyebrow">Tecnologías Disruptivas · Semana 1</div>
+  <h1 class="deck-cover__title">Disrupción no es novedad</h1>
+  <p class="deck-cover__subtitle">Una tecnología puede ser brillante y no cambiar nada importante. La disrupción aparece cuando altera acceso, costos, hábitos, incentivos o poder de mercado.</p>
+  <div class="deck-cover__meta">
+    <span class="deck-cover__chip">Innovación</span>
+    <span class="deck-cover__chip">Mercado</span>
+    <span class="deck-cover__chip">Modelo de negocio</span>
+  </div>
+</div>
 
 ---
 
-### Tecnologías Disruptivas
-{{% fragment class="bullet-point" %}}El dilema del innovador{{% /fragment %}}
-{{% fragment class="bullet-point" %}}Innovación disruptiva{{% /fragment %}}
-{{% fragment class="bullet-point" %}}Gestión de la disrupción{{% /fragment %}}
-{{% fragment class="bullet-point" %}}Modelos de negocio disruptivos{{% /fragment %}}
+<div class="statement-slide">
+  <div class="eyebrow">Tesis de la clase</div>
+  <div class="statement">No toda mejora compite contra el presente. Algunas compiten contra el modelo completo.</div>
+  <p class="statement-note">Esa es la diferencia entre optimizar una industria y empezar a desplazarla.</p>
+</div>
 
 ---
 
-### La Innovación
-La innovación es una forma de mejorar las cosas cambiando lo que ya se ha hecho o creando nuevas opciones. Esto puede favorecer su puesta en mercado o hacer que tengan más éxito.
+### Tres palabras que no son iguales
+
+<div class="big-word-grid">
+  <div class="big-word">
+    <strong>Invención</strong>
+    <span>Algo técnicamente nuevo.</span>
+  </div>
+  <div class="big-word">
+    <strong>Innovación</strong>
+    <span>Algo nuevo que genera valor adoptable.</span>
+  </div>
+  <div class="big-word">
+    <strong>Disrupción</strong>
+    <span>Algo que cambia la lógica del mercado.</span>
+  </div>
+</div>
 
 ---
 
-### El Dilema del Innovador para las Empresas
-El Dilema del Innovador es un concepto que examina por qué las empresas de éxito tienen dificultades cuando se enfrentan a una innovación disruptiva.
-
-A menudo es el resultado de un enfoque a corto plazo de creencias y comportamientos arraigados y del miedo al fracaso que pueden contribuir al dilema de innovar en los mercados existentes al tiempo que se protege a las empresas actuales de la competencia externa.
-
----
-
-### Disrupción
-Rotura o interrupción brusca.
-
-La innovación disruptiva se refiere a una nueva tecnología o modelo de negocio que desafía a un mercado existente ofreciendo más comodidad, eficiencia y/o menor coste que las ofertas actuales.
-
----
-
-### Innovación Disruptiva
-{{% fragment class="bullet-point" %}}Innovación disruptiva de bajo nivel{{% /fragment %}}
-{{% fragment class="bullet-point" %}}Innovación disruptiva de alto nivel{{% /fragment %}}
-
----
-
-### Ejemplos de Innovación Disruptiva
-{{% fragment class="bullet-point" %}}Netflix{{% /fragment %}}
-{{% fragment class="bullet-point" %}}iTunes{{% /fragment %}}
-{{% fragment class="bullet-point" %}}Airbnb{{% /fragment %}}
-{{% fragment class="bullet-point" %}}Uber{{% /fragment %}}
-{{% fragment class="bullet-point" %}}Skype{{% /fragment %}}
-{{% fragment class="bullet-point" %}}Tesla{{% /fragment %}}
-{{% fragment class="bullet-point" %}}Dropbox{{% /fragment %}}
-{{% fragment class="bullet-point" %}}Blockchain{{% /fragment %}}
-{{% fragment class="bullet-point" %}}Amazon Kindle{{% /fragment %}}
-{{% fragment class="bullet-point" %}}Artificial Intelligence(AI){{% /fragment %}}
+<div class="visual-split">
+  <div class="visual-copy">
+    <div class="eyebrow">El dilema</div>
+    <h2>Las empresas buenas también pierden.</h2>
+    <p class="lead">A veces pierden precisamente porque hacen bien lo que su negocio actual les pide: cuidar márgenes, escuchar a sus mejores clientes y proteger eficiencia.</p>
+  </div>
+  <div class="visual-panel">
+    <div class="concept-map">
+      <div class="concept-node">
+        <strong>Cliente actual</strong>
+        <span>Pide mejoras del producto existente.</span>
+      </div>
+      <div class="concept-arrow">↓</div>
+      <div class="concept-node">
+        <strong>Empresa líder</strong>
+        <span>Optimiza lo rentable.</span>
+      </div>
+      <div class="concept-arrow">↓</div>
+      <div class="concept-node">
+        <strong>Nuevo jugador</strong>
+        <span>Aprende en un mercado ignorado.</span>
+      </div>
+    </div>
+  </div>
+</div>
 
 ---
 
-### Razones del Dilema del Innovador
-{{% fragment class="bullet-point" %}}Incentivos de gestión{{% /fragment %}}
-{{% fragment class="bullet-point" %}}Cultura organizativa{{% /fragment %}}
-{{% fragment class="bullet-point" %}}Enfoque a corto plazo{{% /fragment %}}
-{{% fragment class="bullet-point" %}}Presión de los accionistas{{% /fragment %}}
-{{% fragment class="bullet-point" %}}Inercia{{% /fragment %}}
-{{% fragment class="bullet-point" %}}Falta de capacidad de innovación{{% /fragment %}}
-{{% fragment class="bullet-point" %}}Resistencia interna al cambio{{% /fragment %}}
-{{% fragment class="bullet-point" %}}Desalineación de objetivos{{% /fragment %}}
-{{% fragment class="bullet-point" %}}Conocimiento limitado del cliente{{% /fragment %}}
-{{% fragment class="bullet-point" %}}Complejidad tecnológica{{% /fragment %}}
+### Trayectoria disruptiva
 
----
-### Ejemplos del Dilema del Innovador
-{{% fragment class="bullet-point" %}}Kodak{{% /fragment %}}
-{{% fragment class="bullet-point" %}}Blockbuster{{% /fragment %}}
-{{% fragment class="bullet-point" %}}Nokia{{% /fragment %}}
-{{% fragment class="bullet-point" %}}Xerox{{% /fragment %}}
-{{% fragment class="bullet-point" %}}Blackberry{{% /fragment %}}
+<div class="axis">
+  <div class="axis__line"></div>
+  <div class="axis__labels">
+    <div>
+      <strong>Inicio</strong>
+      <span>Más simple, barato o limitado. Sirve a clientes ignorados.</span>
+    </div>
+    <div>
+      <strong>Después</strong>
+      <span>Mejora lo suficiente y empieza a capturar el mercado principal.</span>
+    </div>
+  </div>
+</div>
 
 ---
 
-### Solución
-{{% fragment class="bullet-point" %}}Crea una visión ágil a largo plazo{{% /fragment %}}
-{{% fragment class="bullet-point" %}}Sé flexible{{% /fragment %}}
-{{% fragment class="bullet-point" %}}Fomenta la experimentación{{% /fragment %}}
-{{% fragment class="bullet-point" %}}Identifica la cultura tóxica{{% /fragment %}}
-{{% fragment class="bullet-point" %}}Desarrolla perspectivas del cliente{{% /fragment %}}
-{{% fragment class="bullet-point" %}}Adopta la innovación abierta{{% /fragment %}}
-{{% fragment class="bullet-point" %}}Fomenta el intraemprendimiento{{% /fragment %}}
-{{% fragment class="bullet-point" %}}Fomenta las asociaciones y colaboraciones{{% /fragment %}}
-{{% fragment class="bullet-point" %}}Vigila continuamente las tendencias del mercado y la tecnología{{% /fragment %}}
-{{% fragment class="bullet-point" %}}Crea una unidad de negocio separada{{% /fragment %}}
+### Casos para leer como estrategia
+
+<div class="case-strip">
+  <div class="case-tile">
+    <strong>Netflix</strong>
+    <span>Distribución, suscripción y cambio de hábito.</span>
+  </div>
+  <div class="case-tile">
+    <strong>Airbnb</strong>
+    <span>Inventario distribuido sin poseer hoteles.</span>
+  </div>
+  <div class="case-tile">
+    <strong>Uber</strong>
+    <span>Coordinación, disponibilidad y experiencia.</span>
+  </div>
+  <div class="case-tile">
+    <strong>Kindle</strong>
+    <span>Dispositivo, tienda y distribución integrados.</span>
+  </div>
+</div>
 
 ---
 
-### Modelos de Negocio
-Las innovaciones disruptivas son en un inicio mucho más económicas que los servicios o productos ya establecidos. Van dirigidas incluso a un público de poder adquisitivo menor que no es tomado en cuenta por las empresas ya posicionadas.
+<div class="statement-slide">
+  <div class="eyebrow">Lectura crítica</div>
+  <div class="statement">El caso no importa por famoso. Importa por el mecanismo.</div>
+  <p class="statement-note">Pregunten siempre: qué barrera bajó, qué costo cambió, qué hábito movió y qué incumbente quedó atrapado.</p>
+</div>
 
 ---
 
-### Tipos de Modelos de Negocio
-{{% fragment class="bullet-point" %}}Modelo de Freemium{{% /fragment %}}
-{{% fragment class="bullet-point" %}}Modelo de suscripción{{% /fragment %}}
-{{% fragment class="bullet-point" %}}Modelo libre{{% /fragment %}}
-{{% fragment class="bullet-point" %}}Modelo de mercado{{% /fragment %}}
-{{% fragment class="bullet-point" %}}Modelo de economía compartida{{% /fragment %}}
-{{% fragment class="bullet-point" %}}Modelo de experiencia de usuario premium{{% /fragment %}}
-{{% fragment class="bullet-point" %}}Modelo de pirámide{{% /fragment %}}
-{{% fragment class="bullet-point" %}}Modelo de ecosistema{{% /fragment %}}
-{{% fragment class="bullet-point" %}}Modelo a la carta{{% /fragment %}}
+### Cuando no giras a tiempo
+
+<div class="case-strip">
+  <div class="case-tile">
+    <strong>Kodak</strong>
+    <span>Tenía tecnología, pero protegió el negocio existente.</span>
+  </div>
+  <div class="case-tile">
+    <strong>Blockbuster</strong>
+    <span>Subestimó conveniencia y suscripción.</span>
+  </div>
+  <div class="case-tile">
+    <strong>Nokia</strong>
+    <span>El teléfono dejó de ser solo hardware.</span>
+  </div>
+  <div class="case-tile">
+    <strong>BlackBerry</strong>
+    <span>El teclado ya no era el centro de la experiencia.</span>
+  </div>
+</div>
 
 ---
 
-### Innovación Top-Down y Bottom-Up
-La disrupción de los mercados y las industrias puede producirse de arriba abajo (top-down) o de abajo arriba (bottom-up). Ambos enfoques tienen sus propias características, grupos objetivo e implicaciones estratégicas.
+### Modelo de negocio: donde se ve la ruptura
+
+<div class="big-word-grid">
+  <div class="big-word">
+    <strong>Suscripción</strong>
+    <span>Acceso continuo en lugar de compra puntual.</span>
+  </div>
+  <div class="big-word">
+    <strong>Marketplace</strong>
+    <span>Coordina oferta y demanda sin poseer todos los activos.</span>
+  </div>
+  <div class="big-word">
+    <strong>Freemium</strong>
+    <span>Baja la fricción de entrada y monetiza después.</span>
+  </div>
+</div>
 
 ---
 
-### Disrupción Top-Down
-En esta forma de disrupción, las empresas entran en el mercado con productos o servicios de alta calidad, a menudo caros, dirigidos a una clientela más acomodada.
+### Top-down vs bottom-up
 
-{{% fragment class="bullet-point" %}}Ventajas: Mayores márgenes de beneficio y valor de marca; grupo objetivo con mayor poder adquisitivo.{{% /fragment %}}
-{{% fragment class="bullet-point" %}}Desafíos: Necesidad de desarrollar un producto convincente que convenza a los clientes para cambiar; altos costes de desarrollo o de marketing.{{% /fragment %}}
+<div class="axis">
+  <div class="axis__line"></div>
+  <div class="axis__labels">
+    <div>
+      <strong>Bottom-up</strong>
+      <span>Más accesible, menos completo, aprende desde abajo.</span>
+    </div>
+    <div>
+      <strong>Top-down</strong>
+      <span>Premium, aspiracional, alto costo de adopción.</span>
+    </div>
+  </div>
+</div>
 
 ---
 
-### Disrupción Bottom-Up
-Consiste en introducir productos o servicios más baratos y accesibles que las ofertas existentes.
+### Cómo evaluar una tecnología
 
-{{% fragment class="bullet-point" %}}Ventajas: Accesibilidad para una base de clientes más amplia; entrada más rápida en el mercado debido a los precios más bajos.{{% /fragment %}}
-{{% fragment class="bullet-point" %}}Retos: Márgenes de beneficio (potencialmente) más bajos; reto de garantizar una alta calidad a bajo coste.{{% /fragment %}}
+<ol class="step-list">
+  <li><div><strong>Problema</strong><br>Qué resuelve mejor.</div></li>
+  <li><div><strong>Entrada</strong><br>A qué segmento sirve primero.</div></li>
+  <li><div><strong>Sacrificio</strong><br>Qué acepta ser peor al inicio.</div></li>
+  <li><div><strong>Modelo</strong><br>Cómo captura valor.</div></li>
+  <li><div><strong>Desplazamiento</strong><br>Qué tendría que pasar para mover al incumbente.</div></li>
+</ol>
 
 ---
 
-### ¿Preguntas?
+### Actividad
+
+<div class="visual-split">
+  <div class="visual-copy">
+    <h2>Elijan una industria.</h2>
+    <p class="lead">Educación, banca, salud, transporte, entretenimiento o retail.</p>
+  </div>
+  <div class="visual-panel">
+    <div class="concept-map">
+      <div class="concept-node">
+        <strong>¿Qué cambia?</strong>
+        <span>Costo, acceso, hábito o experiencia.</span>
+      </div>
+      <div class="concept-node">
+        <strong>¿Para quién?</strong>
+        <span>Cliente actual, nuevo cliente o no consumidor.</span>
+      </div>
+      <div class="concept-node">
+        <strong>¿Por qué importa?</strong>
+        <span>Impacto económico o estratégico.</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+---
+
+<div class="statement-slide">
+  <div class="eyebrow">Cierre</div>
+  <div class="statement">Una tecnología se vuelve importante cuando cambia decisiones.</div>
+</div>

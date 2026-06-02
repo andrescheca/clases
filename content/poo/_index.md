@@ -6,68 +6,59 @@ transition = "slide"
 transition_speed = "fast"
 +++
 {{< slide id="c-w" >}}
-### Bienvenidos a Programación Orientada a Objetos
+<div class="deck-cover">
+  <div class="eyebrow">Programación Orientada a Objetos</div>
+  <h1 class="deck-cover__title">Diseñar software antes de solo escribir código</h1>
+  <p class="deck-cover__subtitle">La materia usa Java como vehículo, pero el objetivo real es aprender a modelar problemas, separar responsabilidades y construir sistemas que no se rompan con el primer cambio.</p>
+  <div class="deck-cover__meta">
+    <span class="deck-cover__chip">Java</span>
+    <span class="deck-cover__chip">Diseño OO</span>
+    <span class="deck-cover__chip">Práctica guiada</span>
+  </div>
+</div>
 
-{{< highlight java "" >}}
-import java.net.URI;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
-import java.util.Random;
-import org.json.JSONObject;
-
-public class RandomPokemon {
-
-    public static void main(String[] args) {
-        try {
-            // Initialize HTTP Client
-            HttpClient client = HttpClient.newHttpClient();
-
-            // Generate a random Pokémon ID between 1 and 898 (number of Pokémon in the first 8 generations)
-            int randomPokemonId = new Random().nextInt(898) + 1;
-
-            // Create a request to the PokeAPI
-            HttpRequest request = HttpRequest.newBuilder()
-                    .uri(URI.create("https://pokeapi.co/api/v2/pokemon/" + randomPokemonId))
-                    .build();
-
-            // Send the request and get the response
-            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-
-            // Parse the response to JSON
-            JSONObject jsonObject = new JSONObject(response.body());
-
-            // Get the Pokémon name
-            String pokemonName = jsonObject.getString("name");
-
-            // Print the Pokémon name
-            System.out.println("Random Pokémon: " + pokemonName);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-}
-
-{{< /highlight >}}
-
-
-[Atajo a planificación semanal](#weekly-content)
+[Ir a la planificación semanal](#weekly-content)
 
 ---
-
 {{< slide content="slides.welcome" >}}
 
 ---
 {{< slide id="weekly-content" >}}
-### Links
+<div class="eyebrow">Ruta del curso</div>
+<h2>Semana a semana</h2>
+<p class="lead">El recorrido sube desde fundamentos de Java hasta patrones, GUI, conectividad y consumo de APIs. Cada semana suma una capa nueva de diseño.</p>
 
-- [Volver a la bienvenida](#c-w)
-- [Semana 1]({{< ref "/poo/w1/_index.md" >}})
-- [Semana 2]({{< ref "/poo/w2/_index.md" >}})
-- [Semana 3]({{< ref "/poo/w3/_index.md" >}})
-- [Semana 4]({{< ref "/poo/w4/_index.md" >}})
-- [Semana 5]({{< ref "/poo/w5/_index.md" >}})
-- [Semana 6]({{< ref "/poo/w6/_index.md" >}})
-- [Semana 7]({{< ref "/poo/w7/_index.md" >}})
-- [Semana 8]({{< ref "/poo/w8/_index.md" >}})
+<div class="week-grid">
+  <a class="week-card" href="{{< ref "/poo/w1/_index.md" >}}">
+    <strong>Semana 1</strong>
+    <span>Mapa del curso, Java, entorno de trabajo y primer programa.</span>
+  </a>
+  <a class="week-card" href="{{< ref "/poo/w2/_index.md" >}}">
+    <strong>Semana 2</strong>
+    <span>Pilares de POO, tipos de datos y diferencias clave con Python.</span>
+  </a>
+  <a class="week-card" href="{{< ref "/poo/w3/_index.md" >}}">
+    <strong>Semana 3</strong>
+    <span>Abstracción, encapsulamiento y composición aplicada.</span>
+  </a>
+  <a class="week-card" href="{{< ref "/poo/w4/_index.md" >}}">
+    <strong>Semana 4</strong>
+    <span>Herencia, interfaces, genéricos y errores de modelado frecuentes.</span>
+  </a>
+  <a class="week-card" href="{{< ref "/poo/w5/_index.md" >}}">
+    <strong>Semana 5</strong>
+    <span>Delegate, Swing, eventos y primeras interfaces gráficas.</span>
+  </a>
+  <a class="week-card" href="{{< ref "/poo/w6/_index.md" >}}">
+    <strong>Semana 6</strong>
+    <span>Excepciones y patrones de diseño esenciales.</span>
+  </a>
+  <a class="week-card" href="{{< ref "/poo/w7/_index.md" >}}">
+    <strong>Semana 7</strong>
+    <span>Builder, Decorator, Adapter, Strategy y decisiones de diseño.</span>
+  </a>
+  <a class="week-card" href="{{< ref "/poo/w8/_index.md" >}}">
+    <strong>Semana 8</strong>
+    <span>Maven, sockets, HTTP y consumo de APIs reales.</span>
+  </a>
+</div>

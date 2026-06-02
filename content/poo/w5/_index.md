@@ -1,729 +1,464 @@
 +++
 title = "Programación Orientada a Objetos - Semana 5"
-subtitle = "Patrón Delegate, Swing y Aplicaciones Gráficas"
+subtitle = "Delegate, Swing y eventos"
 outputs = ["Reveal"]
 +++
 
-## Programación Orientada a Objetos
-### Semana 5: Patrón Delegate y Aplicaciones Gráficas con Swing
+<div class="deck-cover">
+  <div class="eyebrow">Semana 5</div>
+  <h1 class="deck-cover__title">Una interfaz gráfica es objetos hablando por eventos.</h1>
+  <p class="deck-cover__subtitle">Delegate, Comparator y Swing muestran la misma idea: separar quién recibe una acción, quién decide qué hacer y quién actualiza el estado.</p>
+  <div class="deck-cover__meta">
+    <span class="deck-cover__chip">Delegate</span>
+    <span class="deck-cover__chip">Swing</span>
+    <span class="deck-cover__chip">Eventos</span>
+  </div>
+</div>
+
+{{% note %}}
+Objetivos:
+- Comprender Delegate como separación de responsabilidades.
+- Ver Comparator como ejemplo concreto de delegate.
+- Introducir Swing como árbol de componentes.
+- Conectar eventos con listeners.
+- Terminar con una aplicación pequeña empaquetable.
+{{% /note %}}
 
 ---
 
-### El plan para hoy
+### La ruta de hoy
 
-{{% fragment class="bullet-point" %}} Comprender el patrón Delegate {{% /fragment %}}
-{{% fragment class="bullet-point" %}} Aplicar Comparator como ejemplo de Delegate {{% /fragment %}}
-{{% fragment class="bullet-point" %}} Introducción a la programación gráfica con Swing {{% /fragment %}}
-{{% fragment class="bullet-point" %}} Crear nuestra primera aplicación gráfica {{% /fragment %}}
-{{% fragment class="bullet-point" %}} Empaquetar la aplicación en un JAR {{% /fragment %}}
+<div class="concept-map">
+  <div class="concept-map__row">
+    <div class="concept-node">
+      <strong>Delegate</strong>
+      <span>Pasar una decisión a otro objeto.</span>
+    </div>
+    <div class="concept-arrow">→</div>
+    <div class="concept-node">
+      <strong>Comparator</strong>
+      <span>Ordenar sin modificar la clase original.</span>
+    </div>
+  </div>
+  <div class="concept-map__row">
+    <div class="concept-node">
+      <strong>Swing</strong>
+      <span>Ventanas, paneles, componentes y layouts.</span>
+    </div>
+    <div class="concept-arrow">→</div>
+    <div class="concept-node">
+      <strong>Eventos</strong>
+      <span>Botones que disparan comportamiento.</span>
+    </div>
+  </div>
+</div>
 
+{{% note %}}
+Presentar la semana como transición:
+venimos de interfaces y polimorfismo; ahora esos conceptos aparecen en GUI y eventos.
+Delegate no es un patrón aislado: aparece en ordenamiento, listeners y callbacks.
+La versión anterior tenía una calculadora completa antes del conversor.
+Aquí queda como laboratorio guiado para que el conversor sea trabajo más independiente.
+{{% /note %}}
 
 ---
 
-{{% section %}}
+<div class="statement-slide">
+  <div class="eyebrow">Patrón mental</div>
+  <div class="statement">Delegar es decir: yo coordino, otro decide.</div>
+  <p class="statement-note">La clase principal conserva el flujo, pero no se llena con cada variante posible del comportamiento.</p>
+</div>
 
-### Patrón Delegate
+{{% note %}}
+Explicar con una analogía:
+un coordinador no hace todas las tareas; delega tareas específicas a personas especializadas.
+En código, delegar permite cambiar comportamiento sin tocar el coordinador.
+{{% /note %}}
+
+---
+
+### Delegate en código
 
 ```java
-// Interfaz del delegado
-public interface OrderDelegate {
-    int compare(String a, String b);
+public interface ReglaDescuento {
+    double aplicar(double total);
 }
 
-// Implementación específica
-public class AlphabeticalOrderDelegate implements OrderDelegate {
-    @Override
-    public int compare(String a, String b) {
-        return a.compareTo(b);
+public class Carrito {
+    private ReglaDescuento descuento;
+
+    public Carrito(ReglaDescuento descuento) {
+        this.descuento = descuento;
     }
-}
 
-// Clase que utiliza el delegado
-public class StringSorter {
-    private OrderDelegate delegate;
-    
-    public void setDelegate(OrderDelegate delegate) {
-        this.delegate = delegate;
-    }
-    
-    public void sortStrings(List<String> strings) {
-        Collections.sort(strings, (a, b) -> delegate.compare(a, b));
-    }
-}
-```
-
-{{% note %}}
-El patrón Delegate:
-- Permite delegar comportamiento a otra clase
-- Favorece composición sobre herencia
-- Proporciona flexibilidad en tiempo de ejecución
-- Es la base de muchos patrones de diseño
-- Se usa extensivamente en frameworks de GUI
-{{% /note %}}
-
----
-
-#### ¿Por qué usar Delegate?
-
-- Separa responsabilidades
-- Flexibilidad en tiempo de ejecución
-- Evita herencia innecesaria
-- Facilita pruebas unitarias
-
-{{% note %}}
-Ventajas del patrón Delegate:
-- Desacopla el comportamiento de la implementación
-- Permite cambiar comportamiento sin modificar código
-- Facilita la implementación de nuevos comportamientos
-- Hace el código más mantenible y testeable
-{{% /note %}}
-
----
-
-#### Comparator como Delegate
-
-```java
-public class ProductComparator implements Comparator<Product> {
-    @Override
-    public int compare(Product p1, Product p2) {
-        return Double.compare(p1.getPrice(), p2.getPrice());
-    }
-}
-
-List<Product> products = new ArrayList<>();
-products.sort(new ProductComparator());
-// O usando lambda
-products.sort((p1, p2) -> Double.compare(p1.getPrice(), p2.getPrice()));
-```
-
-{{% note %}}
-Comparator es un ejemplo perfecto de Delegate:
-- Define una única responsabilidad (comparación)
-- Permite múltiples implementaciones
-- Se puede cambiar en tiempo de ejecución
-- Es compatible con expresiones lambda
-- No requiere modificar las clases que se comparan
-{{% /note %}}
-
-{{% /section %}}
-
----
-
-{{% section %}}
-
-### Jerarquía de Componentes Swing
-
-```
-Component (abstract)
-├── Container
-│   ├── JComponent
-│   │   ├── JPanel
-│   │   ├── JLabel
-│   │   ├── JButton
-│   │   ├── JTextField
-│   │   └── JTextArea
-│   ├── JFrame
-│   └── JDialog
-└── Window
-    └── Frame
-```
-
-{{% note %}}
-La jerarquía de Swing está diseñada siguiendo principios OOP:
-- Component es la clase base abstracta
-- Container puede contener otros componentes
-- JComponent es la base para la mayoría de los widgets
-- Cada nivel agrega funcionalidad específica
-- La herencia permite compartir comportamiento común
-{{% /note %}}
-
----
-
-### Introducción a Swing
-
-```java
-import javax.swing.*;
-
-public class FirstWindow extends JFrame {
-    public FirstWindow() {
-        setTitle("Mi Primera Ventana");
-        setSize(400, 300);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLocationRelativeTo(null);
-    }
-    
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> {
-            new FirstWindow().setVisible(true);
-        });
+    public double totalConDescuento(double total) {
+        return descuento.aplicar(total);
     }
 }
 ```
 
+<div class="takeaway">
+  <strong>Ventaja</strong>
+  Cambiar la regla no requiere tocar <code>Carrito</code>. Solo cambiamos el delegado.
+</div>
+
 {{% note %}}
-Conceptos fundamentales de Swing:
-- Todos los componentes heredan de JComponent
-- JFrame es la ventana principal
-- SwingUtilities.invokeLater garantiza thread safety
-- Los componentes se organizan en una jerarquía padre-hijo
-- Cada contenedor puede tener un LayoutManager
+Puntos del patrón Delegate:
+- Desacopla comportamiento de la clase que lo usa.
+- Permite variar comportamiento en tiempo de ejecución.
+- Facilita pruebas unitarias, porque se puede pasar un delegado falso.
+- Evita crear subclases solo para cambiar una regla.
 {{% /note %}}
 
 ---
 
-#### Componentes Principales
-
-- **Contenedores**
-  - JFrame: Ventana principal
-  - JPanel: Panel contenedor
-  - JDialog: Ventana secundaria
-- **Controles**
-  - JButton: Botón clickeable
-  - JTextField: Campo de texto
-  - JLabel: Etiqueta de texto
-- **Menús**
-  - JMenuBar: Barra de menú
-  - JMenu: Menú desplegable
-  - JMenuItem: Elemento de menú
-
-{{% note %}}
-Características de los componentes:
-- Contenedores:
-  * JFrame es la ventana principal de la aplicación
-  * JPanel es un contenedor ligero para organizar componentes
-  * JDialog es para ventanas modales o no modales
-- Controles:
-  * JButton maneja eventos de click
-  * JTextField permite entrada de una línea
-  * JLabel muestra texto no editable
-- Menús:
-  * JMenuBar contiene JMenus
-  * JMenu contiene JMenuItems
-  * JMenuItem representa una acción específica
-{{% /note %}}
-
-{{% /section %}}
-
----
-
-{{% section %}}
-
-### Layouts en Swing
+### Comparator es un delegate de orden
 
 ```java
-// BorderLayout
-JPanel panel = new JPanel(new BorderLayout());
-panel.add(new JButton("Norte"), BorderLayout.NORTH);
-panel.add(new JButton("Sur"), BorderLayout.SOUTH);
+List<Producto> productos = cargarProductos();
 
-// FlowLayout
-JPanel buttonPanel = new JPanel(new FlowLayout());
-buttonPanel.add(new JButton("1"));
-buttonPanel.add(new JButton("2"));
+productos.sort(
+    Comparator.comparing(Producto::getPrecio)
+);
 
-// GridLayout
-JPanel grid = new JPanel(new GridLayout(2, 2));
-grid.add(new JButton("1,1"));
-grid.add(new JButton("1,2"));
+productos.sort(
+    Comparator.comparing(Producto::getNombre)
+);
 ```
 
+<div class="comparison-grid">
+  <div class="panel">
+    <span class="panel-title">Objeto</span>
+    <p><code>Producto</code> conserva sus datos y reglas.</p>
+  </div>
+  <div class="panel">
+    <span class="panel-title">Delegate</span>
+    <p><code>Comparator</code> decide el criterio de orden.</p>
+  </div>
+</div>
+
 {{% note %}}
-Características de los layouts:
-- BorderLayout:
-  * Divide el espacio en 5 áreas: NORTH, SOUTH, EAST, WEST, CENTER
-  * Cada área puede contener un solo componente
-  * El componente CENTER se expande para llenar el espacio disponible
-
-- FlowLayout:
-  * Coloca componentes en una fila
-  * Cuando no hay espacio, continúa en la siguiente línea
-  * Respeta el tamaño preferido de los componentes
-
-- GridLayout:
-  * Divide el espacio en una cuadrícula
-  * Todos los componentes tienen el mismo tamaño
-  * Se expanden para llenar su celda
-
-- GridBagLayout:
-  * El más flexible pero complejo
-  * Permite control preciso del tamaño y posición
-  * Componentes pueden ocupar múltiples celdas
-
-- BoxLayout:
-  * Organiza componentes en una sola fila o columna
-  * Respeta el tamaño preferido de los componentes
-  * Útil para barras de herramientas
-
-- CardLayout:
-  * Muestra un componente a la vez
-  * Útil para wizards o interfaces tipo pestañas
-  * Permite cambiar entre componentes programáticamente
+Comparator es un ejemplo perfecto:
+- Define una única responsabilidad: comparar.
+- Permite múltiples criterios para la misma clase.
+- Puede escribirse como clase, clase anónima o lambda.
+- No obliga a modificar Producto.
 {{% /note %}}
 
 ---
 
-#### Layouts Disponibles
+### Swing: jerarquía mínima
 
-- BorderLayout
-- FlowLayout
-- GridLayout
-- GridBagLayout
-- BoxLayout
-- CardLayout
+```text
+JFrame
+└── JPanel
+    ├── JLabel
+    ├── JTextField
+    └── JButton
+```
+
+<div class="takeaway">
+  <strong>Lectura</strong>
+  Una interfaz Swing es un árbol de componentes. Los contenedores organizan; los componentes muestran o capturan información.
+</div>
 
 {{% note %}}
-Cuándo usar cada layout:
-- BorderLayout: Para la organización general de la ventana
-- FlowLayout: Para grupos de botones o controles similares
-- GridLayout: Para calculadoras o teclados numéricos
-- GridBagLayout: Para interfaces complejas con alineación precisa
-- BoxLayout: Para barras de herramientas o paneles de opciones
-- CardLayout: Para interfaces tipo wizard o pestañas
+Explicar la jerarquía:
+- Component es la base.
+- Container puede contener otros componentes.
+- JComponent es la base de muchos controles Swing.
+- JFrame representa la ventana principal.
 {{% /note %}}
-
-{{% /section %}}
 
 ---
 
-{{% section %}}
+### Qué responsabilidad tiene cada pieza
 
-### Eventos en Swing
+<div class="big-word-grid">
+  <div class="big-word">
+    <strong>JFrame</strong>
+    <span>La ventana principal de la aplicación.</span>
+  </div>
+  <div class="big-word">
+    <strong>JPanel</strong>
+    <span>Agrupa componentes y define zonas.</span>
+  </div>
+  <div class="big-word">
+    <strong>Layout</strong>
+    <span>Decide cómo se acomodan los componentes.</span>
+  </div>
+</div>
+
+{{% note %}}
+Reforzar que GUI también es diseño OO:
+- JFrame no debería contener toda la lógica.
+- JPanel ayuda a separar zonas.
+- Layout evita posicionamiento manual frágil.
+{{% /note %}}
+
+---
+
+### Layouts: elegir estructura antes de mover pixeles
+
+<div class="case-strip">
+  <div class="case-tile">
+    <strong>BorderLayout</strong>
+    <span>Norte, sur, este, oeste y centro.</span>
+  </div>
+  <div class="case-tile">
+    <strong>GridLayout</strong>
+    <span>Celdas uniformes.</span>
+  </div>
+  <div class="case-tile">
+    <strong>FlowLayout</strong>
+    <span>Componentes en fila.</span>
+  </div>
+  <div class="case-tile">
+    <strong>BoxLayout</strong>
+    <span>Vertical u horizontal con control.</span>
+  </div>
+</div>
+
+{{% note %}}
+Comparar layouts:
+- BorderLayout para estructuras generales.
+- GridLayout para formularios o botones uniformes.
+- FlowLayout para controles simples en fila.
+- BoxLayout cuando necesitamos apilar vertical u horizontalmente.
+No usar null layout en clase salvo para mostrar por qué es mala idea.
+{{% /note %}}
+
+---
+
+### Eventos: del click al método
+
+<div class="concept-map">
+  <div class="concept-node">
+    <strong>Usuario</strong>
+    <span>Hace click en un botón.</span>
+  </div>
+  <div class="concept-arrow">↓</div>
+  <div class="concept-node">
+    <strong>Evento</strong>
+    <span>Swing dispara un <code>ActionEvent</code>.</span>
+  </div>
+  <div class="concept-arrow">↓</div>
+  <div class="concept-node">
+    <strong>Listener</strong>
+    <span>El delegado ejecuta la acción.</span>
+  </div>
+</div>
+
+{{% note %}}
+Flujo de eventos:
+1. Usuario interactúa.
+2. Swing crea un evento.
+3. Listener recibe el evento.
+4. Listener coordina la acción.
+Conectar con Delegate: el listener es el objeto delegado para responder.
+{{% /note %}}
+
+---
+
+### Listener pequeño, intención clara
 
 ```java
-JButton button = new JButton("Click Me");
-button.addActionListener(e -> {
-    System.out.println("¡Botón presionado!");
+JButton calcular = new JButton("Calcular");
+JTextField entrada = new JTextField(10);
+JLabel resultado = new JLabel("Resultado");
+
+calcular.addActionListener(event -> {
+    double celsius = Double.parseDouble(entrada.getText());
+    double fahrenheit = celsius * 9 / 5 + 32;
+    resultado.setText(fahrenheit + " °F");
 });
-
-// Clase separada para el listener
-class ButtonHandler implements ActionListener {
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        System.out.println("¡Botón presionado!");
-    }
-}
 ```
 
+<div class="takeaway">
+  <strong>Precaución</strong>
+  El listener debe coordinar. Si crece demasiado, extraemos lógica a otra clase.
+</div>
+
 {{% note %}}
-Sistema de eventos en Swing:
-- Basado en el patrón Observer
-- Los componentes son observables (fuentes de eventos)
-- Los listeners son observadores
-- Puede usar clases anónimas o lambdas
-- Cada tipo de evento tiene su propia interfaz listener
-- Los eventos se procesan en el Event Dispatch Thread
+Señalar el riesgo:
+al principio es tentador poner validación, cálculo, formato y persistencia dentro del listener.
+Eso funciona en ejemplos pequeños, pero escala mal.
+Extraer TemperatureConverter como servicio.
 {{% /note %}}
 
 ---
 
-#### Tipos de Eventos
+### Arquitectura mínima para una app Swing
 
-- ActionEvent: Para acciones simples como clicks
-- MouseEvent: Para interacciones del mouse
-- KeyEvent: Para entrada de teclado
-- WindowEvent: Para eventos de la ventana
-- ItemEvent: Para cambios de estado
-
-{{% note %}}
-Características de los eventos:
-- ActionEvent:
-  * Usado principalmente con botones y menús
-  * Representa una acción simple
-  * Proporciona comando y fuente del evento
-
-- MouseEvent:
-  * Incluye posición del mouse
-  * Diferentes tipos (click, press, release, move)
-  * Útil para interfaces gráficas avanzadas
-
-- KeyEvent:
-  * Captura pulsaciones de teclas
-  * Distingue entre key press y key release
-  * Proporciona código de tecla y modificadores
-
-- WindowEvent:
-  * Maneja el ciclo de vida de la ventana
-  * Útil para cleanup y validación
-  * Controla minimizar, maximizar, cerrar
-
-- ItemEvent:
-  * Para componentes con estados (checkbox, combobox)
-  * Proporciona estado anterior y nuevo
-  * Útil para UI reactiva
-{{% /note %}}
-
-{{% /section %}}
-
----
-
-{{% section %}}
-
-### Primera Aplicación: Calculadora Simple
-
-```java
-public class Calculadora extends JFrame {
-    private JTextField display;
-    private double result = 0;
-    private String lastOperation = "=";
-    private boolean start = true;
-    
-    public Calculadora() {
-        // Configuración de la ventana
-        configureWindow();
-        
-        // Crear componentes
-        createDisplay();
-        createButtons();
-    }
-    
-    private void configureWindow() {
-        setTitle("Calculadora");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLayout(new BorderLayout());
-    }
-    
-    private void createDisplay() {
-        display = new JTextField("0");
-        display.setEditable(false);
-        display.setHorizontalAlignment(JTextField.RIGHT);
-        add(display, BorderLayout.NORTH);
-    }
-    
-    private void createButtons() {
-        JPanel buttonPanel = new JPanel();
-        buttonPanel.setLayout(new GridLayout(4, 4, 5, 5));
-        
-        String[] buttonLabels = {
-            "7", "8", "9", "/",
-            "4", "5", "6", "*",
-            "1", "2", "3", "-",
-            "0", ".", "=", "+"
-        };
-        
-        for (String label : buttonLabels) {
-            JButton button = new JButton(label);
-            buttonPanel.add(button);
-            button.addActionListener(new ButtonClickListener());
-        }
-        
-        add(buttonPanel, BorderLayout.CENTER);
-    }
-}
-```
+<div class="concept-map">
+  <div class="concept-map__row">
+    <div class="concept-node">
+      <strong>Vista</strong>
+      <span>Componentes Swing y eventos.</span>
+    </div>
+    <div class="concept-arrow">→</div>
+    <div class="concept-node">
+      <strong>Servicio</strong>
+      <span>Reglas de negocio o cálculo.</span>
+    </div>
+  </div>
+  <div class="concept-map__row">
+    <div class="concept-node">
+      <strong>Modelo</strong>
+      <span>Datos del dominio.</span>
+    </div>
+    <div class="concept-arrow">→</div>
+    <div class="concept-node">
+      <strong>Resultado</strong>
+      <span>La vista muestra el cambio.</span>
+    </div>
+  </div>
+</div>
 
 {{% note %}}
-Aspectos clave de la implementación:
-- Hereda de JFrame para crear la ventana principal
-- Usa BorderLayout para organizar componentes principales
-- GridLayout para la matriz de botones
-- Encapsula la creación de componentes en métodos
-- Sigue principios de diseño OOP:
-  * Encapsulación de estado
-  * Métodos privados para organización
-  * Manejo de eventos mediante delegate
+Modelo mental:
+- Vista: solo interfaz y eventos.
+- Servicio: reglas o cálculo.
+- Modelo: datos.
+Esta separación permite probar lógica sin abrir una ventana.
 {{% /note %}}
 
 ---
 
-#### Manejando los Eventos
-
-```java
-private class ButtonClickListener implements ActionListener {
-    @Override
-    public void actionPerformed(ActionEvent event) {
-        String command = event.getActionCommand();
-        if (command.charAt(0) >= '0' && command.charAt(0) <= '9' || command.equals(".")) {
-            if (start) {
-                display.setText(command);
-                start = false;
-            } else {
-                display.setText(display.getText() + command);
-            }
-        } else {
-            if (!start) {
-                calculate(Double.parseDouble(display.getText()));
-                lastOperation = command;
-                start = true;
-            }
-        }
-    }
-}
-
-private void calculate(double x) {
-    switch (lastOperation) {
-        case "+": result += x; break;
-        case "-": result -= x; break;
-        case "*": result *= x; break;
-        case "/": result /= x; break;
-        case "=": result = x; break;
-    }
-    display.setText("" + result);
-}
-```
-
-{{% note %}}
-Manejo de eventos en la calculadora:
-- Usa clase interna para acceder al estado
-- Implementa ActionListener para procesar clicks
-- Distingue entre números y operaciones
-- Mantiene estado de la operación actual
-- Actualiza display después de cada operación
-- Maneja casos especiales (inicio, decimales)
-{{% /note %}}
-
-{{% /section %}}
-
----
-
-{{% section %}}
-
-### Creando un JAR Ejecutable
-
-1. **Estructura del Proyecto**
-```
-src/
-  ├── com/
-  │   └── miapp/
-  │       └── Calculadora.java
-  └── META-INF/
-      └── MANIFEST.MF
-```
-
-{{% note %}}
-Estructura del proyecto:
-- src/ contiene código fuente
-- com/miapp/ sigue convención de paquetes Java
-- META-INF/MANIFEST.MF es necesario para JAR ejecutable
-- Organización facilita mantenimiento y distribución
-{{% /note %}}
-
---- 
-
-2. **MANIFEST.MF**
-```
-Manifest-Version: 1.0
-Main-Class: com.miapp.Calculadora
-```
-
-{{% note %}}
-MANIFEST.MF:
-- Define metadatos del JAR
-- Main-Class especifica la clase con main()
-- Necesario para JAR ejecutable
-- Debe terminar con línea en blanco
-- Puede incluir otras propiedades como Class-Path
-{{% /note %}}
-
----
-
-#### Comandos para crear JAR
+### Empaquetar en JAR
 
 ```bash
-# Compilar
-javac -d bin src/com/miapp/*.java
+javac -d out src/*.java
+jar cfe app.jar Main -C out .
+java -jar app.jar
+```
 
-# Crear JAR
-jar cvfm calculadora.jar src/META-INF/MANIFEST.MF -C bin .
+<div class="comparison-grid">
+  <div class="panel">
+    <span class="panel-title">Compilar</span>
+    <p>Convierte <code>.java</code> en <code>.class</code>.</p>
+  </div>
+  <div class="panel">
+    <span class="panel-title">Empaquetar</span>
+    <p>Une clases y punto de entrada en un artefacto ejecutable.</p>
+  </div>
+</div>
 
-# Ejecutar
+{{% note %}}
+Explicar comandos:
+- javac compila .java a .class.
+- jar agrupa clases y define clase principal.
+- java -jar ejecuta el artefacto.
+Si usan IDE, mostrar que el IDE automatiza esto, no que desaparece.
+{{% /note %}}
+
+---
+
+### Laboratorio: calculadora simple
+
+<div class="comparison-grid">
+  <div class="panel">
+    <span class="panel-title">Vista</span>
+    <p><code>JTextField</code> para dos números, <code>JComboBox</code> para operación y <code>JLabel</code> para resultado.</p>
+  </div>
+  <div class="panel">
+    <span class="panel-title">Modelo de cálculo</span>
+    <p><code>Operacion</code> como interfaz o enum. La UI no debería conocer la fórmula completa.</p>
+  </div>
+</div>
+
+<ol class="step-list">
+  <li><div><strong>Primero</strong><br>Armar ventana y layout sin lógica.</div></li>
+  <li><div><strong>Después</strong><br>Implementar suma y resta fuera del listener.</div></li>
+  <li><div><strong>Luego</strong><br>Agregar multiplicación, división y validación de entrada.</div></li>
+</ol>
+
+{{% note %}}
+Este bloque recupera la primera aplicación de la versión anterior.
+Usarlo para modelar el flujo completo antes de pedir el conversor.
+Insistir: el listener coordina, no concentra toda la lógica.
+{{% /note %}}
+
+---
+
+### Ejercicio: conversor de temperatura
+
+<ol class="step-list">
+  <li><div><strong>Vista</strong><br><code>JFrame</code>, <code>JTextField</code>, <code>JButton</code> y <code>JLabel</code>.</div></li>
+  <li><div><strong>Regla</strong><br>Crear <code>TemperatureConverter</code> con métodos puros.</div></li>
+  <li><div><strong>Evento</strong><br>El botón lee entrada, llama al servicio y actualiza salida.</div></li>
+  <li><div><strong>Validación</strong><br>Si el texto no es número, mostrar mensaje claro.</div></li>
+</ol>
+
+{{% note %}}
+Dinámica sugerida:
+- Primero dibujar la ventana.
+- Luego crear el servicio de conversión sin Swing.
+- Después conectar botón y servicio.
+- Finalmente manejar NumberFormatException con un mensaje para usuario.
+{{% /note %}}
+
+---
+
+### Cierre
+
+<div class="statement-slide">
+  <div class="eyebrow">Para recordar</div>
+  <div class="statement">El click no debería contener toda la aplicación.</div>
+  <p class="statement-note">Un buen listener conecta interfaz y lógica. No reemplaza al diseño de objetos.</p>
+</div>
+
+{{% note %}}
+Cierre:
+- Swing permite practicar POO de forma visible.
+- Los eventos enseñan delegación.
+- El objetivo no es memorizar componentes, sino separar responsabilidades en una app interactiva.
+{{% /note %}}
+
+---
+
+### Material de respaldo: calculadora Swing mínima
+
+```java
+JTextField a = new JTextField(6);
+JTextField b = new JTextField(6);
+JButton sumar = new JButton("Sumar");
+JLabel resultado = new JLabel("Resultado");
+
+sumar.addActionListener(event -> {
+    double x = Double.parseDouble(a.getText());
+    double y = Double.parseDouble(b.getText());
+    resultado.setText(String.valueOf(x + y));
+});
+
+JPanel panel = new JPanel();
+panel.add(a);
+panel.add(b);
+panel.add(sumar);
+panel.add(resultado);
+```
+
+{{% note %}}
+Material de respaldo: esta diapositiva fue reemplazada por "Laboratorio: calculadora simple".
+Usarla si el grupo necesita un punto de partida con código visible para construir la ventana.
+{{% /note %}}
+
+---
+
+### Material de respaldo: JAR ejecutable
+
+```bash
+javac -d out src/Main.java src/*.java
+jar cfe calculadora.jar Main -C out .
 java -jar calculadora.jar
 ```
 
-{{% note %}}
-Proceso de creación del JAR:
-- javac compila los archivos .java a .class
-- -d bin especifica directorio de salida
-- jar crea el archivo JAR ejecutable
-- cvfm: create, verbose, manifest, nombre archivo
-- -C bin . incluye todos los archivos de bin/
-- El JAR resultante es portable y ejecutable
-{{% /note %}}
-
-{{% /section %}}
-
----
-
-### Ejercicio: Conversor de Temperatura (30-45 min)
-
-Crear una aplicación gráfica que:
-1. Tenga un campo de texto para ingresar temperatura
-2. Dos botones: "°C a °F" y "°F a °C"
-3. Una etiqueta para mostrar el resultado
-4. Un menú con opciones para:
-   - Limpiar campos
-   - Salir
-   - Acerca de (mostrar diálogo)
-
-**Requerimientos:**
-- Validar que el input sea numérico
-- Mostrar mensajes de error en un JOptionPane
-- Usar GridBagLayout para la disposición
-- Implementar el patrón Delegate para las conversiones
+<div class="takeaway">
+  <strong>Lectura</strong>
+  El IDE puede hacerlo por nosotros, pero el artefacto final sigue siendo clases empaquetadas con una clase principal.
+</div>
 
 {{% note %}}
-Aquí está una implementación completa del ejercicio sin usar lambdas:
-
-```java
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.*;
-
-// Interfaz para el patrón delegate
-interface TemperatureConverter {
-    double convert(double temp);
-}
-
-public class ConversorTemperatura extends JFrame {
-    private JTextField inputTemp;
-    private JLabel resultLabel;
-    private JButton celsiusButton;
-    private JButton fahrenheitButton;
-    
-    // Implementaciones del delegate como clases internas
-    private class CelsiusToFahrenheitConverter implements TemperatureConverter {
-        public double convert(double temp) {
-            return (temp * 9/5) + 32;
-        }
-    }
-    
-    private class FahrenheitToCelsiusConverter implements TemperatureConverter {
-        public double convert(double temp) {
-            return (temp - 32) * 5/9;
-        }
-    }
-    
-    private final TemperatureConverter celsiusToFahr = new CelsiusToFahrenheitConverter();
-    private final TemperatureConverter fahrToCelsius = new FahrenheitToCelsiusConverter();
-    
-    public ConversorTemperatura() {
-        setTitle("Conversor de Temperatura");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setupUI();
-        setupMenu();
-        pack();
-        setLocationRelativeTo(null);
-    }
-    
-    private void setupUI() {
-        setLayout(new GridBagLayout());
-        GridBagConstraints gbc = new GridBagConstraints();
-        
-        // Input field
-        inputTemp = new JTextField(10);
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        gbc.gridwidth = 2;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        gbc.insets = new Insets(5,5,5,5);
-        add(inputTemp, gbc);
-        
-        // Buttons
-        celsiusButton = new JButton("°C a °F");
-        gbc.gridx = 0;
-        gbc.gridy = 1;
-        gbc.gridwidth = 1;
-        add(celsiusButton, gbc);
-        
-        fahrenheitButton = new JButton("°F a °C");
-        gbc.gridx = 1;
-        gbc.gridy = 1;
-        add(fahrenheitButton, gbc);
-        
-        // Result label
-        resultLabel = new JLabel("Resultado: ");
-        gbc.gridx = 0;
-        gbc.gridy = 2;
-        gbc.gridwidth = 2;
-        add(resultLabel, gbc);
-        
-        // Button listeners
-        celsiusButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                convertTemperature(celsiusToFahr, "°F");
-            }
-        });
-        
-        fahrenheitButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                convertTemperature(fahrToCelsius, "°C");
-            }
-        });
-    }
-    
-    private void setupMenu() {
-        JMenuBar menuBar = new JMenuBar();
-        JMenu menu = new JMenu("Opciones");
-        
-        JMenuItem clearItem = new JMenuItem("Limpiar");
-        clearItem.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                inputTemp.setText("");
-                resultLabel.setText("Resultado: ");
-            }
-        });
-        
-        JMenuItem exitItem = new JMenuItem("Salir");
-        exitItem.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                System.exit(0);
-            }
-        });
-        
-        JMenuItem aboutItem = new JMenuItem("Acerca de");
-        aboutItem.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                JOptionPane.showMessageDialog(ConversorTemperatura.this,
-                    "Conversor de Temperatura v1.0\n" +
-                    "Creado para la clase de POO",
-                    "Acerca de",
-                    JOptionPane.INFORMATION_MESSAGE);
-            }
-        });
-        
-        menu.add(clearItem);
-        menu.addSeparator();
-        menu.add(exitItem);
-        menu.addSeparator();
-        menu.add(aboutItem);
-        
-        menuBar.add(menu);
-        setJMenuBar(menuBar);
-    }
-    
-    private void convertTemperature(TemperatureConverter converter, String unit) {
-        try {
-            double temp = Double.parseDouble(inputTemp.getText());
-            double result = converter.convert(temp);
-            resultLabel.setText(String.format("Resultado: %.2f %s", result, unit));
-        } catch (NumberFormatException ex) {
-            JOptionPane.showMessageDialog(this,
-                "Por favor ingrese un número válido",
-                "Error",
-                JOptionPane.ERROR_MESSAGE);
-        }
-    }
-    
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-                new ConversorTemperatura().setVisible(true);
-            }
-        });
-    }
-}
-```
-
-Puntos clave de la implementación:
-1. Usa GridBagLayout para una disposición precisa
-2. Implementa el patrón Delegate con clases internas
-3. Usa clases anónimas para los ActionListeners
-4. Maneja errores con JOptionPane
-5. Tiene un menú completo con acciones básicas
-6. Sigue las convenciones de Swing (EDT)
-7. Código organizado en métodos privados
-8. No usa expresiones lambda para mayor compatibilidad
+Material de respaldo: esta diapositiva fue reemplazada por "Empaquetar en JAR".
+Usarla si se necesita explicar manualmente compilación, manifest y ejecución fuera del IDE.
 {{% /note %}}
-
----
-
-### ¿Preguntas?

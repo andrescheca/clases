@@ -288,11 +288,6 @@ Pedir ejemplos de proyectos anteriores donde hayan visto estos problemas.
   </div>
 </div>
 
-<div class="takeaway">
-  <strong>Actividad</strong>
-  Cada grupo resuelve uno, luego compara qué reglas quedaron dentro de la clase y cuáles quedaron afuera.
-</div>
-
 
 {{% note %}}
 Estos dos ejercicios venían de la versión anterior.

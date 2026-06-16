@@ -293,10 +293,113 @@ Pedir ejemplos de proyectos anteriores donde hayan visto estos problemas.
   Cada grupo resuelve uno, luego compara qué reglas quedaron dentro de la clase y cuáles quedaron afuera.
 </div>
 
+
 {{% note %}}
 Estos dos ejercicios venían de la versión anterior.
 Ahora funcionan como calentamiento antes del sistema de restaurante.
 Pedir una implementación mínima y una justificación de diseño, no una solución completa.
+{{% /note %}}
+
+---
+
+### Ejercicio: sistema de audio
+
+<div class="split-layout">
+  <div>
+    <p class="lead">Diseña una API pequeña para controlar reproducción sin exponer el estado interno.</p>
+    <ol class="step-list">
+      <li><div><strong>Modela</strong><br><code>Reproductor</code>, <code>Volumen</code> y <code>ListaReproduccion</code>.</div></li>
+      <li><div><strong>Encapsula</strong><br>El volumen debe mantenerse entre <code>0</code> y <code>100</code>.</div></li>
+      <li><div><strong>Abstrae</strong><br>La lista permite avanzar canciones, pero no entrega su arreglo interno.</div></li>
+      <li><div><strong>Justifica</strong><br>Explica qué detalles escondiste y por qué.</div></li>
+    </ol>
+  </div>
+  <div class="code-card">
+
+```java
+public class Volumen {
+    private int nivel;
+
+    public void subir() {
+        cambiar(1);
+    }
+
+    public void bajar() {
+        cambiar(-1);
+    }
+
+    private void cambiar(int delta) {
+        int nuevoNivel = nivel + delta;
+        if (nuevoNivel < 0 || nuevoNivel > 100) {
+            return;
+        }
+        nivel = nuevoNivel;
+    }
+}
+```
+
+  </div>
+</div>
+
+{{% note %}}
+Calentamiento de 10 a 15 minutos.
+No pedir interfaz gráfica ni persistencia.
+Enfatizar que la API pública debe sonar como acciones del dominio: reproducir, pausar, subir volumen, avanzar.
+{{% /note %}}
+
+---
+
+### Ejercicio: cuenta bancaria
+
+<div class="split-layout">
+  <div>
+    <p class="lead">Implementa una cuenta que proteja sus reglas antes de permitir cualquier operación.</p>
+    <ol class="step-list">
+      <li><div><strong>Estado privado</strong><br><code>saldo</code> no debe modificarse desde afuera.</div></li>
+      <li><div><strong>Reglas</strong><br>No aceptar montos negativos ni retiros sin fondos.</div></li>
+      <li><div><strong>Operación compuesta</strong><br><code>transferir()</code> coordina retiro y depósito.</div></li>
+      <li><div><strong>Prueba mínima</strong><br>Intenta retirar más del saldo y depositar un monto inválido.</div></li>
+    </ol>
+  </div>
+  <div class="code-card">
+
+```java
+public class CuentaBancaria {
+    private double saldo;
+
+    public void depositar(double monto) {
+        validarMonto(monto);
+        saldo += monto;
+    }
+
+    public void retirar(double monto) {
+        validarMonto(monto);
+        if (monto > saldo) {
+            throw new IllegalArgumentException("Fondos insuficientes");
+        }
+        saldo -= monto;
+    }
+
+    public void transferir(CuentaBancaria destino, double monto) {
+        retirar(monto);
+        destino.depositar(monto);
+    }
+
+    private void validarMonto(double monto) {
+        if (monto <= 0) {
+            throw new IllegalArgumentException("Monto inválido");
+        }
+    }
+}
+```
+
+  </div>
+</div>
+
+{{% note %}}
+Calentamiento de 10 a 15 minutos.
+Pedir una implementación mínima y una justificación: por qué no hay setter de saldo y dónde viven las reglas.
+Si hay discusión, conectar con invariantes y con la diferencia entre datos públicos y comportamiento.
 {{% /note %}}
 
 ---

@@ -302,12 +302,6 @@ Pedir una implementación mínima y una justificación de diseño, no una soluci
 <div class="split-layout">
   <div>
     <p class="lead">Diseña una API pequeña para controlar reproducción sin exponer el estado interno.</p>
-    <ol class="step-list">
-      <li><div><strong>Modela</strong><br><code>Reproductor</code>, <code>Volumen</code> y <code>ListaReproduccion</code>.</div></li>
-      <li><div><strong>Encapsula</strong><br>El volumen debe mantenerse entre <code>0</code> y <code>100</code>.</div></li>
-      <li><div><strong>Abstrae</strong><br>La lista permite avanzar canciones, pero no entrega su arreglo interno.</div></li>
-      <li><div><strong>Justifica</strong><br>Explica qué detalles escondiste y por qué.</div></li>
-    </ol>
   </div>
   <div class="code-card">
 
@@ -349,12 +343,6 @@ Enfatizar que la API pública debe sonar como acciones del dominio: reproducir, 
 <div class="split-layout">
   <div>
     <p class="lead">Implementa una cuenta que proteja sus reglas antes de permitir cualquier operación.</p>
-    <ol class="step-list">
-      <li><div><strong>Estado privado</strong><br><code>saldo</code> no debe modificarse desde afuera.</div></li>
-      <li><div><strong>Reglas</strong><br>No aceptar montos negativos ni retiros sin fondos.</div></li>
-      <li><div><strong>Operación compuesta</strong><br><code>transferir()</code> coordina retiro y depósito.</div></li>
-      <li><div><strong>Prueba mínima</strong><br>Intenta retirar más del saldo y depositar un monto inválido.</div></li>
-    </ol>
   </div>
   <div class="code-card">
 

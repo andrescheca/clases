@@ -494,3 +494,210 @@ Cierre:
 Material de respaldo: esta diapositiva fue reemplazada por "Categorías de patrones" y el caso de transferencia bancaria.
 Usarla si el grupo necesita ubicar más nombres de patrones antes de profundizar en semana 7.
 {{% /note %}}
+
+---
+
+### Solución sugerida: excepción del dominio
+
+```java
+public class FondosInsuficientesException extends Exception {
+    public FondosInsuficientesException(double saldo, double monto) {
+        super("Saldo " + saldo + " no cubre retiro " + monto);
+    }
+}
+```
+
+<div class="takeaway">
+  <strong>Decisión</strong>
+  Fondos insuficientes es una falla del dominio, no un error genérico del sistema.
+</div>
+
+{{% note %}}
+Mostrar solo después del intento de los estudiantes.
+La excepción vale la pena porque quien llama puede tomar una decisión específica: cancelar, informar o pedir otro monto.
+{{% /note %}}
+
+---
+
+### Solución sugerida: Cuenta
+
+```java
+public class Cuenta {
+    private final String numero;
+    private double saldo;
+
+    public Cuenta(String numero, double saldoInicial) {
+        this.numero = numero;
+        this.saldo = saldoInicial;
+    }
+
+    public void depositar(double monto) {
+        validarMonto(monto);
+        saldo += monto;
+    }
+
+    public void retirar(double monto) throws FondosInsuficientesException {
+        validarMonto(monto);
+        if (monto > saldo) {
+            throw new FondosInsuficientesException(saldo, monto);
+        }
+        saldo -= monto;
+    }
+
+    private void validarMonto(double monto) {
+        if (monto <= 0) {
+            throw new IllegalArgumentException("Monto inválido");
+        }
+    }
+
+    public String numero() {
+        return numero;
+    }
+}
+```
+
+{{% note %}}
+La idea clave no es copiar la clase, sino notar dónde viven las reglas:
+- El saldo no tiene setter.
+- La cuenta protege montos inválidos.
+- Fondos insuficientes es una excepción del dominio.
+{{% /note %}}
+
+---
+
+### Solución sugerida: Factory
+
+```java
+public interface Notificador {
+    void enviar(String mensaje);
+}
+
+public class EmailNotificador implements Notificador {
+    public void enviar(String mensaje) {
+        System.out.println("Email: " + mensaje);
+    }
+}
+
+public class SmsNotificador implements Notificador {
+    public void enviar(String mensaje) {
+        System.out.println("SMS: " + mensaje);
+    }
+}
+
+public class NotificadorFactory {
+    public static Notificador crear(String canal) {
+        return switch (canal) {
+            case "email" -> new EmailNotificador();
+            case "sms" -> new SmsNotificador();
+            default -> throw new IllegalArgumentException("Canal inválido");
+        };
+    }
+}
+```
+
+{{% note %}}
+Preguntar:
+Si mañana agregamos push o WhatsApp, qué parte cambia?
+La respuesta esperada es: se agrega una implementación y se ajusta la creación, pero el servicio no debería llenarse de ifs de canales.
+{{% /note %}}
+
+---
+
+### Solución sugerida: Observer
+
+```java
+public record TransferenciaRealizada(
+    String origen,
+    String destino,
+    double monto
+) {}
+
+public interface TransferenciaListener {
+    void alTransferir(TransferenciaRealizada evento);
+}
+
+public class AuditoriaListener implements TransferenciaListener {
+    public void alTransferir(TransferenciaRealizada evento) {
+        System.out.println("Auditoría: " + evento);
+    }
+}
+```
+
+<div class="takeaway">
+  <strong>Idea</strong>
+  La transferencia produce un evento. Los listeners deciden cómo reaccionar.
+</div>
+
+{{% note %}}
+Esta slide separa el contrato del listener del servicio.
+Marcar que Observer no significa "muchas clases por obligación"; significa que el emisor no queda acoplado a todas las reacciones.
+{{% /note %}}
+
+---
+
+### Solución sugerida: servicio integrado
+
+```java
+import java.util.ArrayList;
+import java.util.List;
+
+public class TransferenciaService {
+    private final List<TransferenciaListener> listeners = new ArrayList<>();
+
+    public void registrar(TransferenciaListener listener) {
+        listeners.add(listener);
+    }
+
+    public void transferir(Cuenta origen, Cuenta destino, double monto)
+            throws FondosInsuficientesException {
+        origen.retirar(monto);
+        destino.depositar(monto);
+
+        var evento = new TransferenciaRealizada(
+            origen.numero(),
+            destino.numero(),
+            monto
+        );
+
+        listeners.forEach(listener -> listener.alTransferir(evento));
+    }
+}
+```
+
+{{% note %}}
+Antes de mostrar esta slide, pedir que identifiquen el orden:
+1. Validar y ejecutar regla del dominio.
+2. Crear evento de dominio.
+3. Notificar efectos secundarios.
+Conectar con la clase Cuenta: numero() expone un dato estable para auditoría, pero el saldo sigue protegido por operaciones del dominio.
+{{% /note %}}
+
+---
+
+### Solución sugerida: uso
+
+```java
+var origen = new Cuenta("001", 100);
+var destino = new Cuenta("002", 20);
+
+var notificador = NotificadorFactory.crear("email");
+
+var servicio = new TransferenciaService();
+servicio.registrar(new AuditoriaListener());
+servicio.registrar(evento ->
+    notificador.enviar("Transferencia realizada: " + evento.monto())
+);
+
+servicio.transferir(origen, destino, 40);
+```
+
+<div class="takeaway">
+  <strong>Lectura de diseño</strong>
+  La cuenta protege reglas, la Factory crea variantes y Observer desacopla efectos secundarios.
+</div>
+
+{{% note %}}
+Cerrar conectando con el objetivo de la semana:
+excepciones y patrones son comunicación de diseño.
+La solución no es valiosa por tener muchos patrones; es valiosa porque cada pieza tiene una razón clara para cambiar.
+{{% /note %}}
